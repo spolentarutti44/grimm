@@ -1,0 +1,545 @@
+{
+  "hub": {
+    "name": "The waystation",
+    "bg": "campsite_night",
+    "floor": [40, 260, 640, 360],
+    "spawn": [340, 310],
+    "hotspots": [
+      {"id": "trailer",  "x": 200, "y": 290, "r": 60, "name": "Aunt Marie's trailer", "interact": "enter_trailer", "stand_x": 200, "stand_y": 330},
+      {"id": "campfire", "x": 340, "y": 292, "r": 40, "name": "The campfire",          "interact": "rest",           "stand_x": 340, "stand_y": 325},
+      {"id": "post",     "x": 560, "y": 280, "r": 50, "name": "The contract post",     "interact": "contracts",      "stand_x": 560, "stand_y": 320}
+    ],
+    "exits": [
+      {"to": "clearing",     "x": 625, "y": 300, "label": "→ to the Schwarzwald",     "requires": "hans"},
+      {"to": "millyard",     "x": 625, "y": 300, "label": "→ to the river-mill",      "requires": "mill"},
+      {"to": "c3_shop",      "x": 625, "y": 300, "label": "→ to the tailor's shop",   "requires": "case_003"},
+      {"to": "c4_forest",    "x": 625, "y": 300, "label": "→ to the winter forest",   "requires": "case_004"},
+      {"to": "c5_cellar",    "x": 625, "y": 300, "label": "→ to the wine cellar",     "requires": "case_005"},
+      {"to": "c6_manor",     "x": 625, "y": 300, "label": "→ to Lord Fenn's manor",   "requires": "case_006"},
+      {"to": "c7_butcher",   "x": 625, "y": 300, "label": "→ to the butcher's yard",  "requires": "case_007"},
+      {"to": "c8_market",    "x": 625, "y": 300, "label": "→ to the market square",   "requires": "case_008"},
+      {"to": "c9_crossroads","x": 625, "y": 300, "label": "→ to the crossroads",      "requires": "case_009"},
+      {"to": "c10_grave",    "x": 625, "y": 300, "label": "→ to the graveyard",       "requires": "case_010"},
+      {"to": "c11_tenement", "x": 625, "y": 300, "label": "→ to the tenement lane",   "requires": "case_011"},
+      {"to": "c12_guildhall","x": 625, "y": 300, "label": "→ to the guildhall",       "requires": "case_012"}
+    ]
+  },
+  "clearing": {
+    "name": "The killing-site",
+    "bg": "forest_clearing",
+    "floor": [40, 250, 640, 360],
+    "spawn": [80, 310],
+    "hotspots": [
+      {"id": "body",        "x": 280, "y": 290, "r": 36, "name": "A body in the leaves",  "interact": "evid:body",        "stand_x": 280, "stand_y": 330},
+      {"id": "axe",         "x": 200, "y": 300, "r": 24, "name": "A woodsman's axe",       "interact": "evid:axe",         "stand_x": 200, "stand_y": 330},
+      {"id": "briar_fur",   "x": 430, "y": 255, "r": 30, "name": "A tuft on the briar",    "interact": "evid:briar_fur",   "stand_x": 430, "stand_y": 305},
+      {"id": "dirt_churned","x": 350, "y": 325, "r": 30, "name": "Churned ground",          "interact": "evid:dirt_churned","stand_x": 350, "stand_y": 340}
+    ],
+    "exits": [
+      {"to": "trail", "x": 625, "y": 300, "label": "→ the trail"},
+      {"to": "hub",   "x":  55, "y": 300, "label": "← back to camp"}
+    ]
+  },
+  "trail": {
+    "name": "The forest trail",
+    "bg": "forest_path",
+    "floor": [40, 250, 640, 360],
+    "spawn": [80, 310],
+    "hotspots": [
+      {"id": "paw_print",    "x": 200, "y": 320, "r": 30, "name": "A print in the mud",  "interact": "evid:paw_print",    "stand_x": 200, "stand_y": 340},
+      {"id": "small_track",  "x": 340, "y": 330, "r": 24, "name": "Smaller tracks",       "interact": "evid:small_track",  "stand_x": 340, "stand_y": 345},
+      {"id": "broken_branch","x": 430, "y": 240, "r": 28, "name": "A snapped branch",     "interact": "evid:broken_branch","stand_x": 430, "stand_y": 305},
+      {"id": "cloak_scrap",  "x": 540, "y": 260, "r": 26, "name": "Cloth on a thorn",     "interact": "evid:cloak_scrap",  "stand_x": 540, "stand_y": 310}
+    ],
+    "exits": [
+      {"to": "clearing", "x":  55, "y": 300, "label": "← the killing-site"},
+      {"to": "cottage",  "x": 625, "y": 300, "label": "→ the cottage"}
+    ]
+  },
+  "cottage": {
+    "name": "The woodcutter's cottage",
+    "bg": "cottage_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "bed",    "x": 180, "y": 265, "r": 34, "name": "An unmade bed",        "interact": "evid:bed",    "stand_x": 180, "stand_y": 320},
+      {"id": "meal",   "x": 330, "y": 285, "r": 30, "name": "A supper, half-eaten", "interact": "evid:meal",   "stand_x": 330, "stand_y": 325},
+      {"id": "drawing","x": 430, "y": 265, "r": 24, "name": "A child's slate",      "interact": "evid:drawing","stand_x": 430, "stand_y": 320},
+      {"id": "journal","x": 540, "y": 275, "r": 28, "name": "An open ledger",       "interact": "evid:journal","stand_x": 540, "stand_y": 325}
+    ],
+    "exits": [
+      {"to": "trail",  "x":  55, "y": 300, "label": "← the trail"},
+      {"to": "tavern", "x": 625, "y": 300, "label": "→ the tavern"}
+    ]
+  },
+  "tavern": {
+    "name": "The salt-road tavern",
+    "bg": "tavern_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "innkeeper","x": 160, "y": 255, "r": 36, "name": "The innkeeper",          "interact": "evid:innkeeper","stand_x": 160, "stand_y": 315},
+      {"id": "trapper",  "x": 300, "y": 265, "r": 36, "name": "Karl, the trapper",      "interact": "evid:trapper",  "stand_x": 300, "stand_y": 320},
+      {"id": "farmhand", "x": 450, "y": 270, "r": 32, "name": "A farmhand by the fire", "interact": "evid:farmhand", "stand_x": 450, "stand_y": 320},
+      {"id": "notice",   "x": 570, "y": 240, "r": 26, "name": "A posted notice",        "interact": "evid:notice",   "stand_x": 570, "stand_y": 305},
+      {"id": "knife",    "x": 530, "y": 340, "r": 18, "name": "Something in the rushes","interact": "evid:knife",    "stand_x": 530, "stand_y": 345}
+    ],
+    "exits": [
+      {"to": "cottage", "x": 55, "y": 300, "label": "← the cottage"}
+    ]
+  },
+  "millyard": {
+    "name": "The mill, at the wheel",
+    "bg": "mill_yard",
+    "floor": [40, 260, 640, 360],
+    "spawn": [80, 320],
+    "hotspots": [
+      {"id": "miller_body","x": 280, "y": 290, "r": 36, "name": "The miller's body",         "interact": "evid:miller_body","stand_x": 280, "stand_y": 330},
+      {"id": "millstone",  "x": 200, "y": 295, "r": 28, "name": "A torn grain-sack",          "interact": "evid:millstone",  "stand_x": 200, "stand_y": 330},
+      {"id": "flour_print","x": 380, "y": 320, "r": 30, "name": "Something white on the floor","interact": "evid:flour_print","stand_x": 380, "stand_y": 340},
+      {"id": "cracked_beam","x":470, "y": 240, "r": 30, "name": "The cracked rafter",         "interact": "evid:cracked_beam","stand_x":470, "stand_y": 310},
+      {"id": "bear_tooth", "x": 540, "y": 325, "r": 20, "name": "Something small on the floor","interact": "evid:bear_tooth","stand_x": 540, "stand_y": 340}
+    ],
+    "exits": [
+      {"to": "millhouse","x": 625, "y": 300, "label": "→ the miller's house"},
+      {"to": "hub",      "x":  55, "y": 300, "label": "← back to camp"}
+    ]
+  },
+  "millhouse": {
+    "name": "The miller's house",
+    "bg": "cottage_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "prentice",    "x": 170, "y": 265, "r": 36, "name": "The prentice, shaking",   "interact": "evid:prentice",    "stand_x": 170, "stand_y": 320},
+      {"id": "mill_journal","x": 310, "y": 275, "r": 28, "name": "An open ledger",           "interact": "evid:mill_journal","stand_x": 310, "stand_y": 320},
+      {"id": "wife_bed",    "x": 430, "y": 265, "r": 36, "name": "The miller's wife",        "interact": "evid:wife_bed",    "stand_x": 430, "stand_y": 320},
+      {"id": "scales",      "x": 540, "y": 280, "r": 24, "name": "A grain-scale",            "interact": "evid:scales",      "stand_x": 540, "stand_y": 325},
+      {"id": "hearth",      "x": 580, "y": 325, "r": 18, "name": "The cold hearth",          "interact": "evid:hearth",      "stand_x": 580, "stand_y": 340}
+    ],
+    "exits": [
+      {"to": "millyard",   "x":  55, "y": 300, "label": "← the mill"},
+      {"to": "riverbank",  "x": 625, "y": 300, "label": "→ the riverbank"}
+    ]
+  },
+  "riverbank": {
+    "name": "The willow-bank",
+    "bg": "river_bank",
+    "floor": [40, 260, 640, 360],
+    "spawn": [80, 320],
+    "hotspots": [
+      {"id": "bank_tracks","x": 240, "y": 320, "r": 30, "name": "Tracks in the soft mud",  "interact": "evid:bank_tracks","stand_x": 240, "stand_y": 340},
+      {"id": "bank_fur",   "x": 360, "y": 260, "r": 26, "name": "Fur on a willow-branch",  "interact": "evid:bank_fur",   "stand_x": 360, "stand_y": 310},
+      {"id": "scarecrow",  "x": 480, "y": 265, "r": 28, "name": "A scarecrow in the rye",  "interact": "evid:scarecrow",  "stand_x": 480, "stand_y": 310},
+      {"id": "fish_basket","x": 560, "y": 330, "r": 24, "name": "A spilled basket",         "interact": "evid:fish_basket","stand_x": 560, "stand_y": 340}
+    ],
+    "exits": [
+      {"to": "millhouse",  "x":  55, "y": 300, "label": "← the miller's house"},
+      {"to": "milltavern", "x": 625, "y": 300, "label": "→ the downstream tavern"}
+    ]
+  },
+  "milltavern": {
+    "name": "The downstream tavern",
+    "bg": "tavern_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "mill_innkeep", "x": 160, "y": 255, "r": 36, "name": "The innkeeper",        "interact": "evid:mill_innkeep", "stand_x": 160, "stand_y": 315},
+      {"id": "mill_drunkard","x": 300, "y": 265, "r": 36, "name": "A drunkard, nodding",  "interact": "evid:mill_drunkard","stand_x": 300, "stand_y": 320},
+      {"id": "bailiff_notice","x":450, "y": 240, "r": 24, "name": "A posted notice",      "interact": "evid:bailiff_notice","stand_x":450, "stand_y": 305},
+      {"id": "hidden_purse", "x": 540, "y": 335, "r": 18, "name": "Something under the bench","interact": "evid:hidden_purse","stand_x": 540, "stand_y": 340}
+    ],
+    "exits": [
+      {"to": "riverbank", "x": 55, "y": 300, "label": "← the riverbank"}
+    ]
+  },
+
+  "c3_shop": {
+    "name": "Ernst's tailor shop",
+    "bg": "cottage_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "body",        "x": 280, "y": 288, "r": 34, "name": "Ernst Hübner, the tailor",     "interact": "evid:c3_neck_wounds",   "stand_x": 280, "stand_y": 328},
+      {"id": "hidden_purse","x": 200, "y": 308, "r": 22, "name": "The victim's bare fingers",    "interact": "evid:c3_missing_rings",  "stand_x": 200, "stand_y": 335},
+      {"id": "bear_tooth",  "x": 390, "y": 292, "r": 22, "name": "The collapsed torso",          "interact": "evid:c3_hollow_torso",   "stand_x": 390, "stand_y": 328},
+      {"id": "briar_fur",   "x": 470, "y": 248, "r": 24, "name": "A hair on the fitting hook",   "interact": "evid:c3_grey_hair",      "stand_x": 470, "stand_y": 305},
+      {"id": "cloak_scrap", "x": 360, "y": 332, "r": 20, "name": "A strange smell near the body","interact": "evid:c3_chemical_smell", "stand_x": 360, "stand_y": 348},
+      {"id": "knife",       "x": 535, "y": 315, "r": 22, "name": "The back-door lock",           "interact": "evid:c3_lock_scratches", "stand_x": 535, "stand_y": 340},
+      {"id": "notice",      "x": 160, "y": 278, "r": 22, "name": "A note under the counter",     "interact": "evid:c3_unsigned_note",  "stand_x": 160, "stand_y": 318},
+      {"id": "prentice",    "x": 160, "y": 338, "r": 28, "name": "Lena, the apprentice",         "interact": "evid:c3_lena",           "stand_x": 160, "stand_y": 350}
+    ],
+    "exits": [
+      {"to": "c3_street", "x": 625, "y": 300, "label": "→ the merchant quarter"},
+      {"to": "hub",       "x":  55, "y": 300, "label": "← back to camp"}
+    ]
+  },
+  "c3_street": {
+    "name": "The merchant quarter",
+    "bg": "tavern_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "georg_wit",  "x": 220, "y": 260, "r": 32, "name": "Georg, the neighbour",   "interact": "evid:c3_georg", "stand_x": 220, "stand_y": 315},
+      {"id": "farmhand",   "x": 420, "y": 265, "r": 32, "name": "A man near the door",    "interact": "evid:c3_georg", "stand_x": 420, "stand_y": 315}
+    ],
+    "exits": [
+      {"to": "c3_shop",    "x":  55, "y": 300, "label": "← the tailor's shop"},
+      {"to": "c3_lodging", "x": 625, "y": 300, "label": "→ the lodging house"}
+    ]
+  },
+  "c3_lodging": {
+    "name": "Marta's lodging house",
+    "bg": "cottage_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "marta_wit",  "x": 185, "y": 262, "r": 34, "name": "Marta, the owner",           "interact": "evid:c3_marta",      "stand_x": 185, "stand_y": 315},
+      {"id": "journal",    "x": 350, "y": 278, "r": 28, "name": "A trunk full of jewellery",   "interact": "evid:c3_marta",      "stand_x": 350, "stand_y": 320},
+      {"id": "elder_wit",  "x": 510, "y": 260, "r": 34, "name": "The Eisbiber lodge elder",    "interact": "evid:c3_lodge_elder","stand_x": 510, "stand_y": 315}
+    ],
+    "exits": [
+      {"to": "c3_street", "x": 55, "y": 300, "label": "← the merchant quarter"}
+    ]
+  },
+
+  "c4_forest": {
+    "name": "The forest path — the killing",
+    "bg": "forest_clearing",
+    "floor": [40, 250, 640, 360],
+    "spawn": [80, 310],
+    "hotspots": [
+      {"id": "body",       "x": 290, "y": 288, "r": 34, "name": "Willem Roth, in the snow",    "interact": "evid:c4_body",          "stand_x": 290, "stand_y": 328},
+      {"id": "paw_print",  "x": 200, "y": 322, "r": 26, "name": "Claw marks in the snow",      "interact": "evid:c4_claw_spacing",  "stand_x": 200, "stand_y": 342},
+      {"id": "briar_fur",  "x": 400, "y": 255, "r": 24, "name": "A smell of wet fur",          "interact": "evid:c4_musk_scent",    "stand_x": 400, "stand_y": 308},
+      {"id": "cloak_scrap","x": 510, "y": 260, "r": 24, "name": "Torn cloth on a branch",      "interact": "evid:c4_coat_fabric",   "stand_x": 510, "stand_y": 308},
+      {"id": "notice",     "x": 150, "y": 275, "r": 22, "name": "A contract dispute notice",   "interact": "evid:c4_contract_note", "stand_x": 150, "stand_y": 315}
+    ],
+    "exits": [
+      {"to": "c4_deep",   "x": 625, "y": 300, "label": "→ deeper into the forest"},
+      {"to": "hub",       "x":  55, "y": 300, "label": "← back to camp"}
+    ]
+  },
+  "c4_deep": {
+    "name": "The forest — deeper in",
+    "bg": "forest_path",
+    "floor": [40, 250, 640, 360],
+    "spawn": [80, 310],
+    "hotspots": [
+      {"id": "bear_tooth", "x": 260, "y": 322, "r": 24, "name": "A boot, found alone",        "interact": "evid:c4_missing_boot",  "stand_x": 260, "stand_y": 342},
+      {"id": "child_wit",  "x": 420, "y": 262, "r": 30, "name": "A child near the treeline",  "interact": "evid:c4_child",         "stand_x": 420, "stand_y": 312}
+    ],
+    "exits": [
+      {"to": "c4_forest",    "x":  55, "y": 300, "label": "← the killing-site"},
+      {"to": "c4_farmhouse", "x": 625, "y": 300, "label": "→ the farmhouse"}
+    ]
+  },
+  "c4_farmhouse": {
+    "name": "Karl Metz's farmhouse",
+    "bg": "cottage_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "karl_wit",   "x": 240, "y": 262, "r": 34, "name": "Karl Metz, at the door",     "interact": "evid:c4_karl",       "stand_x": 240, "stand_y": 315},
+      {"id": "wife_bed",   "x": 430, "y": 265, "r": 32, "name": "Berta, Karl's wife",         "interact": "evid:c4_innkeeper_4","stand_x": 430, "stand_y": 318}
+    ],
+    "exits": [
+      {"to": "c4_deep", "x":  55, "y": 300, "label": "← the forest"},
+      {"to": "c4_inn",  "x": 625, "y": 300, "label": "→ the village inn"}
+    ]
+  },
+  "c4_inn": {
+    "name": "The village inn",
+    "bg": "tavern_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "innkeeper",  "x": 200, "y": 258, "r": 34, "name": "The innkeeper",              "interact": "evid:c4_innkeeper_4","stand_x": 200, "stand_y": 315},
+      {"id": "bear_tooth", "x": 400, "y": 315, "r": 22, "name": "A smear of red near the hearth","interact": "evid:c4_red_eyes","stand_x": 400, "stand_y": 338}
+    ],
+    "exits": [
+      {"to": "c4_farmhouse", "x": 55, "y": 300, "label": "← the farmhouse"}
+    ]
+  },
+
+  "c5_cellar": {
+    "name": "The wine merchant's cellar",
+    "bg": "cottage_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "body",       "x": 290, "y": 285, "r": 34, "name": "Petra Holz, between the barrels","interact": "evid:c5_compression", "stand_x": 290, "stand_y": 325},
+      {"id": "paw_print",  "x": 410, "y": 322, "r": 24, "name": "A sinuous trail in the dust",   "interact": "evid:c5_sinuous_trail","stand_x": 410, "stand_y": 342},
+      {"id": "knife",      "x": 530, "y": 290, "r": 22, "name": "A widened drainage gap",         "interact": "evid:c5_widened_gap",  "stand_x": 530, "stand_y": 325},
+      {"id": "bear_tooth", "x": 200, "y": 318, "r": 22, "name": "Something on the barrel hoop",  "interact": "evid:c5_shed_scale",   "stand_x": 200, "stand_y": 338},
+      {"id": "journal",    "x": 160, "y": 272, "r": 24, "name": "Petra's ledger",                 "interact": "evid:c5_ledger_note",  "stand_x": 160, "stand_y": 315}
+    ],
+    "exits": [
+      {"to": "c5_office", "x": 625, "y": 300, "label": "→ the merchant's office"},
+      {"to": "hub",       "x":  55, "y": 300, "label": "← back to camp"}
+    ]
+  },
+  "c5_office": {
+    "name": "The merchant's office",
+    "bg": "tavern_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "boss_wit",      "x": 185, "y": 258, "r": 34, "name": "The wine merchant",         "interact": "evid:c5_boss",         "stand_x": 185, "stand_y": 312},
+      {"id": "hidden_purse",  "x": 350, "y": 282, "r": 22, "name": "A wax impression in the drawer","interact": "evid:c5_wax_impression","stand_x": 350, "stand_y": 322},
+      {"id": "delivery_wit",  "x": 480, "y": 260, "r": 30, "name": "A delivery boy",            "interact": "evid:c5_delivery_boy", "stand_x": 480, "stand_y": 312},
+      {"id": "wesen_cont",    "x": 565, "y": 265, "r": 28, "name": "A Wesen contact",           "interact": "evid:c5_wesen_contact","stand_x": 565, "stand_y": 312}
+    ],
+    "exits": [
+      {"to": "c5_cellar", "x": 55, "y": 300, "label": "← the cellar"}
+    ]
+  },
+
+  "c6_manor": {
+    "name": "Lord Fenn's private study",
+    "bg": "cottage_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "body",       "x": 290, "y": 282, "r": 34, "name": "Lord Aldric Fenn, at his desk","interact": "evid:c6_cold_body",    "stand_x": 290, "stand_y": 322},
+      {"id": "bear_tooth", "x": 420, "y": 295, "r": 22, "name": "A smell of burnt copper",      "interact": "evid:c6_copper_smell", "stand_x": 420, "stand_y": 330},
+      {"id": "cloak_scrap","x": 200, "y": 305, "r": 22, "name": "A mark under the tongue",      "interact": "evid:c6_biest_mark",   "stand_x": 200, "stand_y": 335},
+      {"id": "journal",    "x": 340, "y": 278, "r": 24, "name": "A half-written letter",        "interact": "evid:c6_half_letter",  "stand_x": 340, "stand_y": 318},
+      {"id": "hidden_purse","x":530, "y": 262, "r": 22, "name": "A glove behind the bookcase",  "interact": "evid:c6_womans_glove", "stand_x": 530, "stand_y": 308},
+      {"id": "notice",     "x": 160, "y": 272, "r": 22, "name": "The inheritance dispute",      "interact": "evid:c6_inheritance",  "stand_x": 160, "stand_y": 315}
+    ],
+    "exits": [
+      {"to": "c6_servants","x": 625, "y": 300, "label": "→ the servants' hall"},
+      {"to": "hub",        "x":  55, "y": 300, "label": "← back to camp"}
+    ]
+  },
+  "c6_servants": {
+    "name": "The manor servants' hall",
+    "bg": "tavern_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "butler_wit", "x": 210, "y": 258, "r": 34, "name": "The butler",          "interact": "evid:c6_butler",       "stand_x": 210, "stand_y": 312},
+      {"id": "nephew_wit", "x": 390, "y": 262, "r": 30, "name": "Nephew Caspar Fenn",  "interact": "evid:c6_inheritance",  "stand_x": 390, "stand_y": 312},
+      {"id": "wesen_cont", "x": 545, "y": 260, "r": 28, "name": "A Wesen contact",     "interact": "evid:c6_wesen_contact","stand_x": 545, "stand_y": 312}
+    ],
+    "exits": [
+      {"to": "c6_manor", "x": 55, "y": 300, "label": "← the study"}
+    ]
+  },
+
+  "c7_butcher": {
+    "name": "The butcher's backroom",
+    "bg": "cottage_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "body",       "x": 285, "y": 285, "r": 34, "name": "Bruno Stark, among the hooks",  "interact": "evid:c7_bite_radius",   "stand_x": 285, "stand_y": 325},
+      {"id": "bear_tooth", "x": 400, "y": 295, "r": 22, "name": "Two phases of wounds",          "interact": "evid:c7_two_phases",    "stand_x": 400, "stand_y": 330},
+      {"id": "paw_print",  "x": 520, "y": 318, "r": 22, "name": "Blood on the delivery handle", "interact": "evid:c7_return_tracks", "stand_x": 520, "stand_y": 338},
+      {"id": "cloak_scrap","x": 180, "y": 312, "r": 22, "name": "Something under the workbench","interact": "evid:c7_scute",         "stand_x": 180, "stand_y": 338},
+      {"id": "notice",     "x": 155, "y": 272, "r": 22, "name": "A dismissal notice",            "interact": "evid:c7_dismissed_man", "stand_x": 155, "stand_y": 315}
+    ],
+    "exits": [
+      {"to": "c7_tannery","x": 625, "y": 300, "label": "→ the tannery district"},
+      {"to": "hub",       "x":  55, "y": 300, "label": "← back to camp"}
+    ]
+  },
+  "c7_tannery": {
+    "name": "The tannery district",
+    "bg": "tavern_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "neighbour_wit","x": 215, "y": 258, "r": 30, "name": "A neighbour",      "interact": "evid:c7_neighbour",    "stand_x": 215, "stand_y": 312},
+      {"id": "wesen_cont",   "x": 460, "y": 262, "r": 28, "name": "A Wesen contact", "interact": "evid:c7_wesen_contact","stand_x": 460, "stand_y": 312}
+    ],
+    "exits": [
+      {"to": "c7_butcher", "x": 55, "y": 300, "label": "← the butcher's yard"}
+    ]
+  },
+
+  "c8_market": {
+    "name": "The market square",
+    "bg": "tavern_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "bear_tooth",  "x": 190, "y": 308, "r": 22, "name": "A zone of unnatural calm",     "interact": "evid:c8_calm_zone",   "stand_x": 190, "stand_y": 335},
+      {"id": "cloak_scrap", "x": 310, "y": 295, "r": 22, "name": "A musky-sweet smell",          "interact": "evid:c8_musk_smell",  "stand_x": 310, "stand_y": 330},
+      {"id": "hidden_purse","x": 430, "y": 308, "r": 22, "name": "Unexplained money withdrawn",  "interact": "evid:c8_withdrawals", "stand_x": 430, "stand_y": 335},
+      {"id": "vendor_wit",  "x": 215, "y": 258, "r": 30, "name": "A market vendor",             "interact": "evid:c8_vendor",      "stand_x": 215, "stand_y": 312},
+      {"id": "aldric_wit",  "x": 520, "y": 260, "r": 30, "name": "Aldric Haen, the spice seller","interact": "evid:c8_aldric_haen","stand_x": 520, "stand_y": 312}
+    ],
+    "exits": [
+      {"to": "c8_farm","x": 625, "y": 300, "label": "→ Aldric's farm"},
+      {"to": "hub",    "x":  55, "y": 300, "label": "← back to camp"}
+    ]
+  },
+  "c8_farm": {
+    "name": "Aldric's farmstead",
+    "bg": "cottage_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "paw_print",   "x": 270, "y": 315, "r": 24, "name": "Sleepwalking — witness account","interact": "evid:c8_sleepwalkers","stand_x": 270, "stand_y": 338},
+      {"id": "rescued_wit", "x": 430, "y": 262, "r": 30, "name": "A rescued woman",              "interact": "evid:c8_rescued",    "stand_x": 430, "stand_y": 312},
+      {"id": "knife",       "x": 540, "y": 295, "r": 20, "name": "A locked cellar door",        "interact": "evid:c8_calm_zone",  "stand_x": 540, "stand_y": 325}
+    ],
+    "exits": [
+      {"to": "c8_market", "x": 55, "y": 300, "label": "← the market square"}
+    ]
+  },
+
+  "c9_crossroads": {
+    "name": "The crossroads at dawn",
+    "bg": "forest_clearing",
+    "floor": [40, 250, 640, 360],
+    "spawn": [80, 310],
+    "hotspots": [
+      {"id": "body",       "x": 290, "y": 288, "r": 34, "name": "Ingrid Farr, at the crossroads","interact": "evid:c9_three_attackers","stand_x": 290, "stand_y": 328},
+      {"id": "bear_tooth", "x": 180, "y": 322, "r": 22, "name": "A carved token, in her hand",  "interact": "evid:c9_carved_token",   "stand_x": 180, "stand_y": 342},
+      {"id": "father_wit", "x": 460, "y": 262, "r": 30, "name": "The farmer, her father",       "interact": "evid:c9_father",         "stand_x": 460, "stand_y": 312}
+    ],
+    "exits": [
+      {"to": "c9_ritual",  "x": 625, "y": 300, "label": "→ deeper into the forest"},
+      {"to": "hub",        "x":  55, "y": 300, "label": "← back to camp"}
+    ]
+  },
+  "c9_ritual": {
+    "name": "The ritual stone in the forest",
+    "bg": "forest_path",
+    "floor": [40, 250, 640, 360],
+    "spawn": [80, 310],
+    "hotspots": [
+      {"id": "paw_print",  "x": 280, "y": 310, "r": 26, "name": "The standing stone and ritual site","interact": "evid:c9_ritual_site",   "stand_x": 280, "stand_y": 335},
+      {"id": "cloak_scrap","x": 420, "y": 290, "r": 22, "name": "The carved token — its meaning",   "interact": "evid:c9_aseveracion",   "stand_x": 420, "stand_y": 325},
+      {"id": "wesen_cont", "x": 540, "y": 262, "r": 28, "name": "A Wesen contact",                 "interact": "evid:c9_wesen_contact", "stand_x": 540, "stand_y": 312}
+    ],
+    "exits": [
+      {"to": "c9_crossroads", "x":  55, "y": 300, "label": "← the crossroads"},
+      {"to": "c9_farmhouse",  "x": 625, "y": 300, "label": "→ the Farren farmhouse"}
+    ]
+  },
+  "c9_farmhouse": {
+    "name": "The Farren farmhouse",
+    "bg": "cottage_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "lukas_wit",  "x": 215, "y": 262, "r": 32, "name": "Lukas Farren",           "interact": "evid:c9_three_attackers","stand_x": 215, "stand_y": 315},
+      {"id": "mother_wit", "x": 390, "y": 260, "r": 32, "name": "The Farren mother",      "interact": "evid:c9_mother",        "stand_x": 390, "stand_y": 312},
+      {"id": "wesen_cont", "x": 545, "y": 265, "r": 28, "name": "A Wesen contact nearby", "interact": "evid:c9_wesen_contact","stand_x": 545, "stand_y": 312}
+    ],
+    "exits": [
+      {"to": "c9_ritual", "x": 55, "y": 300, "label": "← the forest"}
+    ]
+  },
+
+  "c10_grave": {
+    "name": "The churchyard — the empty grave",
+    "bg": "forest_clearing",
+    "floor": [40, 250, 640, 360],
+    "spawn": [80, 310],
+    "hotspots": [
+      {"id": "body",       "x": 295, "y": 292, "r": 32, "name": "The open grave",               "interact": "evid:c10_grave_opened", "stand_x": 295, "stand_y": 330},
+      {"id": "bear_tooth", "x": 420, "y": 308, "r": 22, "name": "Blue-grey residue on the earth","interact": "evid:c10_blue_spittle","stand_x": 420, "stand_y": 332},
+      {"id": "journal",    "x": 175, "y": 275, "r": 24, "name": "The physician's notes",         "interact": "evid:c10_tetrodotoxin","stand_x": 175, "stand_y": 318}
+    ],
+    "exits": [
+      {"to": "c10_quarter","x": 625, "y": 300, "label": "→ the lower quarter"},
+      {"to": "hub",        "x":  55, "y": 300, "label": "← back to camp"}
+    ]
+  },
+  "c10_quarter": {
+    "name": "The lower quarter",
+    "bg": "tavern_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "wife_wit",   "x": 190, "y": 258, "r": 32, "name": "Conrad's wife",               "interact": "evid:c10_wife",         "stand_x": 190, "stand_y": 312},
+      {"id": "paw_print",  "x": 355, "y": 315, "r": 24, "name": "Conrad's route — warehouse sightings","interact": "evid:c10_stolen_goods","stand_x": 355, "stand_y": 338},
+      {"id": "wesen_cont", "x": 530, "y": 262, "r": 28, "name": "A Wesen contact",             "interact": "evid:c10_wesen_contact","stand_x": 530, "stand_y": 312}
+    ],
+    "exits": [
+      {"to": "c10_grave",   "x":  55, "y": 300, "label": "← the graveyard"},
+      {"to": "c10_tannery", "x": 625, "y": 300, "label": "→ the tannery building"}
+    ]
+  },
+  "c10_tannery": {
+    "name": "Sebastien's tannery building",
+    "bg": "cottage_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "knife",      "x": 295, "y": 290, "r": 24, "name": "The locked door — tannery building","interact": "evid:c10_tannery_bldg","stand_x": 295, "stand_y": 325},
+      {"id": "hidden_purse","x": 450, "y": 310, "r": 22, "name": "A reversal agent on the shelf",  "interact": "evid:c10_wesen_contact","stand_x": 450, "stand_y": 335}
+    ],
+    "exits": [
+      {"to": "c10_quarter", "x": 55, "y": 300, "label": "← the lower quarter"}
+    ]
+  },
+
+  "c11_tenement": {
+    "name": "The tenement lane",
+    "bg": "cottage_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "body",       "x": 290, "y": 290, "r": 32, "name": "Pieter Maus, at the base of the wall","interact": "evid:c11_claw_marks",  "stand_x": 290, "stand_y": 328},
+      {"id": "bear_tooth", "x": 420, "y": 248, "r": 22, "name": "The window above — wrong floor",    "interact": "evid:c11_wrong_window", "stand_x": 420, "stand_y": 305},
+      {"id": "briar_fur",  "x": 530, "y": 260, "r": 22, "name": "Cat hair on the windowsill",        "interact": "evid:c11_cat_hair",     "stand_x": 530, "stand_y": 308},
+      {"id": "child_wit",  "x": 165, "y": 262, "r": 28, "name": "A child in the doorway",            "interact": "evid:c11_child",        "stand_x": 165, "stand_y": 312}
+    ],
+    "exits": [
+      {"to": "c11_landing","x": 625, "y": 300, "label": "→ the fourth-floor landing"},
+      {"to": "hub",        "x":  55, "y": 300, "label": "← back to camp"}
+    ]
+  },
+  "c11_landing": {
+    "name": "The fourth-floor landing",
+    "bg": "tavern_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "neighbour_wit","x": 200, "y": 258, "r": 30, "name": "A Reinigen neighbour",    "interact": "evid:c11_neighbour",  "stand_x": 200, "stand_y": 312},
+      {"id": "landlady_wit", "x": 370, "y": 260, "r": 30, "name": "The landlady",            "interact": "evid:c11_landlady",   "stand_x": 370, "stand_y": 312},
+      {"id": "notice",       "x": 530, "y": 250, "r": 22, "name": "Harassment complaints",   "interact": "evid:c11_harassment", "stand_x": 530, "stand_y": 305}
+    ],
+    "exits": [
+      {"to": "c11_tenement", "x": 55, "y": 300, "label": "← the lane below"}
+    ]
+  },
+
+  "c12_guildhall": {
+    "name": "The guildhall meeting room",
+    "bg": "tavern_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "body",       "x": 290, "y": 285, "r": 34, "name": "Four guild masters, seated", "interact": "evid:c12_puncture",    "stand_x": 290, "stand_y": 325},
+      {"id": "bear_tooth", "x": 420, "y": 312, "r": 22, "name": "Something under the table",  "interact": "evid:c12_wing_case",   "stand_x": 420, "stand_y": 335},
+      {"id": "journal",    "x": 175, "y": 275, "r": 24, "name": "The trade vote — tomorrow",  "interact": "evid:c12_trade_vote",  "stand_x": 175, "stand_y": 318},
+      {"id": "notice",     "x": 535, "y": 255, "r": 22, "name": "The service entrance log",   "interact": "evid:c12_service_log", "stand_x": 535, "stand_y": 305},
+      {"id": "servant_wit","x": 165, "y": 260, "r": 28, "name": "A hall servant",             "interact": "evid:c12_servant",     "stand_x": 165, "stand_y": 312}
+    ],
+    "exits": [
+      {"to": "c12_contacts","x": 625, "y": 300, "label": "→ the port district"},
+      {"to": "hub",         "x":  55, "y": 300, "label": "← back to camp"}
+    ]
+  },
+  "c12_contacts": {
+    "name": "The contact house — port district",
+    "bg": "cottage_interior",
+    "floor": [60, 260, 620, 360],
+    "spawn": [100, 320],
+    "hotspots": [
+      {"id": "cloak_scrap", "x": 310, "y": 295, "r": 24, "name": "The toxin — analysis notes",    "interact": "evid:c12_bio_toxin",   "stand_x": 310, "stand_y": 330},
+      {"id": "wesen_cont",  "x": 460, "y": 260, "r": 28, "name": "A Wesen contact",              "interact": "evid:c12_wesen_contact","stand_x": 460, "stand_y": 312},
+      {"id": "accountant_wit","x":175,"y": 262, "r": 30, "name": "The consortium accountant",    "interact": "evid:c12_accountant",  "stand_x": 175, "stand_y": 312}
+    ],
+    "exits": [
+      {"to": "c12_guildhall", "x": 55, "y": 300, "label": "← the guildhall"}
+    ]
+  }
+}

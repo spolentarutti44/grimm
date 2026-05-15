@@ -1,0 +1,194 @@
+{
+  "blutbad": {
+    "name": "Blutbad",
+    "plural": "Blutbaden",
+    "desc": "Wolf-blooded Wesen. The reformed are quiet folk. The rogues hunt by moonlight, kill in frenzy.",
+    "signs": "Coarse grey fur, silver-tipped in mature beasts. Broad paw-prints with too-wide splay. Throat-tearing kills, ragged not clean. Howls before the strike.",
+    "weakness": "Wolfsbane drives them mad and weak.",
+    "hp": 50,
+    "moves": [
+      {"name": "Bite",        "windup": 900, "dmg": 14, "type": "parry", "weight": 3},
+      {"name": "Lunge",       "windup": 700, "dmg": 11, "type": "dodge", "weight": 2},
+      {"name": "Frenzy Bite", "windup": 600, "dmg": 18, "type": "parry", "weight": 1, "fast": true}
+    ],
+    "reward": {"gold": 30, "xp": 80},
+    "color": "#1f1f1d"
+  },
+  "fuchsbau": {
+    "name": "Fuchsbau",
+    "plural": "Fuchsbauen",
+    "desc": "Fox-kin. Cunning, oft thieves and merchants. Rarely kill — but cornered, lethal.",
+    "signs": "Russet fur, fine and short. Small, dainty tracks. Surgical claw-cuts, narrow. Theft accompanies killing — cellar, larder, coin-purse. Vanishing tricks.",
+    "weakness": "Salt across a doorway holds them.",
+    "hp": 38,
+    "moves": [
+      {"name": "Slash",      "windup": 600, "dmg": 10, "type": "parry", "weight": 3, "fast": true},
+      {"name": "Quick Dart", "windup": 500, "dmg":  8, "type": "dodge", "weight": 2, "fast": true}
+    ],
+    "reward": {"gold": 22, "xp": 25},
+    "color": "#854F0B"
+  },
+  "jagerbar": {
+    "name": "Jägerbar",
+    "plural": "Jägerbaren",
+    "desc": "Bear-blooded. Vast and slow to anger.",
+    "signs": "Coarse brown shag, matted with oil. Pawprints the breadth of a dinner plate. Crushed bones, splintered timbers. Wide gouges from claws like sickles. No fang-marks — the kill is by crushing.",
+    "weakness": "Pitch matted in their fur seizes their claws.",
+    "hp": 70,
+    "moves": [
+      {"name": "Crushing Slam", "windup": 1400, "dmg": 24, "type": "dodge", "weight": 3, "heavy": true},
+      {"name": "Sweep",         "windup": 1100, "dmg": 16, "type": "parry", "weight": 2},
+      {"name": "Roar",          "windup":  800, "dmg":  6, "type": "block", "weight": 1, "drain_steel": 3}
+    ],
+    "reward": {"gold": 40, "xp": 50},
+    "color": "#412402"
+  },
+  "skalengeck": {
+    "name": "Skalengeck",
+    "plural": "Skalengecken",
+    "desc": "Lizard-kin.",
+    "signs": "Greenish scales shed in patches. Curving belly-drag in mud. Puncture-bites, twin holes at the throat, with venom.",
+    "weakness": "Fire and torchlight chill the cold blood to torpor.",
+    "hp": 42,
+    "moves": [
+      {"name": "Venom Bite", "windup": 700, "dmg": 12, "type": "parry", "weight": 3}
+    ],
+    "reward": {"gold": 28, "xp": 32},
+    "color": "#27500A"
+  },
+  "spinnetod": {
+    "name": "Spinnetod",
+    "plural": "Spinnetoden",
+    "desc": "Spider-kin. The female must feed on a man's vitality every few years to halt rapid aging. In human form she is impossibly beautiful. By the time a man suspects, he has already been chosen.",
+    "signs": "Grey-black hair, distinctive and long. Two hollow fang-marks 4mm apart on the neck. Victims found serene, organs dissolved from within. She always takes a trophy — something shining from her victim.",
+    "weakness": "Do not let her climb. She is faster on a vertical surface. Her limbs regenerate if severed — strike the body.",
+    "hp": 55,
+    "moves": [
+      {"name": "Chelicerae lunge", "windup": 900,  "dmg": 18, "type": "parry", "weight": 3},
+      {"name": "Acid spit",        "windup": 700,  "dmg": 12, "type": "dodge", "weight": 2},
+      {"name": "Ceiling scramble", "windup": 1100, "dmg": 22, "type": "block", "weight": 1},
+      {"name": "Claw rake",        "windup": 600,  "dmg": 14, "type": "dodge", "weight": 2}
+    ],
+    "reward": {"gold": 45, "xp": 120},
+    "color": "#2a1a2a"
+  },
+  "lausenschlange": {
+    "name": "Lausenschlange",
+    "plural": "Lausenschlangen",
+    "desc": "Boa-kin. They do not chase. They wait in the dark where their prey will come, and they are patient beyond what patience should mean in a living thing.",
+    "signs": "Constriction without bruising — force distributed evenly across all ribs. A sinuous 40cm-wide trail in dust. Iridescent shed scales. Drainage gaps widened recently. Ancient instinct for rodent-kin Wesen.",
+    "weakness": "The spine and skull are weak points. Their grip, once applied, cannot be broken without a blade — avoid grapple range.",
+    "hp": 60,
+    "moves": [
+      {"name": "Constrict",       "windup": 800, "dmg": 20, "type": "dodge", "weight": 3},
+      {"name": "Body slam",       "windup": 900, "dmg": 18, "type": "parry", "weight": 2},
+      {"name": "Furniture sweep", "windup": 700, "dmg": 12, "type": "dodge", "weight": 2}
+    ],
+    "reward": {"gold": 40, "xp": 100},
+    "color": "#2a3a18"
+  },
+  "hexenbiest": {
+    "name": "Hexenbiest",
+    "plural": "Hexenbiester",
+    "desc": "Witch-Beast. Near-Grimm strength AND telekinesis, fire, and compulsion. The most unpredictable Wesen encountered. Their kills leave no physical trace unless you know what to look for.",
+    "signs": "Unnatural cold in the body — frozen from within. Burnt copper smell of Zaubertrank. The biest mark — a dark U-shape under the tongue — present in all Hexenbiester, living and dead.",
+    "weakness": "Grimm blood causes immediate and permanent power loss. A Hexenbiest who ingests it becomes fully human. This does not make them less dangerous in the moment.",
+    "hp": 65,
+    "moves": [
+      {"name": "Telekinetic throw", "windup": 700, "dmg": 14, "type": "dodge", "weight": 3},
+      {"name": "Fire lash",         "windup": 900, "dmg": 20, "type": "parry", "weight": 2},
+      {"name": "Compulsion pulse",  "windup": 800, "dmg": 10, "type": "block", "weight": 2},
+      {"name": "Cold touch",        "windup": 600, "dmg": 25, "type": "dodge", "weight": 1}
+    ],
+    "reward": {"gold": 60, "xp": 140},
+    "color": "#c8c8d8"
+  },
+  "skalenzahne": {
+    "name": "Skalenzähne",
+    "plural": "Skalenzähnen",
+    "desc": "Crocodile-kin. They live peacefully until they taste human or Wesen flesh. The first taste triggers an addiction near-impossible to break — the flesh hunger overrides all other drives.",
+    "signs": "Bite radius 34cm — consistent with a large crocodilian. Serrated tooth impressions in bone. Two-phase wounds: controlled initial strike, then frenzied feeding. Chitinous scutes shed at the scene.",
+    "weakness": "Thick hide reduces damage on the sides and back. Aim for the underbelly during the recovery window after a lunge.",
+    "hp": 70,
+    "moves": [
+      {"name": "Bite lunge",  "windup": 700,  "dmg": 28, "type": "dodge", "weight": 3},
+      {"name": "Tail sweep",  "windup": 600,  "dmg": 12, "type": "dodge", "weight": 2},
+      {"name": "Hide charge", "windup": 1100, "dmg": 18, "type": "parry", "weight": 2}
+    ],
+    "reward": {"gold": 50, "xp": 120},
+    "color": "#1a3a1a"
+  },
+  "ziegevolk": {
+    "name": "Ziegevolk",
+    "plural": "Ziegefolk",
+    "desc": "Goat-Folk. No physical threat. Their power is entirely pheromonal — complete emotional compliance in anyone exposed. Victims are not confused; they are happy.",
+    "signs": "All missing persons last seen smiling, following willingly. Musky-sweet smell near the suspect. Money withdrawn freely. Victims recall feeling deeply at peace — and want to return.",
+    "weakness": "Cover the nose. Move fast. The Ziegevolk itself is physically weak — reach it before the pheromones do their work. Extended exposure dulls even a Grimm.",
+    "hp": 28,
+    "moves": [
+      {"name": "Pheromone burst",  "windup": 600, "dmg": 8,  "type": "block", "weight": 3},
+      {"name": "Desperate strike", "windup": 700, "dmg": 10, "type": "parry", "weight": 2}
+    ],
+    "reward": {"gold": 40, "xp": 110},
+    "color": "#8a7a4a"
+  },
+  "coyotl": {
+    "name": "Coyotl",
+    "plural": "Coyotls",
+    "desc": "Coyote-kin. Pack hunters with strong clan structure. Outside ritual they are often peaceable family units. Interrupting the Aseveracion creates a blood feud with the entire clan.",
+    "signs": "Coordinated pack attack — multiple distinct claw patterns, flanking formation. Carved ritual tokens bearing a crescent and claw motif. Canine musk. Ritual site with candle wax and disturbed earth.",
+    "weakness": "A negotiation path exists if the clan mother's testimony is in hand. Blood feud risk if the family is killed rather than reasoned with.",
+    "hp": 55,
+    "moves": [
+      {"name": "Pack flank", "windup": 700, "dmg": 14, "type": "dodge", "weight": 3},
+      {"name": "Dart bite",  "windup": 600, "dmg": 16, "type": "parry", "weight": 2},
+      {"name": "Scatter",    "windup": 800, "dmg":  8, "type": "block", "weight": 1}
+    ],
+    "reward": {"gold": 60, "xp": 130},
+    "color": "#b8903a"
+  },
+  "klaustreich": {
+    "name": "Klaustreich",
+    "plural": "Klaustreichs",
+    "desc": "Alley-cat kin. Charming to those they consider worth charming. Predatory toward those beneath them — Reinigen are their traditional prey, hunted for sport.",
+    "signs": "Feline claw geometry — four-point grip, feline spacing. Coarse non-domestic cat hair. Uses walls and ceiling as readily as floor. Scratch marks high on door frames.",
+    "weakness": "Vertical movement is their advantage. Force them to the ground or a confined flat space and the speed advantage collapses.",
+    "hp": 42,
+    "moves": [
+      {"name": "Wall launch",  "windup": 800, "dmg": 18, "type": "parry", "weight": 2},
+      {"name": "Ceiling drop", "windup": 900, "dmg": 20, "type": "dodge", "weight": 2},
+      {"name": "Claw rake",    "windup": 500, "dmg": 14, "type": "dodge", "weight": 3}
+    ],
+    "reward": {"gold": 30, "xp": 90},
+    "color": "#7a6a4a"
+  },
+  "cracher_mortel": {
+    "name": "Cracher-Mortel",
+    "plural": "Cracher-Mortels",
+    "desc": "Puffer-fish kin. Their saliva contains tetrodotoxin that induces complete physical paralysis while leaving the mind intact. The victim is aware of their own burial.",
+    "signs": "Grave opened from outside — hinges bent outward. Blue-grey spittle residue on the victim. Tetrodotoxin presentation: sudden painless collapse, breathing undetectable. Victim later seen walking, vacant-eyed.",
+    "weakness": "A reversal agent exists — it must be administered before the rage state begins on day four. Find the victim before then.",
+    "hp": 58,
+    "moves": [
+      {"name": "Tetrodotoxin spit", "windup": 700, "dmg": 16, "type": "dodge", "weight": 3},
+      {"name": "Defensive strike",  "windup": 700, "dmg":  8, "type": "parry", "weight": 2}
+    ],
+    "reward": {"gold": 80, "xp": 180},
+    "color": "#4a6a8a"
+  },
+  "gevatter_tod": {
+    "name": "Gevatter Tod",
+    "plural": "Gevatter Tods",
+    "desc": "Assassin-bug kin. Professional killers — not frenzied, not compelled, not addicted. They choose this. Their biology produces a toxin deliverable through a hollow appendage between the fingers.",
+    "signs": "Microscopic puncture wound at the back of the neck. Biological toxin, death in under two minutes. A single black wing-case fragment is the only physical trace they ever leave — and only when rushed.",
+    "weakness": "You will not catch a Gevatter Tod at the scene. Follow the money to whoever hired them. Then choose: the hired hand, or the one who gave the order.",
+    "hp": 62,
+    "moves": [
+      {"name": "Contact injection", "windup": 600, "dmg": 15, "type": "dodge", "weight": 3},
+      {"name": "Precise strike",    "windup": 700, "dmg": 16, "type": "parry", "weight": 2},
+      {"name": "Feint",             "windup": 800, "dmg": 12, "type": "block", "weight": 1}
+    ],
+    "reward": {"gold": 90, "xp": 200},
+    "color": "#2a2a2a"
+  }
+}

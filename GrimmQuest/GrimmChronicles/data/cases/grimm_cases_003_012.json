@@ -1,0 +1,781 @@
+[
+  {
+    "case_id": "case_003",
+    "case_title": "The Tailor's Widow",
+    "chapter": 1,
+    "difficulty": "medium",
+    "killer_wesen": "Spinnetod",
+    "fairy_tale_hook": "Rumpelstiltskin / Sleeping Beauty — a beautiful woman who spins and takes from men",
+    "scene_location": "A prosperous tailor's shop in the merchant quarter. Three bolts of silk knocked from their racks. A stool overturned near the fitting mirror. Candles still lit.",
+    "victim": {
+      "name": "Ernst Hubner",
+      "wesen_type": "Eisbiber",
+      "occupation": "Master tailor, age 34",
+      "condition": "Found slumped against the fitting mirror. Expression serene. No visible wounds. Skin pale and papery, as though drained. Three of his finest rings missing from his fingers."
+    },
+    "opening_description": "Ernst Hubner was a careful man — he measured twice and cut once, in cloth and in life. His apprentice found him at dawn, sitting against the mirror as if he had simply fallen asleep. But tailors don't sleep on the floor of their own shops, and men Ernst's age don't grow old overnight.",
+    "time_of_death": "Between 10pm and midnight",
+    "environmental_hazard": "Narrow stairwell to the upper fitting room — combat movement restricted to single-file",
+    "scene_clues": [
+      { "clue_id": "clue_001", "description": "Two small puncture wounds on the side of the neck — fang-shaped, roughly 4mm apart. Barely visible without close inspection.", "points_to": "Spinnetod", "found_by_default": true },
+      { "clue_id": "clue_002", "description": "Three rings missing from the victim's fingers. No signs of a struggle suggesting robbery.", "points_to": "Spinnetod", "found_by_default": true },
+      { "clue_id": "clue_003", "description": "The victim's torso is oddly collapsed — ribs intact, but internal cavity feels soft and hollow. Organs partially dissolved.", "points_to": "Spinnetod", "found_by_default": false },
+      { "clue_id": "clue_004", "description": "A single grey-black hair caught on the brass fitting hook beside the mirror. Too long and fine to be Ernst's.", "points_to": "Spinnetod", "found_by_default": false },
+      { "clue_id": "clue_005", "description": "A faint sweet-chemical smell lingers near the body — not perfume, not rot. Somewhere between the two.", "points_to": "Spinnetod", "found_by_default": false },
+      { "clue_id": "clue_006", "description": "Scratch marks on the inside of the back door lock — picked from the outside, recently.", "points_to": "Kaspar Voss", "found_by_default": false },
+      { "clue_id": "clue_007", "description": "An unsigned note tucked under the counter: 'You owe what was promised. Tonight.' Written in a rough hand.", "points_to": "Dietrich Braun", "found_by_default": true }
+    ],
+    "min_clues_to_accuse": 3,
+    "witness_clues": [
+      { "witness_id": "lena_apprentice", "dialogue_key": "dlg_lena_001", "clue_revealed": "A well-dressed woman came in for a fitting two evenings ago. Ernst turned away his last appointment to see her alone. He seemed captivated.", "unlocked_by": null },
+      { "witness_id": "lena_apprentice", "dialogue_key": "dlg_lena_002", "clue_revealed": "She was striking. Dark hair, very pale skin. She kept glancing at Ernst's hands — at his rings specifically.", "unlocked_by": "clue_002" },
+      { "witness_id": "georg_neighbour", "dialogue_key": "dlg_georg_001", "clue_revealed": "I heard voices from the shop around eleven. A woman's laugh — low, soft. Then silence.", "unlocked_by": null },
+      { "witness_id": "marta_lodginghouse", "dialogue_key": "dlg_marta_001", "clue_revealed": "A woman matching that description took a room here three days ago. Paid in advance. Her trunk is still here — full of men's jewellery.", "unlocked_by": "clue_002" },
+      { "witness_id": "marta_lodginghouse", "dialogue_key": "dlg_marta_002", "clue_revealed": "There was a strange smell from her room. Sweet but wrong. I found a single grey glove on the windowsill — the fingers were split at the tips.", "unlocked_by": "clue_004" },
+      { "witness_id": "eisbiber_lodge_elder", "dialogue_key": "dlg_lodge_001", "clue_revealed": "Ernst wasn't the first. Young Pieter the silversmith — same thing, two months ago. And the clockmaker's son before that. All found peaceful. All drained. All missing their finest pieces.", "unlocked_by": "clue_003" }
+    ],
+    "grimm_diary_entry": "Spinnetod — Death Spider. The female must feed every few years to halt rapid aging. She dissolves her victim's organs through her bite and draws the matter back through her chelicerae. She takes always from men in their prime, and always takes something shining as a trophy. Her grey-black hair is distinctive in woge. Her limbs regenerate if severed. Do not let her climb — she is faster on a vertical surface than on flat ground.",
+    "killer": {
+      "name": "Isolde Varn",
+      "wesen_type": "Spinnetod",
+      "motive": "Compelled feeding cycle — she is aging rapidly and must drain a man's vitality to halt the process. Ernst was chosen for his vitality and his rings.",
+      "alibi": "Claims she was at the Golden Stag inn all evening — the innkeeper confirms.",
+      "alibi_breaks_on": "clue_005 + dlg_marta_002 — the smell matches the lodging house. The innkeeper is an Eisbiber paid to lie and breaks when the lodge evidence is presented.",
+      "location": "Her lodging room at Marta's house — she returns at dawn to collect her trunk"
+    },
+    "red_herrings": [
+      { "name": "Kaspar Voss", "wesen_type": "Fuchsbau", "motive": "Ernst owed Kaspar money from a bad fabric deal six months ago.", "alibi": "At a Fuchsbau lodge meeting across town — four members confirm. The lock scratches are from a prior visit to demand payment.", "why_suspicious": "The debt note is in his hand. History of persuasion. No immediately verifiable alibi." },
+      { "name": "Dietrich Braun", "wesen_type": "Lausenschlange", "motive": "Ernst was sleeping with Dietrich's wife — Dietrich had found out and threatened him publicly.", "alibi": "Travelling back from a merchants' fair — documented by toll receipt stamped at midnight, 4 hours away.", "why_suspicious": "Public threats. A constrictor Wesen — the hollow torso could be misread as compression damage." },
+      { "name": "Lena Strasser", "wesen_type": "Mauzhertz", "motive": "Ernst had just told her he was dismissing her at month's end.", "alibi": "Asleep in the shop's upper loft — was present in the building.", "why_suspicious": "Present in the building. Has motive. Nervous and evasive — but because she is a Mauzhertz near a Grimm." }
+    ],
+    "community_npcs": [
+      { "name": "Georg Tanner", "wesen_type": "Bauerschwein", "role": "Neighbour — heard the laugh" },
+      { "name": "Marta Weiss", "wesen_type": "Seelengut", "role": "Lodging house owner — key evidence holder" },
+      { "name": "Lodge Elder Rufus", "wesen_type": "Eisbiber", "role": "Links this case to two prior off-screen Spinnetod killings" },
+      { "name": "Innkeeper Brandt", "wesen_type": "Eisbiber", "role": "Provided false alibi — breaks under pressure" }
+    ],
+    "correct_accusation": {
+      "suspect_name": "Isolde Varn",
+      "required_clues": ["clue_001", "clue_002", "clue_003"],
+      "response_dialogue": "She goes still when you name her. Then the shift happens — that slow, terrible smile. 'A Grimm. How long has it been?' She doesn't run. She rolls her neck, and something in her fingers lengthens. 'I was hungry. I am always hungry. Do you know what it is to watch yourself become something ancient and hollowed out? I do what I must.'"
+    },
+    "wrong_accusation_responses": [
+      { "suspect_name": "Kaspar Voss", "dialogue": "Kaspar stares at you, then laughs. 'You think I killed him? Over a debt? I wanted my money, not his life.' He drops the lodge ledger at your feet.", "consequence": "Kaspar becomes hostile — will no longer provide information." },
+      { "suspect_name": "Dietrich Braun", "dialogue": "Dietrich goes white then red. 'I threatened him, yes. Any man would. But I was on the road — check the toll gate.' He storms out.", "consequence": "Dietrich files a complaint — adds time pressure before officials complicate the case." },
+      { "suspect_name": "Lena Strasser", "dialogue": "Lena bursts into tears. 'I heard her laughing. I was too scared to come down. I heard everything and I did nothing and he's dead and it's my fault.'", "consequence": "Lena's breakdown reveals clue_004 and clue_005 — wrong accusation unlocks two clues." }
+    ],
+    "combat_type": "standard",
+    "hp": 55,
+    "woged_description": "Isolde's fingers split at the tips, each ending in a curved grey claw. Her eyes go entirely black. Her jaw unhinges slightly, revealing two hollow chelicerae behind her teeth. Her skin takes on a grey-blue sheen. She moves in short jerking bursts — unnaturally fast when she commits to a direction.",
+    "arena_location": "The upper fitting room of the lodging house. Narrow, low-ceilinged. A large wardrobe blocks one exit. Sloped ceiling on one side.",
+    "attack_patterns": [
+      { "name": "Chelicerae lunge", "damage": 18, "type": "melee", "counter": "parry", "description": "Lunges forward with open-mouthed strike. Chelicerae extend just before contact. Parryable on yellow-eye tell." },
+      { "name": "Acid spit", "damage": 12, "type": "ranged", "counter": "dodge", "description": "Short-range spray of digestive fluid. Leaves a floor patch dealing damage for 8-10 seconds." },
+      { "name": "Ceiling scramble", "damage": 22, "type": "special", "counter": "block", "description": "Moves to the sloped ceiling and drops directly down. Telegraphed by shadow. Block to reduce — cannot be dodged or parried." },
+      { "name": "Claw rake", "damage": 14, "type": "melee", "counter": "dodge", "description": "Horizontal sweep with both clawed hands at mid range. Dodge back." }
+    ],
+    "phases": 2,
+    "phase_2_trigger_hp": 25,
+    "phase_2_changes": "Ceiling scramble frequency doubles. Chelicerae lunge chains immediately after acid spit with no recovery window. Tell speed increases.",
+    "weakness": null,
+    "prep_item": null,
+    "outcome_states": [
+      { "state": "killer_defeated", "text": "Ernst Hubner — and eleven others — accounted for.", "reward_gold": 45, "reward_xp": 120, "reward_items": ["Spinnetod chelicerae sample", "Ernst guild seal ring"], "diary_entry_unlocked": "Spinnetod", "reputation_changes": [{ "faction": "Eisbiber lodge", "change": 1 }] },
+      { "state": "killer_escaped", "text": "Isolde Varn — at large.", "reward_gold": 15, "reward_xp": 40, "reward_items": [], "flags": ["npc_isolde_recurring"] },
+      { "state": "wrong_accusation_closed", "text": "Case closed — unsatisfied.", "reward_gold": 0, "reward_xp": 0, "reputation_changes": [{ "faction": "Eisbiber lodge", "change": -1 }] }
+    ],
+    "unlocks": ["case_004", "npc_isolde_recurring"],
+    "arc_thread": "merchant_quarter_killings"
+  },
+  {
+    "case_id": "case_004",
+    "case_title": "Red in the Snow",
+    "chapter": 1,
+    "difficulty": "easy",
+    "killer_wesen": "Blutbad",
+    "fairy_tale_hook": "Little Red Riding Hood — a wolf who cannot help what it is",
+    "scene_location": "Forest path outside the village. Fresh snow. Blood trail starts at the treeline and ends at a collapsed body 40 feet in.",
+    "victim": {
+      "name": "Willem Roth",
+      "wesen_type": "Bauerschwein",
+      "occupation": "Grain merchant, age 41",
+      "condition": "Mauled. Deep claw lacerations across chest and shoulders. Expression of pure terror. Body partially dragged then abandoned. One boot missing."
+    },
+    "opening_description": "The snow remembers everything. Willem Roth made it forty feet from the treeline before whatever was behind him caught him. The blood trail is wide and unhurried. The claw marks are too far apart for any wolf. Too deep for any bear. And bears don't drag their kills forty feet and then just leave them.",
+    "time_of_death": "Between 9pm and 11pm — snow began falling at 10pm, partially obscuring the trail",
+    "environmental_hazard": "Dense forest — low visibility, movement slowed off-path",
+    "scene_clues": [
+      { "clue_id": "clue_001", "description": "Claw spacing on chest wounds is 28cm — far beyond any natural wolf or bear. Consistent with a single swipe from a large bipedal attacker.", "points_to": "Blutbad", "found_by_default": true },
+      { "clue_id": "clue_002", "description": "A smell of wet fur and musk around the attack site — distinct, not a natural forest smell. Strongest at the point of first contact.", "points_to": "Blutbad", "found_by_default": false },
+      { "clue_id": "clue_003", "description": "Red eye-shine captured in a witness's lantern at the treeline around 10pm. Too high off the ground, too steady for an animal.", "points_to": "Blutbad", "found_by_default": false },
+      { "clue_id": "clue_004", "description": "Willem's boot found 200 feet deeper in the forest — the drag was abandoned when the attacker heard something. A church bell rang at 11pm.", "points_to": "Blutbad", "found_by_default": false },
+      { "clue_id": "clue_005", "description": "Torn fabric from a heavy dark coat caught on a branch at chest height. Coarse wool, quality cut.", "points_to": "Heinrich Vogel", "found_by_default": true },
+      { "clue_id": "clue_006", "description": "Willem had recently won a contract dispute against the local miller, cutting him out of a profitable grain route. The miller made threats.", "points_to": "Oskar the Miller", "found_by_default": true }
+    ],
+    "min_clues_to_accuse": 3,
+    "witness_clues": [
+      { "witness_id": "child_witness", "dialogue_key": "dlg_child_001", "clue_revealed": "I saw a big man go into the trees right before I heard the screaming. He walked funny — hunched, like his back hurt him.", "unlocked_by": null },
+      { "witness_id": "innkeeper", "dialogue_key": "dlg_inn_001", "clue_revealed": "Karl Metz was in here until about half-nine. Drank three cups, paid his tab, left heading toward the mill road.", "unlocked_by": null },
+      { "witness_id": "innkeeper", "dialogue_key": "dlg_inn_002", "clue_revealed": "He seemed agitated. Kept looking at the door. And his eyes — the firelight caught them strange. Almost red.", "unlocked_by": "clue_003" },
+      { "witness_id": "karl_metz", "dialogue_key": "dlg_karl_001", "clue_revealed": "I was walking home. I heard something. I ran. I didn't see anything.", "unlocked_by": null },
+      { "witness_id": "karl_metz", "dialogue_key": "dlg_karl_002", "clue_revealed": "His hands are trembling. Scratches on his knuckles he keeps hiding in his sleeves. He knows what he is. He's trying to hold it together.", "unlocked_by": "clue_002" }
+    ],
+    "grimm_diary_entry": "Blutbad — Bloodbath. The wolf-kin. Reformed ones restrain themselves through rigid routine. When they slip, the frenzy is total — they remember nothing. The kill is always disproportionate. Claw span is the surest identifier. A Blutbad's musk is distinctive: wet fur, iron, and something older underneath. A lucid Blutbad who knows what it has done may be more dangerous than one still in frenzy.",
+    "killer": {
+      "name": "Karl Metz",
+      "wesen_type": "Blutbad",
+      "motive": "No conscious motive — the frenzy was triggered by Willem's Bauerschwein scent. Ancient prey-predator instinct. Karl is horrified.",
+      "alibi": "Claims he went straight home from the inn. Wife confirms — but she is covering for him.",
+      "alibi_breaks_on": "clue_005 — the coat fabric matches Karl's coat, which has a matching tear",
+      "location": "His farmhouse, barely sleeping"
+    },
+    "red_herrings": [
+      { "name": "Heinrich Vogel", "wesen_type": "Jagerbar", "motive": "Old grudge — Willem underbid him on three contracts in a row.", "alibi": "At a lodge meeting — broke up at 9pm, leaving a window.", "why_suspicious": "Bear Wesen, physical strength, credible motive, gap in alibi. Coat fabric could be his colouring." },
+      { "name": "Oskar the Miller", "wesen_type": "Human", "motive": "The contract dispute — Willem had cost him significantly.", "alibi": "Home with family — unverifiable.", "why_suspicious": "Clear financial motive. Public threats on record." }
+    ],
+    "community_npcs": [
+      { "name": "Berta Metz", "wesen_type": "Seelengut", "role": "Karl's wife — covering for him out of fear and love" },
+      { "name": "Rosa", "wesen_type": "Mauzhertz", "role": "Child witness — saw Karl enter the trees" }
+    ],
+    "correct_accusation": {
+      "suspect_name": "Karl Metz",
+      "required_clues": ["clue_001", "clue_002", "clue_005"],
+      "response_dialogue": "Karl doesn't deny it when you say the word. He sits on the stone step and puts his head in his hands. 'I know. I've known since I woke up with blood on my boots.' He looks up — eyes red at the edges, not fully back yet. 'I haven't slipped in eight years.' Then something shifts. 'I'm not going back in a cage.' He stands."
+    },
+    "wrong_accusation_responses": [
+      { "suspect_name": "Heinrich Vogel", "dialogue": "Heinrich laughs. 'That's not a bear swipe, that's a wolf rake. You're reading the wrong signs, Grimm.' He crosses his arms. 'I was at lodge. Check the register.'", "consequence": "Heinrich becomes an ally — will point the player toward Blutbad signs specifically." },
+      { "suspect_name": "Oskar the Miller", "dialogue": "Oskar goes white. 'I'm just a man! I threatened him with lawyers, not whatever did that.'", "consequence": "Oskar now knows Grimms exist — minor flavour complication." }
+    ],
+    "combat_type": "standard",
+    "hp": 50,
+    "woged_description": "Karl's face elongates, jaw pushing forward, teeth crowding. Eyes go full red — no whites. The coat tears across the shoulders. He's large, hunched, still wearing his farmer's clothes underneath.",
+    "arena_location": "The farmhouse yard. Enclosed by a low stone wall. A woodpile on one side, a water trough on the other.",
+    "attack_patterns": [
+      { "name": "Claw swipe", "damage": 16, "type": "melee", "counter": "parry", "description": "Single wide swipe. Yellow-eye tell. Generous parry window — tutorial fight." },
+      { "name": "Lunge grab", "damage": 20, "type": "melee", "counter": "dodge", "description": "Lunges and grabs — grapple animation, 8 tick damage for 2 seconds if connected. Dodge sideways." },
+      { "name": "Howl stagger", "damage": 8, "type": "aoe", "counter": "block", "description": "Short-range howl staggers player backward. Block to reduce stagger distance." }
+    ],
+    "phases": 1,
+    "phase_2_trigger_hp": null,
+    "phase_2_changes": null,
+    "weakness": null,
+    "prep_item": null,
+    "combat_notes": "Tutorial encounter — generous tells, single phase, clear counters. Mercy path available at HP below 15 if player has sufficient evidence.",
+    "outcome_states": [
+      { "state": "killer_defeated", "text": "Willem Roth avenged.", "reward_gold": 30, "reward_xp": 80, "reward_items": [], "diary_entry_unlocked": "Blutbad", "reputation_changes": [{ "faction": "village", "change": 1 }] },
+      { "state": "killer_spared", "text": "Karl Metz — gone. Watching.", "reward_gold": 20, "reward_xp": 60, "reward_items": [], "flags": ["npc_karl_reformed_ally"] },
+      { "state": "killer_escaped", "text": "Blutbad at large.", "reward_gold": 10, "reward_xp": 20, "flags": ["npc_karl_recurring_threat"] },
+      { "state": "wrong_accusation_closed", "text": "Case unsatisfied.", "reward_gold": 0, "reward_xp": 0 }
+    ],
+    "unlocks": ["case_005"],
+    "arc_thread": "forest_road_killings"
+  },
+  {
+    "case_id": "case_005",
+    "case_title": "The Patient Dark",
+    "chapter": 1,
+    "difficulty": "easy-medium",
+    "killer_wesen": "Lausenschlange",
+    "fairy_tale_hook": "The Snake in the Grass — patience as a weapon",
+    "scene_location": "A cellar beneath a wine merchant's storehouse. Victim found between two large oak barrels. No signs of struggle anywhere.",
+    "victim": {
+      "name": "Petra Holz",
+      "wesen_type": "Mauzhertz",
+      "occupation": "Bookkeeper, age 28",
+      "condition": "No external wounds. Body contorted — spine curved, ribs compressed inward. Expression peaceful, eyes closed."
+    },
+    "opening_description": "Petra Holz was meticulous. Her cellar was always locked — she had the only key. So whoever was in here either had a copy or had been waiting in the dark long before she came down. No sign of struggle. Just a woman folded gently into the space between two barrels, her ribs pressed inward like a wrapped parcel.",
+    "time_of_death": "Between 6pm and 8pm",
+    "environmental_hazard": "Very low ceiling in cellar — combat movement limited, no room to dodge vertically",
+    "scene_clues": [
+      { "clue_id": "clue_001", "description": "Compression fractures on every rib — no bruising on the skin. Force was distributed evenly, applied slowly with sustained pressure rather than impact.", "points_to": "Lausenschlange", "found_by_default": true },
+      { "clue_id": "clue_002", "description": "Faint parallel tracks in the dust — a sinuous trail from the drainage gap in the far wall to the barrels. About 40cm wide.", "points_to": "Lausenschlange", "found_by_default": false },
+      { "clue_id": "clue_003", "description": "The drainage gap has been widened recently — mortar scraped away. Something large passed through it.", "points_to": "Lausenschlange", "found_by_default": false },
+      { "clue_id": "clue_004", "description": "A shed scale — translucent, 3cm, faintly iridescent — caught on the barrel hoop. Not from any fish kept here.", "points_to": "Lausenschlange", "found_by_default": false },
+      { "clue_id": "clue_005", "description": "Petra's ledger has a discrepancy flagged for today. She had written 'ask Felix' in the margin.", "points_to": "Felix Haas", "found_by_default": true },
+      { "clue_id": "clue_006", "description": "The cellar key was in Petra's pocket — but a wax impression of it was found in a desk drawer in the office above.", "points_to": "Rudolf Schain", "found_by_default": false }
+    ],
+    "min_clues_to_accuse": 3,
+    "witness_clues": [
+      { "witness_id": "wine_merchant_boss", "dialogue_key": "dlg_boss_001", "clue_revealed": "Petra told me last week she'd found something in the accounts she couldn't explain. I told her to leave it alone.", "unlocked_by": null },
+      { "witness_id": "delivery_boy", "dialogue_key": "dlg_delivery_001", "clue_revealed": "I saw someone near the back of the building around five. Big, kind of low to the ground. Moved strange.", "unlocked_by": null },
+      { "witness_id": "wesen_informant", "dialogue_key": "dlg_wesen_001", "clue_revealed": "There's a Lausenschlange been in this quarter for months. They hunt Mauzhertz — old instinct. If one was in that cellar it was waiting long before Petra came down.", "unlocked_by": "clue_004" }
+    ],
+    "grimm_diary_entry": "Lausenschlange — the louse snake. A boa-kin. They do not chase. They wait where their prey will come, patient beyond what patience should mean in a living thing. The kill is constriction — ribs first, then the rest. No external marks. They have an ancient appetite for rodent-kin Wesen. Their grip, once applied, cannot be broken without a blade. Find the scale and you find them.",
+    "killer": {
+      "name": "Rudolf Schain",
+      "wesen_type": "Lausenschlange",
+      "motive": "Petra had found his embezzlement. He is also a Lausenschlange encountering a Mauzhertz — old prey instinct activated.",
+      "alibi": "Claims he was at a suppliers' meeting upstairs — three colleagues confirm.",
+      "alibi_breaks_on": "clue_006 — the wax key impression is in his desk drawer",
+      "location": "His office directly above the cellar"
+    },
+    "red_herrings": [
+      { "name": "Felix Haas", "wesen_type": "Fuchsbau", "motive": "Petra was going to ask him about the discrepancy he'd buried.", "alibi": "Left the building at 4pm — two witnesses.", "why_suspicious": "His name is literally in the victim's notes." },
+      { "name": "Anna Drescher", "wesen_type": "Human", "motive": "Petra reported her for petty theft three months ago. Anna lost her position.", "alibi": "Home alone — unverifiable.", "why_suspicious": "Known grievance. No alibi." }
+    ],
+    "community_npcs": [
+      { "name": "Merchant Boss Gerhard", "wesen_type": "Human", "role": "Employer — knows more than he's saying about the accounts" },
+      { "name": "Delivery boy Tomas", "wesen_type": "Eisbiber", "role": "Saw Rudolf near the drainage gap" }
+    ],
+    "correct_accusation": {
+      "suspect_name": "Rudolf Schain",
+      "required_clues": ["clue_001", "clue_004", "clue_006"],
+      "response_dialogue": "Rudolf is very still. Then he straightens and something behind his eyes goes flat. 'She was going to ruin me. Everything I built. Over numbers.' He tilts his head slightly — too far, wrong direction. 'I didn't plan it. I was simply there, and she came down, and...' He stands. His spine starts to do something it shouldn't."
+    },
+    "wrong_accusation_responses": [
+      { "suspect_name": "Felix Haas", "dialogue": "Felix goes pale. 'The discrepancy was mine — but I was trying to fix it quietly. I didn't kill her. Check when I left.' He cooperates and reveals the wax impression location.", "consequence": "Felix reveals clue_006 location." },
+      { "suspect_name": "Anna Drescher", "dialogue": "Anna is calm. 'I hated her. But I'm not an animal. Look at what was done to her and tell me I did that.'", "consequence": null }
+    ],
+    "combat_type": "environmental",
+    "hp": 60,
+    "woged_description": "Rudolf's neck extends first — then his torso elongating beyond what a spine should do. His arms press to his sides as his legs fuse. He is suddenly very large in the low-ceilinged office.",
+    "arena_location": "Rudolf's office. Low ceiling, heavy furniture, very little floor space. A large desk in the centre.",
+    "attack_patterns": [
+      { "name": "Constrict", "damage": 20, "type": "melee", "counter": "dodge", "description": "Wraps around the player on contact — grapple state, 8 damage per second for 3 seconds. Press K to break grip." },
+      { "name": "Body slam", "damage": 18, "type": "melee", "counter": "parry", "description": "Swings upper body sideways. Parryable on wind-up." },
+      { "name": "Furniture sweep", "damage": 12, "type": "aoe", "counter": "dodge", "description": "Tail sweeps the desk across the room." }
+    ],
+    "phases": 1,
+    "phase_2_trigger_hp": null,
+    "phase_2_changes": null,
+    "weakness": null,
+    "prep_item": null,
+    "combat_notes": "Introduces the grapple-break mechanic — player must press K to break the constrict grip.",
+    "outcome_states": [
+      { "state": "killer_defeated", "text": "Petra Holz avenged. Embezzlement exposed.", "reward_gold": 40, "reward_xp": 100, "reward_items": ["Lausenschlange scale"], "diary_entry_unlocked": "Lausenschlange" },
+      { "state": "killer_escaped", "text": "Rudolf Schain at large.", "reward_gold": 15, "reward_xp": 20, "reward_items": [] },
+      { "state": "wrong_accusation_closed", "text": "Case closed cold.", "reward_gold": 0, "reward_xp": 0 }
+    ],
+    "unlocks": ["case_006"],
+    "arc_thread": "merchant_quarter_killings"
+  },
+  {
+    "case_id": "case_006",
+    "case_title": "The Glass Coffin",
+    "chapter": 1,
+    "difficulty": "medium-hard",
+    "killer_wesen": "Hexenbiest",
+    "fairy_tale_hook": "Snow White — the beautiful woman who brings death in a beautiful package",
+    "scene_location": "A nobleman's manor. Victim found in his private study, seated at his desk. Candles burned to stubs. Quill still in hand.",
+    "victim": {
+      "name": "Lord Aldric Fenn",
+      "wesen_type": "Steinadler",
+      "occupation": "Nobleman and regional magistrate, age 55. Verrat informant.",
+      "condition": "No wounds. No struggle. Wine half-drunk. Expression peaceful. Body cold far beyond what time of death and a warm room can explain."
+    },
+    "opening_description": "Lord Aldric Fenn spent thirty years collecting secrets and trading them carefully. Men like that don't die peacefully at their desks — unless someone made sure of it. His face is serene. His body is cold as river stone. The wine smells of nothing wrong. And yet.",
+    "time_of_death": "Between 8pm and 10pm",
+    "environmental_hazard": "Manor has multiple rooms — hexed objects possible if the Grimm lingers too long",
+    "scene_clues": [
+      { "clue_id": "clue_001", "description": "The body is abnormally cold — far beyond what the warm room and time of death can explain. Suggests frozen from within.", "points_to": "Hexenbiest", "found_by_default": true },
+      { "clue_id": "clue_002", "description": "A faint smell of burnt copper in the air — not from the candles, which burned clean.", "points_to": "Hexenbiest", "found_by_default": false },
+      { "clue_id": "clue_003", "description": "Small dark U-shaped mark found under the victim's tongue — the biest mark.", "points_to": "Hexenbiest", "found_by_default": false },
+      { "clue_id": "clue_004", "description": "A half-written letter on the desk addressed to 'V.' It reads: 'She has been asking questions about the eastern routes. I believe she is —' The sentence ends there.", "points_to": "Hexenbiest", "found_by_default": true },
+      { "clue_id": "clue_005", "description": "A woman's glove found behind the bookcase — fine grey leather, very small. Monogrammed 'M.V.'", "points_to": "Hexenbiest", "found_by_default": false },
+      { "clue_id": "clue_006", "description": "A dispute between Lord Fenn and his nephew over the estate inheritance three weeks prior. Public threats were made.", "points_to": "Caspar Fenn", "found_by_default": true }
+    ],
+    "min_clues_to_accuse": 3,
+    "witness_clues": [
+      { "witness_id": "butler", "dialogue_key": "dlg_butler_001", "clue_revealed": "A woman came to dinner last week. Beautiful. Dark hair. Lord Fenn turned away his last appointment for her. He seemed captivated afterward — distracted, almost dreamy.", "unlocked_by": null },
+      { "witness_id": "butler", "dialogue_key": "dlg_butler_002", "clue_revealed": "When I passed back her wrap, I touched her hand. It was cold. Unnaturally cold.", "unlocked_by": "clue_003" },
+      { "witness_id": "wesen_contact", "dialogue_key": "dlg_wesen_001", "clue_revealed": "M.V. — Marta Vaal. Verrat operative. A Hexenbiest. If Fenn was about to expose her, she'd have been sent to close him.", "unlocked_by": "clue_005" }
+    ],
+    "grimm_diary_entry": "Hexenbiest — Witch-Beast. Their kills leave no physical trace unless you know what to look for: the unnatural cold, the burnt-copper smell of Zaubertrank, and the biest mark under the tongue — always present in living and dead Hexenbiester. They are near-Grimm strength AND possess telekinesis, fire, and compulsion. Their only reliable weakness: Grimm blood causes immediate and permanent power loss. A Hexenbiest who has ingested Grimm blood becomes fully human.",
+    "killer": {
+      "name": "Marta Vaal",
+      "wesen_type": "Hexenbiest",
+      "motive": "Verrat operative — Fenn was about to expose her. She was sent to silence him.",
+      "alibi": "Was at the theatre all evening — ticket stub, usher confirms.",
+      "alibi_breaks_on": "clue_005 — the monogrammed glove. The usher is also Verrat and breaks when the glove is produced.",
+      "location": "Her townhouse in the noble quarter — already preparing to leave"
+    },
+    "red_herrings": [
+      { "name": "Caspar Fenn", "wesen_type": "Human", "motive": "Estate inheritance — stood to gain everything.", "alibi": "At his club all evening — six members confirm.", "why_suspicious": "Clear financial motive, public threat, stood to gain directly." },
+      { "name": "Secretary Brennan", "wesen_type": "Steinadler", "motive": "Passed over for promotion twice. Had access to the study.", "alibi": "Left the building at 7pm — gate log confirms.", "why_suspicious": "The half-written letter could implicate him as 'V.' — but he was trying to warn someone about Marta, not threaten Fenn." }
+    ],
+    "community_npcs": [
+      { "name": "Butler Ernst", "wesen_type": "Eisbiber", "role": "Key witness — saw Marta, touched her cold hand" },
+      { "name": "Theatre Usher", "wesen_type": "Hundjager", "role": "False alibi provider — Verrat operative" }
+    ],
+    "correct_accusation": {
+      "suspect_name": "Marta Vaal",
+      "required_clues": ["clue_001", "clue_003", "clue_005"],
+      "response_dialogue": "Marta looks at you for a long moment, then smiles — and something in that smile is very old and very tired. 'A Grimm. How inconvenient.' Her hair goes white at the roots. Her skin does what skin shouldn't. Objects around the room begin to drift slightly off their surfaces."
+    },
+    "wrong_accusation_responses": [
+      { "suspect_name": "Caspar Fenn", "dialogue": "Caspar's outrage is genuine and loud. Six witnesses, a club register, and his lawyers in under an hour.", "consequence": "Time pressure — legal obstacle appears. Limited moves before officials complicate the case." },
+      { "suspect_name": "Secretary Brennan", "dialogue": "Brennan is composed. He explains — 'V' is Vaal. He was trying to warn someone about Marta. He provides her name directly.", "consequence": "Wrong accusation accidentally accelerates the correct path." }
+    ],
+    "combat_type": "standard",
+    "hp": 65,
+    "woged_description": "Marta's hair is white and wild. Skin grey and cracked, eyes dark hollows, teeth lengthened. Still beautiful in a way that is purely terrifying. Objects in the room orbit her slowly.",
+    "arena_location": "The manor entry hall — high ceiling, chandelier overhead, wide staircase. Objects available as projectiles.",
+    "attack_patterns": [
+      { "name": "Telekinetic throw", "damage": 14, "type": "ranged", "counter": "dodge", "description": "Hurls furniture. Telegraphed by object rising." },
+      { "name": "Fire lash", "damage": 20, "type": "melee", "counter": "parry", "description": "Whip of fire. Parryable on yellow-eye tell." },
+      { "name": "Compulsion pulse", "damage": 10, "type": "aoe", "counter": "block", "description": "Controls invert for 2 seconds if not blocked." },
+      { "name": "Cold touch", "damage": 25, "type": "melee", "counter": "dodge", "description": "Phase 2 only. Direct contact — same cold that killed Fenn. Cannot be blocked or parried." }
+    ],
+    "phases": 2,
+    "phase_2_trigger_hp": 30,
+    "phase_2_changes": "Cold touch introduced. Telekinetic throws become multi-object salvos. Fire lash chains twice.",
+    "weakness": "Grimm blood — if player takes any hit, a close-range blood_strike prompt appears. Strips Marta of all powers permanently and ends the fight.",
+    "prep_item": null,
+    "outcome_states": [
+      { "state": "killer_defeated", "text": "Fenn avenged. Verrat operative eliminated.", "reward_gold": 60, "reward_xp": 140, "reward_items": ["Hexenbiest hair", "Verrat cipher fragment"], "diary_entry_unlocked": "Hexenbiest", "faction_changes": [{ "faction": "verrat", "awareness_change": -1 }] },
+      { "state": "killer_stripped", "text": "Marta Vaal — human. Fate unknown.", "reward_gold": 40, "reward_xp": 100, "reward_items": ["Hexenbiest hair"], "flags": ["npc_marta_human_possible_ally"] },
+      { "state": "killer_escaped", "text": "Hexenbiest at large. Verrat alerted.", "reward_gold": 10, "reward_xp": 20, "faction_changes": [{ "faction": "verrat", "awareness_change": 1 }] },
+      { "state": "wrong_accusation_closed", "text": "Case closed cold.", "reward_gold": 0, "reward_xp": 0 }
+    ],
+    "unlocks": ["case_007"],
+    "arc_thread": "verrat_conspiracy"
+  },
+  {
+    "case_id": "case_007",
+    "case_title": "The Red Feast",
+    "chapter": 2,
+    "difficulty": "medium",
+    "killer_wesen": "Skalenzahne",
+    "fairy_tale_hook": "Hansel and Gretel — something that eats and cannot stop",
+    "scene_location": "A butcher's backroom, after hours. Blood everywhere. Cuts of meat still hanging on hooks.",
+    "victim": {
+      "name": "Bruno Stark",
+      "wesen_type": "Seelengut",
+      "occupation": "Butcher's assistant, age 22",
+      "condition": "Partially consumed. Bite wounds — enormous radius, serrated edges. One arm missing below the elbow. Two phases of wounds visible: controlled, then frenzied."
+    },
+    "opening_description": "Bruno Stark worked late. Tonight the back room tells a story of something that started as an attack and became something else. The bite marks are not consistent with any tool or animal. Whatever made them came back for more — the wounds are not all from the same moment. Bruno was alive for some of this.",
+    "time_of_death": "Between 9pm and 11pm",
+    "environmental_hazard": "Meat hooks overhead — environmental weapon and movement obstacle",
+    "scene_clues": [
+      { "clue_id": "clue_001", "description": "Bite radius is 34cm — consistent with a large crocodilian. Serrated tooth impressions in bone. No animal matching this profile exists in this region.", "points_to": "Skalenzahne", "found_by_default": true },
+      { "clue_id": "clue_002", "description": "Two distinct attack phases — controlled initial wounds, then frenzied feeding. The frenzy was triggered, not planned.", "points_to": "Skalenzahne", "found_by_default": false },
+      { "clue_id": "clue_003", "description": "Dried blood on the delivery entrance handle — the attacker left and came back. Two sets of tracks.", "points_to": "Skalenzahne", "found_by_default": false },
+      { "clue_id": "clue_004", "description": "A scute — bony plate, 4cm, greenish-grey — found under the workbench. Not from any livestock.", "points_to": "Skalenzahne", "found_by_default": false },
+      { "clue_id": "clue_005", "description": "Bruno caught someone stealing from the till two nights ago and reported it. The dismissed worker has a violent record.", "points_to": "Thomas Grau", "found_by_default": true }
+    ],
+    "min_clues_to_accuse": 3,
+    "witness_clues": [
+      { "witness_id": "neighbour", "dialogue_key": "dlg_neighbour_001", "clue_revealed": "I heard something wet in the alley around ten. Then quiet. Then movement again around eleven.", "unlocked_by": "clue_003" },
+      { "witness_id": "wesen_contact", "dialogue_key": "dlg_wesen_001", "clue_revealed": "New man at the tannery — Heinrich Kroll. Wide jaw, keeps to himself. Been here six weeks. Right around when the stray cats started disappearing.", "unlocked_by": "clue_004" }
+    ],
+    "grimm_diary_entry": "Skalenzahne — Scale-Tooth. A crocodile-kin. They live peacefully until they taste human or Wesen flesh. The first taste triggers an addiction that overrides all other drives. The two-phase attack pattern indicates the tasting was accidental and the frenzy was triggered by the blood itself. Thick hide — standard weapons deal reduced damage. Aim for the underbelly.",
+    "killer": {
+      "name": "Heinrich Kroll",
+      "wesen_type": "Skalenzahne",
+      "motive": "Accidental first taste — Bruno cut himself on a hook during a delivery. Heinrich left, fought the urge, lost, came back.",
+      "alibi": "At the tannery all night — foreman confirms loosely.",
+      "alibi_breaks_on": "clue_003 + clue_004 — two sets of tracks and the scute at the scene",
+      "location": "His lodgings near the tannery"
+    },
+    "red_herrings": [
+      { "name": "Thomas Grau", "wesen_type": "Drang-Zorn", "motive": "Dismissed for theft, publicly blamed by Bruno.", "alibi": "Drinking at the tavern — left at 9:30pm with a gap before he got home.", "why_suspicious": "Motive, capable of violence, gap in alibi. Berserker episodes he doesn't remember make him look very guilty." }
+    ],
+    "correct_accusation": {
+      "suspect_name": "Heinrich Kroll",
+      "required_clues": ["clue_001", "clue_002", "clue_004"],
+      "response_dialogue": "Heinrich opens his door and you see it immediately — the jaw sits fractionally too wide. 'I tried to stop,' he says. 'I went home. I walked five miles in the cold.' His hands are shaking. 'But I could smell it from the street.'"
+    },
+    "wrong_accusation_responses": [
+      { "suspect_name": "Thomas Grau", "dialogue": "Thomas holds up his hands — no blood, small fingers. 'Find someone with a bigger mouth than me.' He drunkenly mentions Heinrich's wide jaw.", "consequence": "Wrong accusation accidentally surfaces Heinrich as a person of interest." }
+    ],
+    "combat_type": "standard",
+    "hp": 70,
+    "woged_description": "Heinrich's jaw unhinges to an impossible width, rows of serrated teeth exposed. Skin ripples into scutes. He drops to a lower, wider stance — moving in fast lateral scuttles.",
+    "arena_location": "The tannery floor — long narrow space, raw hides hanging, large vats of fluid.",
+    "attack_patterns": [
+      { "name": "Bite lunge", "damage": 28, "type": "melee", "counter": "dodge", "description": "Explosive forward lunge, narrow horizontal spread. Huge damage. Dodge sideways." },
+      { "name": "Tail sweep", "damage": 12, "type": "aoe", "counter": "dodge", "description": "Low tail sweep at ankle height. Jump or dodge back." },
+      { "name": "Hide charge", "damage": 18, "type": "melee", "counter": "parry", "description": "Shoulder-first charge. Parry opens him up for a counter." }
+    ],
+    "phases": 2,
+    "phase_2_trigger_hp": 35,
+    "phase_2_changes": "Bite lunge frequency doubles. Uses the vats — shoves player toward them.",
+    "weakness": "Underbelly — attacks during bite lunge recovery deal double damage.",
+    "prep_item": null,
+    "outcome_states": [
+      { "state": "killer_defeated", "text": "Bruno Stark avenged.", "reward_gold": 50, "reward_xp": 120, "reward_items": ["Skalenzahne scute"], "diary_entry_unlocked": "Skalenzahne" },
+      { "state": "killer_escaped", "text": "Skalenzahne — addicted and at large.", "reward_gold": 20, "reward_xp": 30, "reward_items": [] },
+      { "state": "wrong_accusation_closed", "text": "Case closed cold.", "reward_gold": 0, "reward_xp": 0 }
+    ],
+    "unlocks": ["case_008"],
+    "arc_thread": null
+  },
+  {
+    "case_id": "case_008",
+    "case_title": "The Beautiful Shepherd",
+    "chapter": 2,
+    "difficulty": "medium",
+    "killer_wesen": "Ziegevolk",
+    "fairy_tale_hook": "Bluebeard — a charming man with a locked room full of secrets",
+    "scene_location": "A prosperous farm on the edge of town. Three women missing over two months. No bodies.",
+    "victim": {
+      "name": "Hilde Braun, Clara Voss, Marta Engel",
+      "wesen_type": "Seelengut, Human, Fuchsbau",
+      "occupation": "All unmarried women ages 20-30, last seen near the market",
+      "condition": "No bodies. All last seen smiling, following a charming man. All described the same man independently."
+    },
+    "opening_description": "There are no bodies. Three empty chairs at three family tables and three women who walked away smiling and never came back. No signs of struggle. They simply went, willingly, following a man nobody can fully describe except to say he was charming. That is not a natural happiness.",
+    "time_of_death": null,
+    "environmental_hazard": "Farmhouse has a locked cellar — the women are there, willingly",
+    "scene_clues": [
+      { "clue_id": "clue_001", "description": "All three women were last seen in the same two-block area near the spice stall. All described feeling immediately calm and happy after passing it.", "points_to": "Ziegevolk", "found_by_default": true },
+      { "clue_id": "clue_002", "description": "A faint musky-sweet smell near the spice stall that vendors noticed — not any spice they sell. Present on warm days only.", "points_to": "Ziegevolk", "found_by_default": false },
+      { "clue_id": "clue_003", "description": "All three women made unexplained withdrawals from family savings in the days before disappearing — moderate sums, freely given.", "points_to": "Ziegevolk", "found_by_default": false },
+      { "clue_id": "clue_004", "description": "A neighbour describes seeing the women led past his window — not dragged, not forced, but moving like sleepwalkers. Smiling.", "points_to": "Ziegevolk", "found_by_default": false },
+      { "clue_id": "clue_005", "description": "The spice stall is rented by a man named Aldric Haen. He also owns a farm three miles out. Described by everyone as extraordinarily handsome.", "points_to": "Ziegevolk", "found_by_default": false }
+    ],
+    "min_clues_to_accuse": 3,
+    "witness_clues": [
+      { "witness_id": "market_vendor", "dialogue_key": "dlg_vendor_001", "clue_revealed": "The smell was strongest when Aldric was working. I always felt good around him. We all did. I never thought that was strange until now.", "unlocked_by": "clue_002" },
+      { "witness_id": "wesen_contact", "dialogue_key": "dlg_wesen_001", "clue_revealed": "Ziegevolk. Goat-kin. They don't kill — they collect. Pheromone control. The women are alive on his farm. They just don't want to leave.", "unlocked_by": "clue_002" },
+      { "witness_id": "rescued_woman", "dialogue_key": "dlg_rescued_001", "clue_revealed": "Even now, two days later, I still want to go back. That's the terrifying part.", "unlocked_by": "clue_005" }
+    ],
+    "grimm_diary_entry": "Ziegevolk — Goat-Folk. No physical threat. Their power is entirely pheromonal — complete emotional compliance in anyone exposed. Victims are not confused; they are happy. A Grimm is not fully immune — extended exposure dulls the senses. Cover the nose. Move fast. The Ziegevolk itself is physically weak. Reach it before the pheromones do their work.",
+    "killer": {
+      "name": "Aldric Haen",
+      "wesen_type": "Ziegevolk",
+      "motive": "Compulsive collecting — forms harems of compliant people, takes their money and labour.",
+      "alibi": "Nobody who has been near him long enough wants to report him.",
+      "alibi_breaks_on": "clue_005 — farm location plus wesen_contact testimony",
+      "location": "His farm — the women are in the locked cellar, willingly"
+    },
+    "red_herrings": [
+      { "name": "Former suitor Dieter", "wesen_type": "Reinigen", "motive": "Rejected and aggressive.", "alibi": "Drinking publicly when the last disappearance occurred — witnessed.", "why_suspicious": "Classic profile. The family pointed at him specifically." }
+    ],
+    "correct_accusation": {
+      "suspect_name": "Aldric Haen",
+      "required_clues": ["clue_001", "clue_002", "clue_005"],
+      "response_dialogue": "Aldric opens the door and smiles, and for a moment — just a moment — you understand exactly why three women followed him. Then you identify what you're feeling, name it, and step back. His smile doesn't change. 'You're a Grimm,' he says pleasantly. 'The pheromones don't work as well on you, do they. How disappointing.'"
+    },
+    "wrong_accusation_responses": [
+      { "suspect_name": "Dieter", "dialogue": "Dieter is drunk and furious. He makes noise. Losing time here costs a day.", "consequence": "Time pressure increases — one woman becomes harder to recover, deeper compulsion." }
+    ],
+    "combat_type": "environmental",
+    "hp": 28,
+    "woged_description": "Small curved horns, pupils going rectangular, a faint shimmer on the skin. He is not physically impressive. That is the point.",
+    "arena_location": "The farmhouse yard. The three women are present — they will intervene to protect him.",
+    "attack_patterns": [
+      { "name": "Pheromone burst", "damage": 0, "type": "special", "counter": "block", "description": "Controls invert for 3 seconds if not blocked. The primary danger — no HP damage." },
+      { "name": "Compelled shield", "damage": 0, "type": "special", "counter": "none", "description": "A woman steps between Aldric and the player. Talk her down with dialogue prompt or maneuver around." },
+      { "name": "Desperate strike", "damage": 10, "type": "melee", "counter": "parry", "description": "His only direct attack. Easily parried." }
+    ],
+    "phases": 1,
+    "phase_2_trigger_hp": null,
+    "phase_2_changes": null,
+    "weakness": null,
+    "prep_item": null,
+    "combat_notes": "Puzzle-combat hybrid. Player must clear the three women from pheromone range first — without them as shields, Aldric is trivially easy. The fight teaches environmental awareness.",
+    "outcome_states": [
+      { "state": "killer_defeated", "text": "Three women recovered.", "reward_gold": 55, "reward_xp": 110, "reward_items": ["Ziegevolk musk sample"], "diary_entry_unlocked": "Ziegevolk", "reputation_changes": [{ "faction": "community", "change": 2 }] },
+      { "state": "killer_captured", "text": "Aldric Haen in custody.", "reward_gold": 45, "reward_xp": 90, "reward_items": [] },
+      { "state": "killer_escaped", "text": "Women recovered. Ziegevolk at large.", "reward_gold": 25, "reward_xp": 60, "reward_items": [] },
+      { "state": "wrong_accusation_closed", "text": "Women remain on the farm.", "reward_gold": 0, "reward_xp": 0 }
+    ],
+    "unlocks": ["case_009"],
+    "arc_thread": null
+  },
+  {
+    "case_id": "case_009",
+    "case_title": "The Running Night",
+    "chapter": 2,
+    "difficulty": "medium",
+    "killer_wesen": "Coyotl",
+    "fairy_tale_hook": "The Wild Hunt — a ritual the community believes is sacred and the outsider must interrupt",
+    "scene_location": "A crossroads outside the town. A young woman found at dawn, wounds from multiple attackers. Her clothes torn as if she ran hard and long.",
+    "victim": {
+      "name": "Ingrid Farr",
+      "wesen_type": "Human",
+      "occupation": "Farmer's daughter, age 17",
+      "condition": "Multiple lacerations from at least three separate attackers. Wounds suggest pursuit over distance. She almost made it to the road."
+    },
+    "opening_description": "Ingrid Farr ran through the night and nearly made it. The wounds on her back outnumber the wounds on her front — she never stopped running. At least three sets of tracks follow her. Whatever hunted her did so as a group and knew the terrain better than she did.",
+    "time_of_death": "Between midnight and 3am",
+    "environmental_hazard": "Forest terrain at night for any chase or confrontation sequence",
+    "scene_clues": [
+      { "clue_id": "clue_001", "description": "Three distinct wound patterns from three attackers — claw geometry consistent with canine-kin. Coordinated — they flanked her.", "points_to": "Coyotl", "found_by_default": true },
+      { "clue_id": "clue_002", "description": "A carved wooden token in the victim's hand — she grabbed it from an attacker. Carved with a crescent and claw motif.", "points_to": "Coyotl", "found_by_default": true },
+      { "clue_id": "clue_003", "description": "The trail begins at an old standing stone two miles into the forest. Candle wax, ash, and a circle of disturbed earth — a ritual space used recently.", "points_to": "Coyotl", "found_by_default": false },
+      { "clue_id": "clue_004", "description": "The token matches the Aseveracion — a Coyotl coming-of-age rite in which the young must hunt and kill a human before the new moon.", "points_to": "Coyotl", "found_by_default": false }
+    ],
+    "min_clues_to_accuse": 3,
+    "witness_clues": [
+      { "witness_id": "farmer_father", "dialogue_key": "dlg_father_001", "clue_revealed": "She said she'd been followed home from the well twice that week. By young men, she thought — but they moved strange.", "unlocked_by": null },
+      { "witness_id": "wesen_contact", "dialogue_key": "dlg_wesen_001", "clue_revealed": "The Aseveracion is a Coyotl rite of adulthood. The Farren family settled here three years ago — three sons, oldest just turned seventeen.", "unlocked_by": "clue_004" },
+      { "witness_id": "coyotl_mother", "dialogue_key": "dlg_mother_001", "clue_revealed": "She knows what her sons did. She will protect them by instinct but she is not a killer. She can be reached.", "unlocked_by": "clue_002" }
+    ],
+    "grimm_diary_entry": "Coyotl — the coyote-kin. Pack hunters with strong family clan structure. The Aseveracion is their most dangerous tradition — the young must hunt and kill before the new moon. Outside the ritual they are often peaceable family units. Interrupting or punishing the Aseveracion creates a blood feud with the entire clan. A Grimm must decide whether to pursue the killers or negotiate a cessation of the tradition. Both paths exist. Both have costs.",
+    "killer": {
+      "name": "Lukas Farren and brothers Rolf and Daan",
+      "wesen_type": "Coyotl",
+      "motive": "The Aseveracion — Lukas completing his rite, brothers running support, father sanctioned it.",
+      "alibi": "All claim they were home asleep. Mother confirms — lying.",
+      "alibi_breaks_on": "clue_003 + clue_004 — ritual site and token connect to the Farren family",
+      "location": "The Farren farmhouse"
+    },
+    "red_herrings": [
+      { "name": "Finn Haas", "wesen_type": "Human", "motive": "Ingrid and Finn had argued the day before.", "alibi": "Home — and genuinely distressed about her death.", "why_suspicious": "The argument, the timing." }
+    ],
+    "correct_accusation": {
+      "suspect_name": "Lukas Farren",
+      "required_clues": ["clue_001", "clue_002", "clue_004"],
+      "response_dialogue": "Lukas meets your eyes directly. 'It is our law,' he says. Not defiant — just stating a fact he was raised on. 'She was chosen fairly. We followed the ritual.' He looks at you carefully. 'Are you here for blood or for understanding?'"
+    },
+    "wrong_accusation_responses": [
+      { "suspect_name": "Finn Haas", "dialogue": "Finn produces a letter Ingrid wrote him the day before — they had made up after the argument. He loved her.", "consequence": "Finn becomes an ally — can identify the direction Ingrid came from, narrowing the ritual site search." }
+    ],
+    "combat_type": "standard",
+    "hp": 55,
+    "woged_description": "Lukas is lean in woge — sandy fur, ears high, yellow eyes. Low quick dashes. Rolf and Daan flank if all three fight.",
+    "arena_location": "The farmhouse yard or the ritual site in the forest.",
+    "attack_patterns": [
+      { "name": "Pack flank", "damage": 14, "type": "melee", "counter": "dodge", "description": "Two attackers from different angles simultaneously. Dodge toward one to collapse the angle." },
+      { "name": "Dart bite", "damage": 16, "type": "melee", "counter": "parry", "description": "Fast forward snap. Parryable." },
+      { "name": "Scatter", "damage": 0, "type": "special", "counter": "none", "description": "Brothers reposition — player must reorient. Creates openings for next attack." }
+    ],
+    "phases": 1,
+    "phase_2_trigger_hp": null,
+    "phase_2_changes": null,
+    "weakness": null,
+    "prep_item": null,
+    "combat_notes": "Negotiation path available — if player has the mother's testimony and chooses the dialogue option at confrontation start, the brothers stand down and the Aseveracion ceases.",
+    "outcome_states": [
+      { "state": "killer_defeated", "text": "Ingrid avenged. Tradition broken by blood.", "reward_gold": 60, "reward_xp": 130, "reward_items": ["Aseveracion token"], "diary_entry_unlocked": "Coyotl", "faction_changes": [{ "faction": "coyotl_clan", "change": -2 }] },
+      { "state": "negotiated", "text": "Aseveracion ended. Ingrid partially avenged.", "reward_gold": 40, "reward_xp": 110, "reward_items": ["Aseveracion token"], "flags": ["npc_coyotl_mother_contact"] },
+      { "state": "killer_escaped", "text": "Coyotl clan at large. Blood feud possible.", "reward_gold": 15, "reward_xp": 20, "reward_items": [] }
+    ],
+    "unlocks": ["case_010"],
+    "arc_thread": "ritual_killings"
+  },
+  {
+    "case_id": "case_010",
+    "case_title": "Dead Men Walking",
+    "chapter": 2,
+    "difficulty": "hard",
+    "killer_wesen": "Cracher-Mortel",
+    "fairy_tale_hook": "Sleeping Beauty — death that isn't death, and waking that is worse",
+    "scene_location": "A merchant buried three days ago has been seen walking through the lower quarter at night — by four separate witnesses. His grave is empty.",
+    "victim": {
+      "name": "Conrad Weiss",
+      "wesen_type": "Eisbiber",
+      "occupation": "Cloth merchant, age 48",
+      "condition": "Officially dead — buried three days ago. Now reportedly walking, vacant-eyed, running errands for someone."
+    },
+    "opening_description": "Conrad Weiss died on a Tuesday. The physician certified it. The family buried him on Thursday. On Saturday night his neighbour saw him crossing the square carrying a bundle. This is not a resurrection. This is something considerably worse.",
+    "time_of_death": null,
+    "environmental_hazard": "Cracher-Mortel's safehouse is confined with multiple rooms. Conrad is present as a potential second hostile.",
+    "scene_clues": [
+      { "clue_id": "clue_001", "description": "The grave was opened from the outside — coffin lid shows scrape marks on the exterior, hinges bent outward.", "points_to": "Cracher-Mortel", "found_by_default": true },
+      { "clue_id": "clue_002", "description": "Physician's notes describe the collapse as sudden, painless, breathing undetectable — classic tetrodotoxin presentation.", "points_to": "Cracher-Mortel", "found_by_default": false },
+      { "clue_id": "clue_003", "description": "Conrad has been seen carrying stolen goods from three warehouses. He is being used as a thief.", "points_to": "Cracher-Mortel", "found_by_default": false },
+      { "clue_id": "clue_004", "description": "A distinctive blue-grey spittle residue on Conrad's collar. Matches no known local plant or poison.", "points_to": "Cracher-Mortel", "found_by_default": false },
+      { "clue_id": "clue_005", "description": "Conrad was seen entering the same building in the tannery district three times. He enters like he was told to.", "points_to": "Cracher-Mortel", "found_by_default": false }
+    ],
+    "min_clues_to_accuse": 4,
+    "witness_clues": [
+      { "witness_id": "conrads_wife", "dialogue_key": "dlg_wife_001", "clue_revealed": "The week before he died, a stranger came asking about our warehouse schedule. Conrad turned him away. The next day Conrad collapsed.", "unlocked_by": null },
+      { "witness_id": "wesen_contact", "dialogue_key": "dlg_wesen_001", "clue_revealed": "Cracher-Mortel. Puffer fish kin. Their spit induces a trance that looks like death — the victim is conscious inside it. They get dug up and enslaved. The trance ends in stages: servitude, then rage, then death. Conrad has days.", "unlocked_by": "clue_004" }
+    ],
+    "grimm_diary_entry": "Cracher-Mortel — Dead Spit. Puffer-fish kin. Their saliva contains tetrodotoxin inducing complete paralysis while leaving the mind intact — the victim is aware of their own burial. A second compound creates servile compulsion. The victim progresses through four stages over 7-10 days: suspended animation, compelled servitude, rage state, death. There is a reversal agent — it must be administered before the rage state begins. Find the victim before the fourth day.",
+    "killer": {
+      "name": "Sebastien Moor",
+      "wesen_type": "Cracher-Mortel",
+      "motive": "Criminal operation — using enslaved victims to rob warehouses and eliminate competition.",
+      "alibi": "Nobody has connected him to Conrad yet.",
+      "alibi_breaks_on": "clue_005 — the tannery building is leased under a false name matching his description",
+      "location": "The tannery district building — Conrad is there too"
+    },
+    "red_herrings": [
+      { "name": "Trade rival Brenner", "wesen_type": "Schakal", "motive": "Has been absorbing Conrad's trade routes.", "alibi": "Has documentation — all legal purchases from Conrad's panicking family.", "why_suspicious": "He is profiting. The timing looks deliberate." }
+    ],
+    "correct_accusation": {
+      "suspect_name": "Sebastien Moor",
+      "required_clues": ["clue_002", "clue_004", "clue_005", "clue_001"],
+      "response_dialogue": "The door opens before you knock. Moor sits at the table as if expecting you. Conrad stands in the corner stacking boxes. He doesn't turn. 'The Grimm,' Moor says. He gestures at Conrad. 'You can fight me or you can save him. You probably cannot do both.'"
+    },
+    "wrong_accusation_responses": [
+      { "suspect_name": "Brenner", "dialogue": "Brenner's lawyers arrive immediately. He is genuinely not involved in the walking-dead aspect. He did profit — legally.", "consequence": "One day lost — Conrad is now in the rage-state window." }
+    ],
+    "combat_type": "environmental",
+    "hp": 58,
+    "woged_description": "Moor's cheeks distend, lips pull back from a wide flat mouth, skin mottled grey-blue. He keeps his distance — his weapon is the spit, not his hands.",
+    "arena_location": "The tannery building interior. Conrad is present. A reversal agent is visible on a shelf. Timer: Conrad enters rage state after 3 minutes.",
+    "attack_patterns": [
+      { "name": "Tetrodotoxin spit", "damage": 0, "type": "ranged", "counter": "dodge", "description": "No HP damage but applies trance status — controls invert for 5 seconds." },
+      { "name": "Compulsion compound", "damage": 0, "type": "ranged", "counter": "block", "description": "Applied to Conrad — makes him attack the player. Block to resist Conrad's attack." },
+      { "name": "Defensive strike", "damage": 8, "type": "melee", "counter": "parry", "description": "Desperate close-range strike when cornered." }
+    ],
+    "phases": 2,
+    "phase_2_trigger": "2.5 minutes elapsed without killing Moor",
+    "phase_2_changes": "Conrad enters rage state — now hostile with Blutbad-level aggression. Fight becomes two-on-one. Reversal agent on shelf can reset Conrad.",
+    "weakness": null,
+    "prep_item": null,
+    "combat_notes": "Timer and reversal agent are core mechanics. Prioritise Moor for harder fight but save Conrad. Grab the agent first to manage Conrad but give Moor time to stack spit attacks.",
+    "outcome_states": [
+      { "state": "conrad_saved_moor_dead", "text": "Conrad recovered. Moor eliminated.", "reward_gold": 80, "reward_xp": 180, "reward_items": ["Cracher-Mortel toxin sample", "Reversal agent formula"], "diary_entry_unlocked": "Cracher-Mortel", "reputation_changes": [{ "faction": "Eisbiber lodge", "change": 3 }] },
+      { "state": "conrad_saved_moor_escaped", "text": "Conrad recovered. Moor at large.", "reward_gold": 50, "reward_xp": 100, "reward_items": ["Reversal agent formula"], "flags": ["npc_moor_recurring"] },
+      { "state": "moor_dead_conrad_lost", "text": "Moor dead. Conrad lost.", "reward_gold": 30, "reward_xp": 60, "reputation_changes": [{ "faction": "Eisbiber lodge", "change": -3 }] },
+      { "state": "wrong_accusation_closed", "text": "Case closed cold. Conrad dies on day ten.", "reward_gold": 0, "reward_xp": 0 }
+    ],
+    "unlocks": ["case_011"],
+    "arc_thread": "merchant_quarter_killings"
+  },
+  {
+    "case_id": "case_011",
+    "case_title": "The Good Neighbour",
+    "chapter": 2,
+    "difficulty": "easy-medium",
+    "killer_wesen": "Klaustreich",
+    "fairy_tale_hook": "Puss in Boots — charming, manipulative, dangerous behind the mask",
+    "scene_location": "A narrow tenement lane in the poor quarter. A Reinigen man found dead at the base of a wall — four storeys below an open window.",
+    "victim": {
+      "name": "Pieter Maus",
+      "wesen_type": "Reinigen",
+      "occupation": "Tailor's cutter, age 31",
+      "condition": "Fall injuries — but impact wounds don't match a straight fall. Claw lacerations on upper arms and shoulders consistent with being grabbed from behind and thrown."
+    },
+    "opening_description": "Falls happen in the tenements. But Pieter Maus was careful and sober, and the railing was solid. The claw marks on his shoulders are the thing. Falls don't leave claw marks. Something had him first.",
+    "time_of_death": "Between 10pm and midnight",
+    "environmental_hazard": "Tenement building — vertical space, multiple floors, narrow stairwells",
+    "scene_clues": [
+      { "clue_id": "clue_001", "description": "Claw marks on upper arms and shoulders — grip-shaped, four points each hand, feline geometry. He was grabbed from behind and thrown.", "points_to": "Klaustreich", "found_by_default": true },
+      { "clue_id": "clue_002", "description": "The window above is not Pieter's room — it belongs to the floor above, a man named Franz Keel who moved in six months ago.", "points_to": "Klaustreich", "found_by_default": false },
+      { "clue_id": "clue_003", "description": "Cat hair — tabby-coloured, coarse, non-domestic in thickness — on the windowsill and on Pieter's collar.", "points_to": "Klaustreich", "found_by_default": false },
+      { "clue_id": "clue_004", "description": "Three Reinigen neighbours report being harassed and threatened by Franz Keel since he moved in. None reported it formally out of fear.", "points_to": "Klaustreich", "found_by_default": false }
+    ],
+    "min_clues_to_accuse": 3,
+    "witness_clues": [
+      { "witness_id": "reinigen_neighbour", "dialogue_key": "dlg_neighbour_001", "clue_revealed": "We avoid Keel. He looks at us like we're something to step on. Since he moved in, three families have quietly left.", "unlocked_by": null },
+      { "witness_id": "landlady", "dialogue_key": "dlg_landlady_001", "clue_revealed": "Keel is charming with me. But I found scratch marks on his door frame that go up to seven feet.", "unlocked_by": "clue_003" },
+      { "witness_id": "child_witness", "dialogue_key": "dlg_child_001", "clue_revealed": "I saw Mr Keel on the roof last week. He wasn't using the stairs. He came down the outside wall.", "unlocked_by": "clue_002" }
+    ],
+    "grimm_diary_entry": "Klaustreich — Scratch Prankster. Alley-cat kin. Charming to those they consider worth charming, predatory toward those they consider beneath them. Reinigen are their traditional prey — hunted for sport with no moral weight. They leap from heights that would kill a human. Their claw geometry is distinctive — four-point grip, feline spacing. A Klaustreich who has decided to kill has already planned the exit.",
+    "killer": {
+      "name": "Franz Keel",
+      "wesen_type": "Klaustreich",
+      "motive": "Ancient hatred of Reinigen. Pieter's presence was intolerable. He had been driving Reinigen out and Pieter refused to leave.",
+      "alibi": "Claims he was asleep.",
+      "alibi_breaks_on": "clue_002 + clue_003 — his window, his cat hair on the victim",
+      "location": "His room on the fourth floor of the tenement"
+    },
+    "red_herrings": [
+      { "name": "Loan collector Brandt", "wesen_type": "Dickfellig", "motive": "Pieter owed him money and had missed two payments.", "alibi": "Collecting in a different quarter all evening — witnessed.", "why_suspicious": "Financial pressure, Wesen capable of violence, no alibi initially offered." },
+      { "name": "Tenant Hanna", "wesen_type": "Human", "motive": "Pieter had reported her for subletting illegally.", "alibi": "Visiting her sister — verifiable but takes time.", "why_suspicious": "Known grievance, was in the building that night." }
+    ],
+    "correct_accusation": {
+      "suspect_name": "Franz Keel",
+      "required_clues": ["clue_001", "clue_003", "clue_004"],
+      "response_dialogue": "Franz leans against his door frame and looks at you with flat cat-assessment. 'The rat fell. Terrible accident.' He doesn't move. 'You can't prove otherwise.' But his eyes have gone to vertical slits."
+    },
+    "wrong_accusation_responses": [
+      { "suspect_name": "Brandt", "dialogue": "Brandt produces his route log without being asked. 'I frighten people, I don't kill them. It's bad for business.' He points toward the tenement — he had been up there to find Pieter and noticed Keel watching from the window.", "consequence": "Brandt accidentally provides a witness clue about Keel." },
+      { "suspect_name": "Hanna", "dialogue": "Hanna cries and her alibi checks out immediately.", "consequence": null }
+    ],
+    "combat_type": "environmental",
+    "hp": 42,
+    "woged_description": "Pupils go vertical, fingers elongate into hooked claws. He drops low and moves fluid and wrong — uses walls and ceiling as readily as the floor.",
+    "arena_location": "The tenement stairwell and fourth-floor landing — vertical space, tight corners.",
+    "attack_patterns": [
+      { "name": "Wall launch", "damage": 18, "type": "melee", "counter": "parry", "description": "Launches off a wall for a horizontal strike. Wall-push gives a tell." },
+      { "name": "Ceiling drop", "damage": 20, "type": "special", "counter": "dodge", "description": "Drops from ceiling directly above. Shadow tell. Dodge sideways." },
+      { "name": "Claw rake", "damage": 14, "type": "melee", "counter": "dodge", "description": "Fast horizontal swipe at close range. Dodge back." }
+    ],
+    "phases": 1,
+    "phase_2_trigger_hp": null,
+    "phase_2_changes": null,
+    "weakness": null,
+    "prep_item": null,
+    "combat_notes": "Introduces vertical combat — Keel moves on walls and ceiling. Player must track him in 3D space.",
+    "outcome_states": [
+      { "state": "killer_defeated", "text": "Pieter Maus avenged. Reinigen community protected.", "reward_gold": 40, "reward_xp": 90, "reward_items": ["Klaustreich claw"], "diary_entry_unlocked": "Klaustreich", "reputation_changes": [{ "faction": "Reinigen community", "change": 2 }] },
+      { "state": "killer_escaped", "text": "Klaustreich at large.", "reward_gold": 15, "reward_xp": 20, "reward_items": [] },
+      { "state": "wrong_accusation_closed", "text": "Franz Keel stays. The tenement empties around him.", "reward_gold": 0, "reward_xp": 0 }
+    ],
+    "unlocks": ["case_012"],
+    "arc_thread": null
+  },
+  {
+    "case_id": "case_012",
+    "case_title": "The Clean Hand",
+    "chapter": 3,
+    "difficulty": "hard",
+    "killer_wesen": "Gevatter Tod",
+    "fairy_tale_hook": "Godfather Death — a killer who serves something larger and always collects exactly what is owed",
+    "scene_location": "A guildhall meeting room. Four guild masters found dead at the table, as if in mid-conversation. No signs of struggle. Cups still in hands.",
+    "victim": {
+      "name": "Four guild masters",
+      "wesen_type": "Steinadler, Fuchsbau, Eisbiber, Human",
+      "occupation": "Guild council — controlled trade licensing for the entire quarter",
+      "condition": "All four dead in their seats. No wounds visible. Expressions neutral. Time of death identical for all four."
+    },
+    "opening_description": "Four men sat down to a meeting and never stood up. The cups are still in their hands. No poison in the cups. No wounds. No evidence of anything except four men who simply stopped. Together. At the same moment. Someone did this deliberately, professionally, and left nothing behind except the fact that it was done.",
+    "time_of_death": "Exactly 9pm",
+    "environmental_hazard": "Guildhall has multiple exits — killer may have used any of them",
+    "scene_clues": [
+      { "clue_id": "clue_001", "description": "A microscopic puncture wound on the back of each victim's neck — consistent with a very fine hollow appendage. Near-invisible without magnification.", "points_to": "Gevatter Tod", "found_by_default": false },
+      { "clue_id": "clue_002", "description": "The toxin — identified after extensive analysis — is biological, not pharmaceutical. Produced by a living organism. Acts in under 60 seconds.", "points_to": "Gevatter Tod", "found_by_default": false },
+      { "clue_id": "clue_003", "description": "A single black wing-case fragment — 8mm, chitinous — found under the table. Not from any beetle native to this region.", "points_to": "Gevatter Tod", "found_by_default": false },
+      { "clue_id": "clue_004", "description": "The guild masters were scheduled to vote on a trade route reassignment tomorrow — a decision that would have ruined a specific consortium. The meeting was not public knowledge.", "points_to": "Gevatter Tod",
+       "found_by_default": true },
+      { "clue_id": "clue_005", "description": "A service entrance log shows a maintenance worker entered at 8:45pm and signed out at 9:05pm. Signature illegible. Description deliberately generic.", "points_to": "Gevatter Tod", "found_by_default": false }
+    ],
+    "min_clues_to_accuse": 4,
+    "witness_clues": [
+      { "witness_id": "hall_servant", "dialogue_key": "dlg_servant_001", "clue_revealed": "The maintenance man was quiet. Competent. He fixed a hinge at 8:50. I watched him for a minute. I don't remember his face. I've tried.", "unlocked_by": null },
+      { "witness_id": "wesen_contact", "dialogue_key": "dlg_wesen_001", "clue_revealed": "Gevatter Tod. Assassin bug kin. The wing-case fragment is the only physical evidence they ever leave — and only if rushed. Someone paid a great deal. The killer is already gone. You're looking for who hired them.", "unlocked_by": "clue_003" },
+      { "witness_id": "consortium_accountant", "dialogue_key": "dlg_accountant_001", "clue_revealed": "There was a large untraceable payment from a subsidiary account three weeks ago. I didn't ask what it was for.", "unlocked_by": "clue_004" },
+      { "witness_id": "gevatter_contact", "dialogue_key": "dlg_gevatter_001", "clue_revealed": "The Gevatter Tod have a contact house in the lower port district. If you go there, they will know a Grimm is looking.", "unlocked_by": "clue_001" }
+    ],
+    "grimm_diary_entry": "Gevatter Tod — Godfather Death. Assassin-bug kin. They are the Wesen world's professional killers — not frenzied, not compelled, not addicted. They choose this. Their biology produces a toxin deliverable through a hollow appendage between the fingers. Injection takes less than a second. The victim feels nothing. Death in under two minutes. You will not catch a Gevatter Tod at the scene. You catch them by following the money to whoever hired them. Then you face a choice: the hired hand, or the one who gave the order.",
+    "killer": {
+      "name": "Vesper",
+      "wesen_type": "Gevatter Tod",
+      "motive": "Professional — hired. No personal stake.",
+      "alibi": "Already three towns away. Only the contact house connects to them.",
+      "alibi_breaks_on": "clue_005 + clue_001 — service entrance timing and puncture wounds reconstruct method and presence",
+      "location": "The contact house in the port district"
+    },
+    "red_herrings": [
+      { "name": "Aldous Senn", "wesen_type": "Loewen", "motive": "The trade route — stood to gain enormously from the vote failing.", "alibi": "Dinner with the provincial governor — impeccable.", "why_suspicious": "Obvious beneficiary. His consortium directly implicated. But he paid for it, he didn't do it." }
+    ],
+    "community_npcs": [
+      { "name": "Consortium accountant", "wesen_type": "Fuchsbau", "role": "Has the payment record — will share if pushed" }
+    ],
+    "correct_accusation": {
+      "suspect_name": "Vesper",
+      "required_clues": ["clue_001", "clue_003", "clue_005", "clue_002"],
+      "response_dialogue": "The contact house door opens before you knock. Vesper is sitting at the table. They look entirely ordinary. 'I wondered when,' they say. 'The wing case was sloppy. I was on a schedule.' They fold their hands. 'You know I didn't choose those four men. Someone else decided they should die. I fulfilled the contract.' They tilt their head. 'Are you here for me, or for the man who gave the order? You can't have both tonight.'"
+    },
+    "wrong_accusation_responses": [
+      { "suspect_name": "Aldous Senn", "dialogue": "Senn's lawyers are present in minutes. The alibi is airtight. But in the chaos his accountant quietly hands you the payment record.", "consequence": "Senn confirmed as employer via wrong accusation. Vesper gets more time to prepare." }
+    ],
+    "combat_type": "prepared",
+    "hp": 62,
+    "woged_description": "Between each finger a hollow chitinous spike extends — 4cm, almost invisible in poor light. Movements are economical and precise. They do not look dangerous. That is the point.",
+    "arena_location": "The contact house — single room, one lamp, minimal furniture. Deliberately cleared.",
+    "attack_patterns": [
+      { "name": "Contact injection", "damage": 0, "type": "melee", "counter": "dodge", "description": "Appears to be a casual touch — injection happens on contact. Applies toxin status: 15 damage per second for 4 seconds. Dodge all casual contact." },
+      { "name": "Precise strike", "damage": 16, "type": "melee", "counter": "parry", "description": "Direct spike strike. Hardest parry window in chapter 3." },
+      { "name": "Feint", "damage": 0, "type": "special", "counter": "none", "description": "Moves as if to inject, switches to precise strike mid-animation. Counter switches." }
+    ],
+    "phases": 2,
+    "phase_2_trigger_hp": 30,
+    "phase_2_changes": "Vesper attempts to flee rather than fight — becomes evasion-focused. Player must cut off exits. If they escape, they leave a note naming Aldous Senn.",
+    "weakness": null,
+    "prep_item": {
+      "item_name": "Antitoxin wrap",
+      "where_found": "Apothecary — requires Lausenschlange scale from case_005 plus herbs from cases 005 and 007",
+      "effect": "Reduces contact injection damage by 80%. Without it, two injections kill the player."
+    },
+    "combat_notes": "Hardest fight so far. The feint makes all counters unreliable. A player who completed cases 005 and 007 will have the prep item ingredients — rewarding case chain completion.",
+    "outcome_states": [
+      { "state": "vesper_dead_senn_exposed", "text": "Hired killer dead. Employer exposed.", "reward_gold": 90, "reward_xp": 200, "reward_items": ["Gevatter Tod spike", "Senn payment record"], "diary_entry_unlocked": "Gevatter Tod" },
+      { "state": "vesper_escaped_note_left", "text": "Killer at large. Employer named.", "reward_gold": 60, "reward_xp": 120, "reward_items": ["Senn payment record"], "flags": ["npc_vesper_recurring"] },
+      { "state": "senn_confronted", "text": "Employer arrested. Killer free.", "reward_gold": 70, "reward_xp": 140, "reward_items": [] },
+      { "state": "wrong_accusation_closed", "text": "Four men remain unavenged. Aldous Senn prospers.", "reward_gold": 0, "reward_xp": 0 }
+    ],
+    "unlocks": ["case_013"],
+    "arc_thread": "verrat_conspiracy"
+  }
+]

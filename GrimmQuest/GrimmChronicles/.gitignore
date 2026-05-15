@@ -1,0 +1,6 @@
+# Godot auto-generated files
+.godot/
+*.uid
+
+# macOS
+.DS_Store

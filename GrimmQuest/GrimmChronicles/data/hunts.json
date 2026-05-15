@@ -1,0 +1,98 @@
+{
+  "hans": {
+    "contract_name": "A killing at the Schwarzwald",
+    "contract_flavor": "A woodcutter named Hans, found at the wood-line. Villagers cry wolf. The old folk hide their faces.",
+    "contract_gold": 25,
+    "true_killer": "blutbad",
+    "first_scene": "clearing",
+    "min_clues": 4
+  },
+  "mill": {
+    "contract_name": "Trouble at the river-mill",
+    "contract_flavor": "The miller of Furt was found beside his wheel, broken like kindling. His prentice ran half-mad to the bailiff and would say only \"it stood up — God, it stood up.\"",
+    "contract_gold": 40,
+    "true_killer": "jagerbar",
+    "first_scene": "millyard",
+    "min_clues": 4
+  },
+  "case_003": {
+    "contract_name": "The Tailor's Widow",
+    "contract_flavor": "Ernst Hübner, master tailor, found slumped against his fitting mirror. Expression serene. Three rings missing from his fingers. He measured twice and cut once — in cloth and in life.",
+    "contract_gold": 45,
+    "true_killer": "spinnetod",
+    "first_scene": "c3_shop",
+    "min_clues": 3
+  },
+  "case_004": {
+    "contract_name": "Red in the Snow",
+    "contract_flavor": "Willem Roth found forty feet from the treeline. Deep claw lacerations. Expression of pure terror. The snow remembers everything — and whatever did this was not in a hurry.",
+    "contract_gold": 30,
+    "true_killer": "blutbad",
+    "first_scene": "c4_forest",
+    "min_clues": 3
+  },
+  "case_005": {
+    "contract_name": "The Patient Dark",
+    "contract_flavor": "Petra Holz, bookkeeper, found between two barrels in a locked cellar. No external wounds. Body contorted. She had the only key. Whatever was in there with her had been waiting long before she came down.",
+    "contract_gold": 40,
+    "true_killer": "lausenschlange",
+    "first_scene": "c5_cellar",
+    "min_clues": 3
+  },
+  "case_006": {
+    "contract_name": "The Glass Coffin",
+    "contract_flavor": "Lord Aldric Fenn found dead at his desk. No wounds, no struggle. Glass of wine half-drunk. Body cold far beyond what the time of death allows — the room is warm but he is ice-cold to the touch.",
+    "contract_gold": 60,
+    "true_killer": "hexenbiest",
+    "first_scene": "c6_manor",
+    "min_clues": 3
+  },
+  "case_007": {
+    "contract_name": "The Red Feast",
+    "contract_flavor": "Bruno Stark, butcher's assistant, found partially consumed. Bite wounds unlike any tool — enormous radius, serrated edges. Whatever made them came back for more.",
+    "contract_gold": 50,
+    "true_killer": "skalenzahne",
+    "first_scene": "c7_butcher",
+    "min_clues": 3
+  },
+  "case_008": {
+    "contract_name": "The Beautiful Shepherd",
+    "contract_flavor": "Three women gone missing over two months. No bodies. All last seen smiling, following a charming man. All described the same man. That is not a natural happiness.",
+    "contract_gold": 40,
+    "true_killer": "ziegevolk",
+    "first_scene": "c8_market",
+    "min_clues": 3
+  },
+  "case_009": {
+    "contract_name": "The Running Night",
+    "contract_flavor": "Ingrid Farr found at a crossroads at dawn. Wounds from multiple attackers. She ran — wounds suggest pursuit over distance. At least three sets of tracks follow her. She almost made it to the road.",
+    "contract_gold": 60,
+    "true_killer": "coyotl",
+    "first_scene": "c9_crossroads",
+    "min_clues": 3
+  },
+  "case_010": {
+    "contract_name": "Dead Men Walking",
+    "contract_flavor": "A merchant buried three days ago has been seen walking through the lower quarter at night — by four separate witnesses. His grave is empty. This is not a resurrection.",
+    "contract_gold": 80,
+    "true_killer": "cracher_mortel",
+    "first_scene": "c10_grave",
+    "min_clues": 4
+  },
+  "case_011": {
+    "contract_name": "The Good Neighbour",
+    "contract_flavor": "Pieter Maus found at the base of a tenement wall — four storeys below an open window. Falls happen. But Pieter was careful and sober, and the railing was solid. The claw marks on his shoulders are the thing.",
+    "contract_gold": 30,
+    "true_killer": "klaustreich",
+    "first_scene": "c11_tenement",
+    "min_clues": 3
+  },
+  "case_012": {
+    "contract_name": "The Clean Hand",
+    "contract_flavor": "Four guild masters found dead at the table, as if in mid-conversation. No wounds. No poison in the cups. No evidence of anything except four men who simply stopped — together, at the same moment.",
+    "contract_gold": 90,
+    "true_killer": "gevatter_tod",
+    "first_scene": "c12_guildhall",
+    "min_clues": 4
+  }
+}
