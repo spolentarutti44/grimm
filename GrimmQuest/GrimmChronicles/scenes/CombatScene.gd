@@ -439,7 +439,7 @@ func _draw_combat_hud() -> void:
 
 # ─── character drawings ───────────────────────────────────────────────────────
 func _draw_player_combat(x: float, y: float, pstate: String, t: float, blocking: bool) -> void:
-	draw_set_transform(Vector2(x,y))
+	draw_set_transform(Vector2(x,y), 0.0, Vector2(1.6, 1.6))
 	# Shadow
 	_draw_ellipse(Vector2(0,40), 20, 5, Color(0,0,0,0.5))
 	# Legs
@@ -449,7 +449,7 @@ func _draw_player_combat(x: float, y: float, pstate: String, t: float, blocking:
 	var tilt := 0.0
 	if pstate == "striking": tilt = sin(t/250.0*PI) * 0.3
 	if pstate == "hit":      tilt = -0.3 + sin(t/200.0*PI*4.0) * 0.1
-	draw_set_transform(Vector2(x,y), tilt)
+	draw_set_transform(Vector2(x,y), tilt, Vector2(1.6, 1.6))
 	# Cloak
 	var cloak := PackedVector2Array([Vector2(-15,-30),Vector2(-12,25),Vector2(12,25),Vector2(15,-30)])
 	draw_colored_polygon(cloak, Color("#2a1f12"))

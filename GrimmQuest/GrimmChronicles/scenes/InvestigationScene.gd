@@ -380,6 +380,8 @@ func _show_rest() -> void:
 	GameState.save()
 
 func _show_contracts() -> void:
+	if _modal_tab.is_empty() or not Data.HUNTS.has(_modal_tab):
+		_modal_tab = Data.HUNTS.keys()[0]
 	_open_modal("contracts", {})
 
 func _show_diary() -> void:
@@ -823,42 +825,44 @@ func _draw_hotspot_prop(h: Dictionary) -> void:
 	var x := float(h["x"]); var y := float(h["y"])
 	match hid:
 		"trailer":
+			draw_set_transform(Vector2(x, y), 0.0, Vector2(1.5, 1.5))
 			# Undercarriage
-			draw_rect(Rect2(x-46,y-6,92,8), Color("#484C52"))
+			draw_rect(Rect2(-46,-6,92,8), Color("#484C52"))
 			# Wheels
-			draw_circle(Vector2(x-28,y+5), 9, Color("#222428"))
-			draw_circle(Vector2(x-28,y+5), 4, Color("#424650"))
-			draw_circle(Vector2(x+28,y+5), 9, Color("#222428"))
-			draw_circle(Vector2(x+28,y+5), 4, Color("#424650"))
+			draw_circle(Vector2(-28,5), 9, Color("#222428"))
+			draw_circle(Vector2(-28,5), 4, Color("#424650"))
+			draw_circle(Vector2(28,5), 9, Color("#222428"))
+			draw_circle(Vector2(28,5), 4, Color("#424650"))
 			# Main aluminium body
-			draw_rect(Rect2(x-48,y-44,96,40), Color("#B2B6BA"))
-			_draw_ellipse(Vector2(x-48,y-24), 10, 20, Color("#B2B6BA"))
-			_draw_ellipse(Vector2(x+48,y-24), 10, 20, Color("#B2B6BA"))
+			draw_rect(Rect2(-48,-44,96,40), Color("#B2B6BA"))
+			_draw_ellipse(Vector2(-48,-24), 10, 20, Color("#B2B6BA"))
+			_draw_ellipse(Vector2(48,-24), 10, 20, Color("#B2B6BA"))
 			# Top highlight strip (lighter)
-			draw_rect(Rect2(x-40,y-44,80,11), Color("#D2D6DA"))
-			_draw_ellipse(Vector2(x-48,y-38), 10, 6, Color("#C4C8CC"))
-			_draw_ellipse(Vector2(x+48,y-38), 10, 6, Color("#C4C8CC"))
+			draw_rect(Rect2(-40,-44,80,11), Color("#D2D6DA"))
+			_draw_ellipse(Vector2(-48,-38), 10, 6, Color("#C4C8CC"))
+			_draw_ellipse(Vector2(48,-38), 10, 6, Color("#C4C8CC"))
 			# Horizontal ribs
 			for ri in 5:
-				draw_line(Vector2(x-46, y-38.0+float(ri)*6.0),
-					Vector2(x+46, y-38.0+float(ri)*6.0), Color("#8A9098"), 0.8)
+				draw_line(Vector2(-46, -38.0+float(ri)*6.0),
+					Vector2(46, -38.0+float(ri)*6.0), Color("#8A9098"), 0.8)
 			# Porthole windows
-			draw_circle(Vector2(x-18,y-28), 7, Color("#3a5878"))
-			draw_circle(Vector2(x-18,y-28), 7, Color("#6A90B0"), false, 1.2)
-			draw_circle(Vector2(x-20,y-30), 2.5, Color(1,1,1,0.28))
-			draw_circle(Vector2(x+8, y-28), 7, Color("#3a5878"))
-			draw_circle(Vector2(x+8, y-28), 7, Color("#6A90B0"), false, 1.2)
-			draw_circle(Vector2(x+6, y-30), 2.5, Color(1,1,1,0.28))
+			draw_circle(Vector2(-18,-28), 7, Color("#3a5878"))
+			draw_circle(Vector2(-18,-28), 7, Color("#6A90B0"), false, 1.2)
+			draw_circle(Vector2(-20,-30), 2.5, Color(1,1,1,0.28))
+			draw_circle(Vector2(8,-28), 7, Color("#3a5878"))
+			draw_circle(Vector2(8,-28), 7, Color("#6A90B0"), false, 1.2)
+			draw_circle(Vector2(6,-30), 2.5, Color(1,1,1,0.28))
 			# Door (right side)
-			draw_rect(Rect2(x+22,y-40,15,36), Color("#8E9296"))
-			draw_rect(Rect2(x+22,y-40,15,36), Color("#76797E"), false, 1)
-			draw_circle(Vector2(x+24,y-22), 1.5, Color("#D0D4D8"))
+			draw_rect(Rect2(22,-40,15,36), Color("#8E9296"))
+			draw_rect(Rect2(22,-40,15,36), Color("#76797E"), false, 1)
+			draw_circle(Vector2(24,-22), 1.5, Color("#D0D4D8"))
 			# Roof vent
-			draw_rect(Rect2(x-7,y-44,14,5), Color("#C6CACC"))
-			draw_rect(Rect2(x-5,y-47,10,4), Color("#9CA0A4"))
+			draw_rect(Rect2(-7,-44,14,5), Color("#C6CACC"))
+			draw_rect(Rect2(-5,-47,10,4), Color("#9CA0A4"))
 			# Hitch
-			draw_line(Vector2(x-50,y-7), Vector2(x-61,y-1), Color("#7A7E84"), 2)
-			draw_circle(Vector2(x-62,y-1), 3, Color("#9CA0A4"))
+			draw_line(Vector2(-50,-7), Vector2(-61,-1), Color("#7A7E84"), 2)
+			draw_circle(Vector2(-62,-1), 3, Color("#9CA0A4"))
+			draw_set_transform(Vector2.ZERO)
 		"campfire":
 			var flick  := sin(_elapsed * 8.3) * 1.5
 			var flick2 := sin(_elapsed * 11.7 + 1.2) * 1.2
@@ -867,10 +871,12 @@ func _draw_hotspot_prop(h: Dictionary) -> void:
 			_draw_bezier_fill(Vector2(x-7,y),Vector2(x-4,y-h_outer*0.6+flick),Vector2(x+flick2,y-h_outer+flick),Vector2(x+7,y),Color("#D85A30"))
 			_draw_bezier_fill(Vector2(x-4,y),Vector2(x-2,y-h_inner*0.6+flick),Vector2(x+flick2*0.5,y-h_inner+flick),Vector2(x+4,y),C_GLOW)
 		"post":
-			draw_rect(Rect2(x-4,y-60,8,60), C_BROWN)
-			draw_rect(Rect2(x-26,y-55,52,5), C_BROWN)
+			draw_set_transform(Vector2(x, y), 0.0, Vector2(0.75, 0.75))
+			draw_rect(Rect2(-4,-60,8,60), C_BROWN)
+			draw_rect(Rect2(-26,-55,52,5), C_BROWN)
 			for i in 3:
-				draw_rect(Rect2(x-22+i*17,y-50,14,16), C_PARCH)
+				draw_rect(Rect2(-22+i*17,-50,14,16), C_PARCH)
+			draw_set_transform(Vector2.ZERO)
 		"body", "miller_body":
 			draw_rect(Rect2(x-20,y-3,40,12), Color("#3a2a14"))
 			draw_rect(Rect2(x-18,y-2,5,10), Color("#854F0B"))
@@ -1004,7 +1010,7 @@ func _draw_player() -> void:
 	var walking: bool = p["walking"]
 	var leg_off := sin(anim) * 5.0 if walking else 0.0
 
-	draw_set_transform(Vector2(px, py), 0.0, Vector2(float(facing), 1.0))
+	draw_set_transform(Vector2(px, py), 0.0, Vector2(float(facing) * 1.6, 1.6))
 
 	# Shadow
 	_draw_ellipse(Vector2(0,2), 12, 3, Color(0,0,0,0.4))
@@ -1212,67 +1218,84 @@ func _draw_modal_evid_detail(cx: float, cy: float, max_y: float, _panel: Rect2) 
 		_close_modal())
 	_modal_btn(cx+228, cy2-34, "Close", 80, _close_modal, true)
 
-func _draw_modal_contracts(cx: float, cy: float, max_y: float, panel: Rect2) -> void:
+func _draw_modal_contracts(cx: float, _cy: float, _max_y: float, panel: Rect2) -> void:
 	var col_dark := Color("#3a2a14")
 	var col_brow := Color("#8a6f3d")
+	var col_gold := Color("#A07820")
 	var col_done := Color("#2a6a3a")
 	var pl       := GameState.player
-	var taken:   String = pl.get("contract","")
-	var done: Array = pl.get("completed_hunts",[])
-	var cy2 := cy
-	cy2 = _modal_text(cx, cy2, "NAMES OF THE DEAD", 10, col_brow, max_y)
-	cy2 = _modal_text(cx, cy2, "The contract post", 18, col_dark, max_y)
+	var taken:   String = pl.get("contract", "")
+	var done: Array     = pl.get("completed_hunts", [])
+
+	var keys: Array   = Data.HUNTS.keys()
+	var total: int    = keys.size()
+	var idx: int      = keys.find(_modal_tab)
+	if idx < 0: idx   = 0
+	var hid: String   = keys[idx]
+	var h: Dictionary = Data.HUNTS[hid]
+	var is_done  := hid in done
+	var is_taken := hid == taken
+
+	var nav_y := panel.end.y - 44.0
+	var cy2   := panel.position.y + 16.0
+
+	# Header
+	cy2 = _modal_text(cx, cy2, "NAMES OF THE DEAD", 10, col_brow, nav_y)
+	cy2 = _modal_text(cx, cy2, h["contract_name"], 20, col_dark, nav_y)
 	cy2 += 6
+	draw_line(Vector2(cx - 8, cy2), Vector2(cx + 548, cy2), Color("#8a6f3d"), 0.5)
+	cy2 += 14
 
-	const CARD_H  := 96.0
-	const CARD_W  := 556.0
-	const FLAVOR_W := 500.0
+	# Reward
+	cy2 = _modal_text(cx, cy2, "Reward  —  %d gold" % h["contract_gold"], 12, col_gold, nav_y)
+	cy2 += 12
 
-	for hid: String in Data.HUNTS.keys():
-		var h: Dictionary = Data.HUNTS[hid]
-		var is_done   := hid in done
-		var is_taken  := hid == taken
-		var card_top  := cy2 - 4.0
-		# skip cards fully above scroll viewport
-		if card_top + CARD_H < 20.0 or card_top > max_y + 4:
-			cy2 += CARD_H + 6
-			continue
-		var bg := Color("#E1F5EE") if is_done else Color("#E8D9B2")
-		draw_rect(Rect2(cx-8, card_top, CARD_W, CARD_H), bg)
-		draw_rect(Rect2(cx-8, card_top, CARD_W, CARD_H), Color("#8a6f3d"), false, 0.5)
-		# Title
-		draw_string(_font, Vector2(cx, cy2+14), h["contract_name"],
-			HORIZONTAL_ALIGNMENT_LEFT, -1, 14, col_dark)
-		# Flavor — multiline, 2 lines max
-		draw_multiline_string(_font, Vector2(cx, cy2+32), h["contract_flavor"],
-			HORIZONTAL_ALIGNMENT_LEFT, FLAVOR_W, 12, 2,
-			col_brow)
-		# Status / button
-		var btn_y := cy2 + 66.0
-		if is_taken:
-			draw_string(_font, Vector2(cx, btn_y), "[ Active ]",
-				HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("#04342C"))
-		elif is_done:
-			draw_string(_font, Vector2(cx, btn_y), "✓ Completed",
-				HORIZONTAL_ALIGNMENT_LEFT, -1, 11, col_done)
-		else:
-			var captured_hid := hid
-			_modal_btn(cx, btn_y - 18, "Accept", 80, func():
-				pl["contract"] = captured_hid
-				pl["evidence"] = []
-				pl["flagged_evidence"] = []
-				pl["deduction"] = ""
-				GameState.save()
-				_rebuild_exit_btns()
-				_close_modal())
-		cy2 += CARD_H + 6
+	# Flavor text — full, all lines
+	draw_multiline_string(_font, Vector2(cx, cy2), h["contract_flavor"],
+		HORIZONTAL_ALIGNMENT_LEFT, 540, 13, -1, col_brow)
+	cy2 += _font.get_multiline_string_size(h["contract_flavor"],
+		HORIZONTAL_ALIGNMENT_LEFT, 540, 13).y + 20
 
-	cy2 += 4
-	_modal_btn(cx, cy2, "Close", 80, _close_modal)
-	# Scroll hint
-	if Data.HUNTS.size() > 4:
-		draw_string(_font, Vector2(panel.end.x - 80, panel.end.y - 8),
-			"scroll ↕", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(col_brow, 0.6))
+	# Status / Accept
+	if is_taken:
+		draw_rect(Rect2(cx - 8, cy2 - 6, 190, 30), Color("#04342C", 0.12))
+		draw_rect(Rect2(cx - 8, cy2 - 6, 190, 30), Color("#04342C", 0.35), false, 0.5)
+		draw_string(_font, Vector2(cx, cy2 + 12), "Active contract", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color("#04342C"))
+	elif is_done:
+		draw_string(_font, Vector2(cx, cy2 + 12), "✓  Completed", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, col_done)
+	else:
+		var captured_hid := hid
+		var accept_fn := func():
+			pl["contract"] = captured_hid
+			pl["evidence"] = []
+			pl["flagged_evidence"] = []
+			pl["deduction"] = ""
+			GameState.save()
+			_rebuild_exit_btns()
+			_close_modal()
+		_modal_btn(cx, cy2, "Accept contract", 160, accept_fn, true)
+
+	# Nav row — pinned at bottom
+	draw_line(Vector2(panel.position.x + 10, nav_y - 6),
+		Vector2(panel.end.x - 10, nav_y - 6), Color("#8a6f3d"), 0.5)
+
+	var prev_hid: String = keys[(idx - 1 + total) % total]
+	var next_hid: String = keys[(idx + 1) % total]
+
+	_modal_btn(cx, nav_y, "← Prev", 88, func():
+		_modal_tab = prev_hid
+		queue_redraw())
+
+	var page_lbl := "%d / %d" % [idx + 1, total]
+	var plw := _font.get_string_size(page_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
+	draw_string(_font, Vector2(cx + 274.0 - plw * 0.5, nav_y + 18),
+		page_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, col_brow)
+
+	_modal_btn(cx + 350, nav_y, "Next →", 88, func():
+		_modal_tab = next_hid
+		queue_redraw())
+
+	_modal_btn(cx + 452, nav_y, "Close", 80, _close_modal)
 
 func _draw_modal_diary(cx: float, cy: float, _max_y: float, panel: Rect2) -> void:
 	var col_dark := Color("#3a2a14")

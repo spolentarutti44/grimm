@@ -77,6 +77,10 @@
   "c6_butler":         {"name": "The butler",                    "detail": "\"A woman came to dinner last week. Beautiful. Dark hair. Lord Fenn seemed captivated afterward — distracted, almost dreamy. When I passed back her wrap, I touched her hand. It was cold. Unnaturally cold.\""},
   "c6_wesen_contact":  {"name": "A Wesen contact",               "detail": "\"M.V. — Marta Vaal. Verrat operative. A Hexenbiest. If Fenn was about to expose her in a letter, she'd have been sent to close him.\""},
 
+  "c7_drag_marks":    {"name": "Drag marks in the dirt",         "detail": "Parallel furrows from the gate to the backroom door — something heavy was moved inward. The depth suggests it was done slowly, deliberately."},
+  "c7_apron":         {"name": "Bruno's apron, discarded",       "detail": "Found outside, not on the body. Blood spatter pattern on the inside face — it was removed after the wounds were made, not before."},
+  "c7_gate_marks":    {"name": "Claw gouges on the gate post",   "detail": "Four parallel gouges at head height, 6cm spacing. Too wide for any dog or boar. The wood is green — made the night of the killing."},
+
   "c7_bite_radius":    {"name": "The bite radius",               "detail": "34cm — consistent with a large crocodilian. Serrated tooth impressions in bone. No animal matching this profile exists in this region."},
   "c7_two_phases":     {"name": "Two phases of wounds",          "detail": "Two distinct attack phases — controlled initial wounds, then frenzied feeding marks. The frenzy was triggered, not planned."},
   "c7_return_tracks":  {"name": "Two sets of tracks",            "detail": "Dried blood on the delivery entrance handle — the attacker left and came back. Two sets of tracks, same boot-sole pattern."},

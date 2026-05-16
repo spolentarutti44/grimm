@@ -52,7 +52,7 @@
     "contract_flavor": "Bruno Stark, butcher's assistant, found partially consumed. Bite wounds unlike any tool — enormous radius, serrated edges. Whatever made them came back for more.",
     "contract_gold": 50,
     "true_killer": "skalenzahne",
-    "first_scene": "c7_butcher",
+    "first_scene": "c7_yard",
     "min_clues": 3
   },
   "case_008": {

@@ -16,7 +16,7 @@
       {"to": "c4_forest",    "x": 625, "y": 300, "label": "→ to the winter forest",   "requires": "case_004"},
       {"to": "c5_cellar",    "x": 625, "y": 300, "label": "→ to the wine cellar",     "requires": "case_005"},
       {"to": "c6_manor",     "x": 625, "y": 300, "label": "→ to Lord Fenn's manor",   "requires": "case_006"},
-      {"to": "c7_butcher",   "x": 625, "y": 300, "label": "→ to the butcher's yard",  "requires": "case_007"},
+      {"to": "c7_yard",      "x": 625, "y": 300, "label": "→ to the butcher's yard",  "requires": "case_007"},
       {"to": "c8_market",    "x": 625, "y": 300, "label": "→ to the market square",   "requires": "case_008"},
       {"to": "c9_crossroads","x": 625, "y": 300, "label": "→ to the crossroads",      "requires": "case_009"},
       {"to": "c10_grave",    "x": 625, "y": 300, "label": "→ to the graveyard",       "requires": "case_010"},
@@ -205,7 +205,7 @@
 
   "c4_forest": {
     "name": "The forest path — the killing",
-    "bg": "forest_clearing",
+    "bg": "snow_forest_clearing",
     "floor": [40, 250, 640, 360],
     "spawn": [80, 310],
     "hotspots": [
@@ -222,7 +222,7 @@
   },
   "c4_deep": {
     "name": "The forest — deeper in",
-    "bg": "forest_path",
+    "bg": "snow_forest_path",
     "floor": [40, 250, 640, 360],
     "spawn": [80, 310],
     "hotspots": [
@@ -236,7 +236,7 @@
   },
   "c4_farmhouse": {
     "name": "Karl Metz's farmhouse",
-    "bg": "cottage_interior",
+    "bg": "snow_cottage_interior",
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [
@@ -264,7 +264,7 @@
 
   "c5_cellar": {
     "name": "The wine merchant's cellar",
-    "bg": "cottage_interior",
+    "bg": "c5_cellar",
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [
@@ -281,7 +281,7 @@
   },
   "c5_office": {
     "name": "The merchant's office",
-    "bg": "tavern_interior",
+    "bg": "c5_office",
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [
@@ -297,7 +297,7 @@
 
   "c6_manor": {
     "name": "Lord Fenn's private study",
-    "bg": "cottage_interior",
+    "bg": "c6_cottage_interior",
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [
@@ -315,7 +315,7 @@
   },
   "c6_servants": {
     "name": "The manor servants' hall",
-    "bg": "tavern_interior",
+    "bg": "c6_tavern_interior",
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [
@@ -328,9 +328,24 @@
     ]
   },
 
+  "c7_yard": {
+    "name": "The butcher's yard",
+    "bg": "c7_yard",
+    "floor": [40, 250, 640, 360],
+    "spawn": [80, 310],
+    "hotspots": [
+      {"id": "drag_marks", "x": 310, "y": 322, "r": 30, "name": "Drag marks in the dirt",      "interact": "evid:c7_drag_marks",  "stand_x": 310, "stand_y": 345},
+      {"id": "apron",      "x": 460, "y": 292, "r": 24, "name": "A bloodied apron, discarded", "interact": "evid:c7_apron",       "stand_x": 460, "stand_y": 322},
+      {"id": "gate_post",  "x": 175, "y": 268, "r": 26, "name": "The delivery gate post",      "interact": "evid:c7_gate_marks",  "stand_x": 175, "stand_y": 310}
+    ],
+    "exits": [
+      {"to": "c7_butcher", "x": 625, "y": 300, "label": "→ the backroom"},
+      {"to": "hub",        "x":  55, "y": 300, "label": "← back to camp"}
+    ]
+  },
   "c7_butcher": {
     "name": "The butcher's backroom",
-    "bg": "cottage_interior",
+    "bg": "c7_butcher",
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [
@@ -341,13 +356,13 @@
       {"id": "notice",     "x": 155, "y": 272, "r": 22, "name": "A dismissal notice",            "interact": "evid:c7_dismissed_man", "stand_x": 155, "stand_y": 315}
     ],
     "exits": [
-      {"to": "c7_tannery","x": 625, "y": 300, "label": "→ the tannery district"},
-      {"to": "hub",       "x":  55, "y": 300, "label": "← back to camp"}
+      {"to": "c7_tannery", "x": 625, "y": 300, "label": "→ the tannery district"},
+      {"to": "c7_yard",    "x":  55, "y": 300, "label": "← the yard"}
     ]
   },
   "c7_tannery": {
     "name": "The tannery district",
-    "bg": "tavern_interior",
+    "bg": "c7_tannery",
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [
@@ -355,7 +370,7 @@
       {"id": "wesen_cont",   "x": 460, "y": 262, "r": 28, "name": "A Wesen contact", "interact": "evid:c7_wesen_contact","stand_x": 460, "stand_y": 312}
     ],
     "exits": [
-      {"to": "c7_butcher", "x": 55, "y": 300, "label": "← the butcher's yard"}
+      {"to": "c7_yard", "x": 55, "y": 300, "label": "← the butcher's yard"}
     ]
   },
 
