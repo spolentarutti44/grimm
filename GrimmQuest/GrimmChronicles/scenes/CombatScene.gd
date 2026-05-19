@@ -25,10 +25,14 @@ var _keys  := {}
 var _pressed := {}
 var _elapsed_ms := 0.0      # total ms since scene entered (for sin pulses)
 var _font: Font
+var _grimm_tex:   Texture2D = null
+var _blutbad_tex: Texture2D = null
 
 # ─── init ─────────────────────────────────────────────────────────────────────
 func _ready() -> void:
 	_font = ThemeDB.fallback_font
+	_grimm_tex   = load("res://assets/sheets/grimm4.png")       as Texture2D
+	_blutbad_tex = load("res://assets/sheets/blutbud_sprite.png") as Texture2D
 	p = GameState.player
 	var pc := GameState.pending_combat
 	var wid: String = pc.get("wid", "blutbad")
@@ -97,6 +101,7 @@ func _kname(kc: Key) -> String:
 
 # ─── update ───────────────────────────────────────────────────────────────────
 func _update_combat(dt: float) -> void:
+	if not c.has("player_state"): return
 	c["enemy_state_time"]  = c["enemy_state_time"]  + dt
 	c["player_state_time"] = c["player_state_time"] + dt
 	c["log_time"]     = max(0.0, c["log_time"]     - dt)
@@ -145,6 +150,7 @@ func _update_combat(dt: float) -> void:
 		"windup":
 			if c["enemy_state_time"] >= float(c["enemy_move"]["windup"]):
 				_execute_enemy_strike()
+				if c.is_empty(): return
 		"recover":
 			if c["enemy_state_time"] >= 400.0:
 				c["enemy_state"] = "idle"
@@ -166,6 +172,7 @@ func _update_combat(dt: float) -> void:
 			_pressed.erase("j"); c["player_state"]="parrying"; c["player_state_time"]=0.0
 		elif _pressed.get("k", false):
 			_pressed.erase("k"); c["player_state"]="striking"; c["player_state_time"]=0.0; _execute_player_strike()
+			if c.is_empty(): return
 
 	# ── State timeouts ───────────────────────────────────────────────────────
 	if c["player_state"]=="dodging"  and c["player_state_time"] >= 350.0: c["player_state"]="idle"; c["player_state_time"]=0.0
@@ -266,29 +273,46 @@ func _log(text: String) -> void:
 	c["log"] = text; c["log_time"] = 2200.0
 
 func _end_combat(outcome: String) -> void:
-	var hunt_id: String = p.get("contract","")
-	var result := {"outcome":outcome,"gold":0,"xp":0,"trust_delta":0,"narration":"","correct":c["deduced_correct"],"hunt_id":hunt_id}
+	var is_enc: bool = GameState.pending_combat.get("is_encounter", false)
+	var hunt_id: String = p.get("contract", "")
+	var result := {"outcome": outcome, "gold": 0, "xp": 0, "trust_delta": 0,
+		"narration": "", "correct": c["deduced_correct"],
+		"hunt_id": hunt_id, "is_encounter": is_enc}
 
-	match outcome:
-		"killed":
-			result["gold"] = int(w["reward"]["gold"]); result["xp"] = int(w["reward"]["xp"])
-			p["gold"] += result["gold"]; p["xp"] += result["xp"]; p["hunts"] += 1
-			if not hunt_id in p["completed_hunts"]: p["completed_hunts"].append(hunt_id)
-			result["narration"] = "The " + w["name"] + " falls. The fur ebbs from a body that is mostly a man again."
-		"spared":
-			result["gold"] = int(w["reward"]["gold"] * 0.3); result["xp"] = int(w["reward"]["xp"] * 0.6)
-			result["trust_delta"] = 1
-			p["gold"] += result["gold"]; p["xp"] += result["xp"]; p["hunts"] += 1
-			var wid: String = c["wid"]
-			p["trust"][wid] = int(p["trust"].get(wid,0)) + 1
-			if not hunt_id in p["completed_hunts"]: p["completed_hunts"].append(hunt_id)
-			result["narration"] = "It runs. You let it. You have done a difficult thing well."
-		"defeated":
-			p["hp"] = max(10, int(p["max_hp"] * 0.4))
-			result["gold"] = -min(10, p["gold"]); p["gold"] += result["gold"]
-			result["narration"] = "You wake on the road, stitched by some kind hand. The killer is gone."
+	if is_enc:
+		# Random encounter — preserve contract and scene, small reward/penalty
+		match outcome:
+			"killed", "spared":
+				result["gold"] = 8; result["xp"] = 25
+				p["gold"] += 8; p["xp"] += 25
+				result["narration"] = "The " + w["name"] + " falls. You dust yourself off and press on."
+			"defeated":
+				p["hp"] = max(10, int(p["max_hp"] * 0.4))
+				result["gold"] = -min(5, p["gold"]); p["gold"] += result["gold"]
+				result["narration"] = "You come round in the dark, bruised and lighter in the purse. The investigation is not over."
+	else:
+		match outcome:
+			"killed":
+				result["gold"] = int(w["reward"]["gold"]); result["xp"] = int(w["reward"]["xp"])
+				p["gold"] += result["gold"]; p["xp"] += result["xp"]; p["hunts"] += 1
+				if not hunt_id in p["completed_hunts"]: p["completed_hunts"].append(hunt_id)
+				result["narration"] = "The " + w["name"] + " falls. The fur ebbs from a body that is mostly a man again."
+			"spared":
+				result["gold"] = int(w["reward"]["gold"] * 0.3); result["xp"] = int(w["reward"]["xp"] * 0.6)
+				result["trust_delta"] = 1
+				p["gold"] += result["gold"]; p["xp"] += result["xp"]; p["hunts"] += 1
+				var wid: String = c["wid"]
+				p["trust"][wid] = int(p["trust"].get(wid, 0)) + 1
+				if not hunt_id in p["completed_hunts"]: p["completed_hunts"].append(hunt_id)
+				result["narration"] = "It runs. You let it. You have done a difficult thing well."
+			"defeated":
+				p["hp"] = max(10, int(p["max_hp"] * 0.4))
+				result["gold"] = -min(10, p["gold"]); p["gold"] += result["gold"]
+				result["narration"] = "You wake on the road, stitched by some kind hand. The killer is gone."
+		p["contract"] = ""; p["evidence"] = []; p["flagged_evidence"] = []; p["deduction"] = ""
+		GameState.scene = "hub"
 
-	# Level up check
+	# Level up check (applies to both paths)
 	var old_lvl: int = p["level"]
 	var new_lvl := GameState.current_level_from_xp()
 	if new_lvl > old_lvl:
@@ -301,8 +325,6 @@ func _end_combat(outcome: String) -> void:
 		p["hp"] = min(p["max_hp"], p["hp"] + int(p["max_hp"] * 0.3))
 
 	p["stam"] = p["max_stam"]
-	p["contract"] = ""; p["evidence"] = []; p["flagged_evidence"] = []; p["deduction"] = ""
-	GameState.scene = "hub"
 	GameState.result = result
 	c = {}
 	GameState.save()
@@ -439,41 +461,77 @@ func _draw_combat_hud() -> void:
 
 # ─── character drawings ───────────────────────────────────────────────────────
 func _draw_player_combat(x: float, y: float, pstate: String, t: float, blocking: bool) -> void:
-	draw_set_transform(Vector2(x,y), 0.0, Vector2(1.6, 1.6))
-	# Shadow
-	_draw_ellipse(Vector2(0,40), 20, 5, Color(0,0,0,0.5))
-	# Legs
-	draw_rect(Rect2(-8,25,6,15), Color("#1a1208"))
-	draw_rect(Rect2(2,25,6,15), Color("#1a1208"))
-	# Body tilt
-	var tilt := 0.0
-	if pstate == "striking": tilt = sin(t/250.0*PI) * 0.3
-	if pstate == "hit":      tilt = -0.3 + sin(t/200.0*PI*4.0) * 0.1
-	draw_set_transform(Vector2(x,y), tilt, Vector2(1.6, 1.6))
-	# Cloak
-	var cloak := PackedVector2Array([Vector2(-15,-30),Vector2(-12,25),Vector2(12,25),Vector2(15,-30)])
-	draw_colored_polygon(cloak, Color("#2a1f12"))
-	# Hood
-	_draw_ellipse(Vector2(0,-32), 10, 12, Color("#1a1208"))
-	_draw_ellipse(Vector2(2,-32), 6, 7, Color("#0a0a0a"))
-	draw_circle(Vector2(4,-32), 1.2, Color("#FAEEDA"))
-	# Sword
-	var sword_col := Color("#C0C0C0")
-	if pstate == "striking":
-		var reach := (t/150.0)*40.0 if t < 150.0 else 40.0-(t-150.0)/100.0*40.0
-		draw_line(Vector2(8,-20), Vector2(8+reach,-15), sword_col, 3)
-	elif pstate == "parrying":
-		draw_line(Vector2(6,-26), Vector2(20,-2), sword_col, 3)
-		draw_arc(Vector2(13,-15), 18, 0, TAU, 24,
-			Color(C_GLOW.r,C_GLOW.g,C_GLOW.b,0.7+sin(t/50.0)*0.3), 1)
-	elif blocking:
-		draw_line(Vector2(-8,-10), Vector2(18,-12), sword_col, 3)
-		draw_arc(Vector2(5,-12), 22, -PI/2.0, PI/2.0, 12,
-			Color(C_BLUE.r,C_BLUE.g,C_BLUE.b,0.5), 1.5)
+	if _grimm_tex:
+		# grimm4.png — 4 rows × 6 frames, ROW_H=140, FW=170.67, SKIP=13 (top margin)
+		const ROW_H  := 140.0
+		const DISP_H := 96.0
+		const FW     := 1024.0 / 6.0
+		const SKIP   := 13.0
+		const N      := 6
+
+		var row_y:    float
+		var frame_idx: int
+		var flip_x := 1.0
+
+		if pstate == "striking":
+			# Row 2: fire sequence — animate all 6 frames over 250ms
+			row_y     = ROW_H * 2.0
+			frame_idx = clamp(int(t / 250.0 * N), 0, N - 1)
+		elif pstate == "parrying":
+			# Row 1: aiming stances, cycle frames 2-3
+			row_y     = ROW_H
+			frame_idx = 2 + int(_elapsed_ms / 120.0) % 2
+		elif pstate == "dodging":
+			# Row 3: run frames 1-3, flip toward dodge direction
+			row_y     = ROW_H * 3.0
+			frame_idx = 1 + int(_elapsed_ms / 80.0) % 3
+			flip_x    = float(c.get("player_dodge_dir", 1))
+		elif pstate == "hit":
+			# Row 1: last frame (recoil)
+			row_y     = ROW_H
+			frame_idx = 5
+		else:
+			# Row 1: ready stance — frame 1 for blocking, frame 0 otherwise
+			row_y     = ROW_H
+			frame_idx = 1 if blocking else 0
+
+		var disp_w := FW / ROW_H * DISP_H
+		var src    := Rect2(float(frame_idx) * FW, row_y + SKIP, FW, ROW_H - SKIP)
+		_draw_ellipse(Vector2(x, y + 5.0), disp_w * 0.4, 5.0, Color(0, 0, 0, 0.5))
+		draw_set_transform(Vector2(x, y), 0.0, Vector2(flip_x, 1.0))
+		draw_texture_rect_region(_grimm_tex, Rect2(-disp_w * 0.5, -DISP_H, disp_w, DISP_H), src)
+		draw_set_transform(Vector2.ZERO)
 	else:
-		draw_line(Vector2(8,-20), Vector2(14,2), sword_col, 3)
-		draw_rect(Rect2(7,-22,4,3), Color("#3a2a14"))
-	draw_set_transform(Vector2.ZERO)
+		# Procedural fallback
+		draw_set_transform(Vector2(x, y), 0.0, Vector2(1.6, 1.6))
+		_draw_ellipse(Vector2(0, 40), 20, 5, Color(0, 0, 0, 0.5))
+		draw_rect(Rect2(-8, 25, 6, 15), Color("#1a1208"))
+		draw_rect(Rect2(2, 25, 6, 15), Color("#1a1208"))
+		var tilt := 0.0
+		if pstate == "striking": tilt = sin(t / 250.0 * PI) * 0.3
+		if pstate == "hit":      tilt = -0.3 + sin(t / 200.0 * PI * 4.0) * 0.1
+		draw_set_transform(Vector2(x, y), tilt, Vector2(1.6, 1.6))
+		var cloak := PackedVector2Array([Vector2(-15,-30),Vector2(-12,25),Vector2(12,25),Vector2(15,-30)])
+		draw_colored_polygon(cloak, Color("#2a1f12"))
+		_draw_ellipse(Vector2(0, -32), 10, 12, Color("#1a1208"))
+		_draw_ellipse(Vector2(2, -32), 6, 7, Color("#0a0a0a"))
+		draw_circle(Vector2(4, -32), 1.2, Color("#FAEEDA"))
+		var sword_col := Color("#C0C0C0")
+		if pstate == "striking":
+			var reach := (t/150.0)*40.0 if t < 150.0 else 40.0-(t-150.0)/100.0*40.0
+			draw_line(Vector2(8,-20), Vector2(8+reach,-15), sword_col, 3)
+		elif pstate == "parrying":
+			draw_line(Vector2(6,-26), Vector2(20,-2), sword_col, 3)
+			draw_arc(Vector2(13,-15), 18, 0, TAU, 24,
+				Color(C_GLOW.r,C_GLOW.g,C_GLOW.b,0.7+sin(t/50.0)*0.3), 1)
+		elif blocking:
+			draw_line(Vector2(-8,-10), Vector2(18,-12), sword_col, 3)
+			draw_arc(Vector2(5,-12), 22, -PI/2.0, PI/2.0, 12,
+				Color(C_BLUE.r,C_BLUE.g,C_BLUE.b,0.5), 1.5)
+		else:
+			draw_line(Vector2(8,-20), Vector2(14,2), sword_col, 3)
+			draw_rect(Rect2(7,-22,4,3), Color("#3a2a14"))
+		draw_set_transform(Vector2.ZERO)
 
 func _draw_wesen_combat(wid: String, x: float, y: float, wstate: String, t: float, move) -> void:
 	var sway := 0.0; var lunge := 0.0
@@ -492,6 +550,42 @@ func _draw_wesen_combat(wid: String, x: float, y: float, wstate: String, t: floa
 	draw_set_transform(Vector2.ZERO)
 
 func _draw_blutbad(wstate: String) -> void:
+	if _blutbad_tex:
+		# blutbud_sprite.png — 4 rows × 8 frames, FW=128
+		# Row 0 (y=0,   h=160, skip=42): human form
+		# Row 1 (y=160, h=128, skip=10): transform/stunned
+		# Row 2 (y=288, h=130, skip=8):  beast idle
+		# Row 3 (y=418, h=141, skip=6):  beast attack
+		const FW     := 128.0
+		const DISP_H := 100.0
+		const N      := 8
+
+		var row_y:     float
+		var row_h:     float
+		var skip:      float
+		var frame_idx: int
+		match wstate:
+			"windup":
+				row_y = 418.0; row_h = 141.0; skip = 6.0
+				var progress := 0.0
+				if c.get("enemy_move") != null:
+					progress = min(1.0, c["enemy_state_time"] / float(c["enemy_move"]["windup"]))
+				frame_idx = clamp(int(progress * N), 0, N - 1)
+			"stunned":
+				row_y = 160.0; row_h = 128.0; skip = 10.0
+				frame_idx = int(_elapsed_ms / 200.0) % N
+			_:
+				row_y = 288.0; row_h = 130.0; skip = 8.0
+				frame_idx = int(_elapsed_ms / 150.0) % N
+
+		var disp_w := FW / row_h * DISP_H
+		var src    := Rect2(float(frame_idx) * FW, row_y + skip, FW, row_h - skip)
+		_draw_ellipse(Vector2(0, 28), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
+		# Negative width flips sprite left (facing Grimm at x=180)
+		draw_texture_rect_region(_blutbad_tex, Rect2(disp_w * 0.5, -DISP_H + 28.0, -disp_w, DISP_H), src)
+		return
+
+	# Procedural fallback
 	var fc := Color("#1a1208")
 	_draw_ellipse(Vector2(0,-5), 40, 30, fc)
 	_draw_ellipse(Vector2(-35,-25), 22, 20, fc)
@@ -501,21 +595,9 @@ func _draw_blutbad(wstate: String) -> void:
 	draw_colored_polygon(PackedVector2Array(ears2), fc)
 	draw_rect(Rect2(-25,18,7,18), fc); draw_rect(Rect2(-10,18,7,18), fc)
 	draw_rect(Rect2(5,18,7,18), fc);   draw_rect(Rect2(20,18,7,18), fc)
-	# Tail
-	var tail_pts := PackedVector2Array()
-	for i in 13:
-		var tt := float(i)/12.0
-		var tp := (1-tt)*(1-tt)*Vector2(38,-10) + 2*(1-tt)*tt*Vector2(55,-20) + tt*tt*Vector2(48,0)
-		tail_pts.append(tp)
-	for i in range(12,-1,-1):
-		var tt := float(i)/12.0
-		var tp := (1-tt)*(1-tt)*Vector2(48,0) + 2*(1-tt)*tt*Vector2(42,-5) + tt*tt*Vector2(38,-10)
-		tail_pts.append(tp)
-	draw_colored_polygon(tail_pts, fc)
-	# Eyes
+	draw_colored_polygon(PackedVector2Array([Vector2(38,-10), Vector2(55,-22), Vector2(48,2)]), fc)
 	draw_circle(Vector2(-42,-26), 3, Color("#D85A30"))
 	draw_circle(Vector2(-30,-26), 3, Color("#D85A30"))
-	# Mouth
 	if wstate == "windup":
 		_draw_ellipse(Vector2(-48,-18), 10, 5, Color("#5a0808"))
 		for i in 3: draw_rect(Rect2(-54+i*8,-22,2,5), Color.WHITE)

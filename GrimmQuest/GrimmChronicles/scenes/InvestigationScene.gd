@@ -48,6 +48,14 @@ var _font: Font
 var _wesen_tex: Dictionary = {}   # wid -> Texture2D or null
 var _diary_art_mode := true       # true = show illustration, false = show text stats
 
+# ─── random encounter ─────────────────────────────────────────────────────────
+const ENCOUNTER_POOL := ["blutbad", "jagerbar", "klaustreich", "coyotl", "fuchsbau"]
+var _encounter_timer := 0.0
+
+# ─── debug ────────────────────────────────────────────────────────────────────
+var _dbg_wheel_clicks    := 0
+var _dbg_wheel_last_time := -999.0
+
 # ─── scene / sheet texture caches ─────────────────────────────────────────────
 var _bg_tex:    Dictionary = {}   # bg_key -> Texture2D or null
 var _sheet_tex: Dictionary = {}   # sheet_name -> Texture2D or null
@@ -85,6 +93,7 @@ func _get_sheet_tex(sheet: String) -> Texture2D:
 func _ready() -> void:
 	_font = ThemeDB.fallback_font
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	_encounter_timer = randf_range(45.0, 80.0)
 	_enter_scene(GameState.scene)
 
 func _exit_tree() -> void:
@@ -142,6 +151,11 @@ func _process(delta: float) -> void:
 		# E key interaction
 		if _pressed.get("e", false) and _near_hs:
 			_trigger(_near_hs["interact"])
+		# Random encounter countdown — only outside hub with an active contract
+		if GameState.scene != "hub" and not GameState.player.get("contract", "").is_empty():
+			_encounter_timer -= delta
+			if _encounter_timer <= 0.0:
+				_trigger_encounter()
 	else:
 		# Keyboard scroll when modal is open (held keys = smooth, ~180px/s)
 		if _keys.get("up", false) or _keys.get("w", false):
@@ -311,6 +325,25 @@ func _handle_click(pos: Vector2) -> void:
 			_enter_scene(b["exit"]["to"])
 			return
 
+	# Secret debug trigger: click either trailer wheel 4× within 2s → fight
+	if GameState.scene == "hub":
+		var lw := Vector2(158, 298)
+		var rw := Vector2(242, 298)
+		if pos.distance_to(lw) < 18 or pos.distance_to(rw) < 18:
+			if _elapsed - _dbg_wheel_last_time > 2.0:
+				_dbg_wheel_clicks = 0
+			_dbg_wheel_clicks += 1
+			_dbg_wheel_last_time = _elapsed
+			if _dbg_wheel_clicks >= 4:
+				_dbg_wheel_clicks = 0
+				var contract: String = GameState.player.get("contract", "")
+				if not contract.is_empty():
+					_show_accusation()
+				else:
+					GameState.pending_combat = {"wid": "blutbad", "correct": true, "is_encounter": true}
+					SceneNav.go_combat()
+			return
+
 	# Hotspot click → walk to stand point
 	var s: Dictionary = Data.SCENES[GameState.scene]
 	for h: Dictionary in _effective_hotspots():
@@ -391,6 +424,26 @@ func _show_diary() -> void:
 
 func _show_evidence_list() -> void:
 	_open_modal("evidence_list", {})
+
+func _trigger_encounter() -> void:
+	_encounter_timer = randf_range(50.0, 100.0)
+	var contract: String = GameState.player.get("contract", "")
+	if contract.is_empty() or not Data.HUNTS.has(contract):
+		return
+	var true_killer: String = Data.HUNTS[contract]["true_killer"]
+	var pool: Array = ENCOUNTER_POOL.filter(func(wid: String) -> bool: return wid != true_killer)
+	var wid: String = pool[randi() % pool.size()]
+	var wesen_name: String = Data.WESEN[wid]["name"]
+	var fight_fn := func():
+		_close_modal()
+		GameState.pending_combat = {"wid": wid, "correct": false, "is_encounter": true}
+		SceneNav.go_combat()
+	_open_modal("simple", {
+		"title": "Something in the dark",
+		"eyebrow": "An encounter",
+		"body": "A %s has caught your scent. There is no talking your way clear of this." % wesen_name,
+		"buttons": [{"label": "Draw steel", "primary": true, "blood": true, "action": fight_fn}],
+	})
 
 func _show_accusation() -> void:
 	_modal_sel = ""
@@ -1008,35 +1061,64 @@ func _draw_player() -> void:
 	var facing: int = p["facing"]
 	var anim: float = p.get("anim", 0.0)
 	var walking: bool = p["walking"]
-	var leg_off := sin(anim) * 5.0 if walking else 0.0
 
-	draw_set_transform(Vector2(px, py), 0.0, Vector2(float(facing) * 1.6, 1.6))
+	# grimm4.png — 4 rows × 6 frames, each row 140px tall, frame width ≈170.67px
+	# Row 0 (y=  0): IDLE — standing, lantern, hat-adjust (6 frames)
+	# Row 1 (y=140): WEAPON — drawn/aiming stances       (6 frames)
+	# Row 2 (y=280): FIRE — shoot sequence + muzzle flash (6 frames)
+	# Row 3 (y=420): RUN/ATTACK — run cycle + melee      (6 frames)
+	# No printed labels; rows have a ~13px top margin only.
+	const ROW_H  := 140.0
+	const DISP_H := 72.0
+	const FW     := 1024.0 / 6.0   # ≈170.67
+	const SKIP   := 13.0           # top margin to crop
 
-	# Shadow
-	_draw_ellipse(Vector2(0,2), 12, 3, Color(0,0,0,0.4))
-	# Legs
-	draw_rect(Rect2(-5,-8+leg_off,4,10), C_DARK)
-	draw_rect(Rect2(1,-8-leg_off,4,10), C_DARK)
-	# Cloak — bezier arc across top, straight sides down
-	var cloak := PackedVector2Array()
-	for i in range(5):
-		var bt := float(i) / 4.0
-		var bx := (1-bt)*(1-bt)*(-10.0) + 2*(1-bt)*bt*0.0 + bt*bt*10.0
-		var by := (1-bt)*(1-bt)*(-32.0) + 2*(1-bt)*bt*(-37.0) + bt*bt*(-32.0)
-		cloak.append(Vector2(bx, by))
-	cloak.append(Vector2(8, -8))
-	cloak.append(Vector2(-8, -8))
-	draw_colored_polygon(cloak, Color("#2a1f12"))
-	# Hood
-	_draw_ellipse(Vector2(0,-34), 7, 9, C_DARK)
-	# Face shadow
-	_draw_ellipse(Vector2(1,-34), 4, 5, C_BG)
-	# Eye glint
-	draw_circle(Vector2(2,-34), 0.8, C_CREAM)
-	# Sword
-	draw_line(Vector2(6,-24),Vector2(10,-6),Color("#888780"),2)
-	draw_rect(Rect2(5,-26,3,3), Color("#3a2a14"))
+	var tex := _get_sheet_tex("grimm4")
+	if not tex:
+		# Procedural fallback
+		var leg_off := sin(anim) * 5.0 if walking else 0.0
+		draw_set_transform(Vector2(px, py), 0.0, Vector2(float(facing) * 1.6, 1.6))
+		_draw_ellipse(Vector2(0, 2), 12, 3, Color(0, 0, 0, 0.4))
+		draw_rect(Rect2(-5, -8 + leg_off, 4, 10), C_DARK)
+		draw_rect(Rect2(1, -8 - leg_off, 4, 10), C_DARK)
+		var cloak := PackedVector2Array()
+		for i in range(5):
+			var bt := float(i) / 4.0
+			var bx := (1-bt)*(1-bt)*(-10.0) + 2*(1-bt)*bt*0.0 + bt*bt*10.0
+			var by := (1-bt)*(1-bt)*(-32.0) + 2*(1-bt)*bt*(-37.0) + bt*bt*(-32.0)
+			cloak.append(Vector2(bx, by))
+		cloak.append(Vector2(8, -8)); cloak.append(Vector2(-8, -8))
+		draw_colored_polygon(cloak, Color("#2a1f12"))
+		_draw_ellipse(Vector2(0, -34), 7, 9, C_DARK)
+		_draw_ellipse(Vector2(1, -34), 4, 5, C_BG)
+		draw_circle(Vector2(2, -34), 0.8, C_CREAM)
+		draw_line(Vector2(6, -24), Vector2(10, -6), Color("#888780"), 2)
+		draw_rect(Rect2(5, -26, 3, 3), Color("#3a2a14"))
+		draw_set_transform(Vector2.ZERO)
+		return
 
+	var row_y:    float
+	var frame_idx: int
+
+	if _near_hs != null and not walking:
+		# Stopped at a hotspot — hold lantern frame (frame 2, row 0)
+		row_y     = 0.0
+		frame_idx = 2
+	elif walking:
+		# Run cycle: frames 1-2-3 of row 3
+		row_y     = ROW_H * 3.0
+		frame_idx = 1 + int(anim * 1.6) % 3
+	else:
+		# Idle breathing — slow cycle through row 0
+		row_y     = 0.0
+		frame_idx = int(_elapsed * 1.2) % 6
+
+	var disp_w := FW / ROW_H * DISP_H
+	var src    := Rect2(float(frame_idx) * FW, row_y + SKIP, FW, ROW_H - SKIP)
+
+	_draw_ellipse(Vector2(px, py + 2.0), disp_w * 0.45, 4.0, Color(0, 0, 0, 0.4))
+	draw_set_transform(Vector2(px, py), 0.0, Vector2(float(facing), 1.0))
+	draw_texture_rect_region(tex, Rect2(-disp_w * 0.5, -DISP_H, disp_w, DISP_H), src)
 	draw_set_transform(Vector2.ZERO)
 
 # ── cursor ────────────────────────────────────────────────────────────────────
@@ -1420,12 +1502,16 @@ func _draw_modal_accusation(cx: float, cy: float, max_y: float, _panel: Rect2) -
 			cy2 = _modal_text(cx, cy2, "— " + Data.EVIDENCE[eid]["name"], 12, Color("#501313"), max_y)
 		cy2 += 4
 
-	# Wesen grid (2 columns)
+	# Wesen grid (2 columns) — filtered to case suspects only
+	var contract: String = pl.get("contract", "")
+	var suspects: Array = Data.HUNTS[contract].get("suspects", Data.WESEN.keys()) \
+		if Data.HUNTS.has(contract) else Data.WESEN.keys()
 	var col_w := 260.0
 	var grid_x := [cx, cx + col_w + 16]
 	var gi := 0
 	var row_y := cy2
-	for wid: String in Data.WESEN.keys():
+	for wid: String in suspects:
+		if not Data.WESEN.has(wid): continue
 		var w: Dictionary = Data.WESEN[wid]
 		var gx: float = grid_x[gi % 2]
 		if gi % 2 == 0 and gi > 0: row_y += 72

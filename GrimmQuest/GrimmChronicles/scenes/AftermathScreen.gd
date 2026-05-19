@@ -55,16 +55,17 @@ func _build_ui(r: Dictionary) -> void:
 	narr.autowrap_mode = TextServer.AUTOWRAP_WORD
 	col.add_child(narr)
 
-	# Deduction result
-	var deduct_lbl := Label.new()
-	deduct_lbl.add_theme_font_size_override("font_size", 12)
-	deduct_lbl.add_theme_color_override("font_color", Color(C_CREAM.r,C_CREAM.g,C_CREAM.b,0.6))
-	if r.get("correct", false):
-		deduct_lbl.text = "Your deduction was sound."
-	elif outcome != "defeated":
-		deduct_lbl.text = "You read the signs wrong."
-		deduct_lbl.add_theme_color_override("font_color", C_BLOOD)
-	col.add_child(deduct_lbl)
+	# Deduction result (not shown for random encounters)
+	if not r.get("is_encounter", false):
+		var deduct_lbl := Label.new()
+		deduct_lbl.add_theme_font_size_override("font_size", 12)
+		deduct_lbl.add_theme_color_override("font_color", Color(C_CREAM.r,C_CREAM.g,C_CREAM.b,0.6))
+		if r.get("correct", false):
+			deduct_lbl.text = "Your deduction was sound."
+		elif outcome != "defeated":
+			deduct_lbl.text = "You read the signs wrong."
+			deduct_lbl.add_theme_color_override("font_color", C_BLOOD)
+		col.add_child(deduct_lbl)
 
 	# Stats grid
 	var grid := HBoxContainer.new()
@@ -83,7 +84,9 @@ func _build_ui(r: Dictionary) -> void:
 	sep.add_theme_color_override("color", Color(C_CREAM.r,C_CREAM.g,C_CREAM.b,0.15))
 	col.add_child(sep)
 
-	var back_btn := _make_btn("Return to the waystation  →")
+	var back_label := "Return to the investigation  →" if r.get("is_encounter", false) \
+		else "Return to the waystation  →"
+	var back_btn := _make_btn(back_label)
 	back_btn.pressed.connect(func():
 		GameState.result = {}
 		SceneNav.go_investigation())

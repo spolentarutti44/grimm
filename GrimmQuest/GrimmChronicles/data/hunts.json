@@ -5,7 +5,8 @@
     "contract_gold": 25,
     "true_killer": "blutbad",
     "first_scene": "clearing",
-    "min_clues": 4
+    "min_clues": 4,
+    "suspects": ["blutbad", "jagerbar", "coyotl"]
   },
   "mill": {
     "contract_name": "Trouble at the river-mill",
@@ -13,7 +14,8 @@
     "contract_gold": 40,
     "true_killer": "jagerbar",
     "first_scene": "millyard",
-    "min_clues": 4
+    "min_clues": 4,
+    "suspects": ["jagerbar", "blutbad", "skalenzahne"]
   },
   "case_003": {
     "contract_name": "The Tailor's Widow",
@@ -21,7 +23,8 @@
     "contract_gold": 45,
     "true_killer": "spinnetod",
     "first_scene": "c3_shop",
-    "min_clues": 3
+    "min_clues": 3,
+    "suspects": ["spinnetod", "hexenbiest", "lausenschlange"]
   },
   "case_004": {
     "contract_name": "Red in the Snow",
@@ -29,7 +32,8 @@
     "contract_gold": 30,
     "true_killer": "blutbad",
     "first_scene": "c4_forest",
-    "min_clues": 3
+    "min_clues": 3,
+    "suspects": ["blutbad", "jagerbar", "coyotl"]
   },
   "case_005": {
     "contract_name": "The Patient Dark",
@@ -37,7 +41,8 @@
     "contract_gold": 40,
     "true_killer": "lausenschlange",
     "first_scene": "c5_cellar",
-    "min_clues": 3
+    "min_clues": 3,
+    "suspects": ["lausenschlange", "spinnetod", "cracher_mortel"]
   },
   "case_006": {
     "contract_name": "The Glass Coffin",
@@ -45,7 +50,8 @@
     "contract_gold": 60,
     "true_killer": "hexenbiest",
     "first_scene": "c6_manor",
-    "min_clues": 3
+    "min_clues": 3,
+    "suspects": ["hexenbiest", "spinnetod", "cracher_mortel"]
   },
   "case_007": {
     "contract_name": "The Red Feast",
@@ -53,7 +59,8 @@
     "contract_gold": 50,
     "true_killer": "skalenzahne",
     "first_scene": "c7_yard",
-    "min_clues": 3
+    "min_clues": 3,
+    "suspects": ["skalenzahne", "jagerbar", "blutbad"]
   },
   "case_008": {
     "contract_name": "The Beautiful Shepherd",
@@ -61,7 +68,8 @@
     "contract_gold": 40,
     "true_killer": "ziegevolk",
     "first_scene": "c8_market",
-    "min_clues": 3
+    "min_clues": 3,
+    "suspects": ["ziegevolk", "hexenbiest", "klaustreich"]
   },
   "case_009": {
     "contract_name": "The Running Night",
@@ -69,7 +77,8 @@
     "contract_gold": 60,
     "true_killer": "coyotl",
     "first_scene": "c9_crossroads",
-    "min_clues": 3
+    "min_clues": 3,
+    "suspects": ["coyotl", "blutbad", "klaustreich"]
   },
   "case_010": {
     "contract_name": "Dead Men Walking",
@@ -77,7 +86,8 @@
     "contract_gold": 80,
     "true_killer": "cracher_mortel",
     "first_scene": "c10_grave",
-    "min_clues": 4
+    "min_clues": 4,
+    "suspects": ["cracher_mortel", "lausenschlange", "gevatter_tod"]
   },
   "case_011": {
     "contract_name": "The Good Neighbour",
@@ -85,7 +95,8 @@
     "contract_gold": 30,
     "true_killer": "klaustreich",
     "first_scene": "c11_tenement",
-    "min_clues": 3
+    "min_clues": 3,
+    "suspects": ["klaustreich", "fuchsbau", "coyotl"]
   },
   "case_012": {
     "contract_name": "The Clean Hand",
@@ -93,6 +104,7 @@
     "contract_gold": 90,
     "true_killer": "gevatter_tod",
     "first_scene": "c12_guildhall",
-    "min_clues": 4
+    "min_clues": 4,
+    "suspects": ["gevatter_tod", "hexenbiest", "cracher_mortel"]
   }
 }
