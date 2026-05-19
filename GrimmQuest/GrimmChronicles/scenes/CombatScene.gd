@@ -25,14 +25,26 @@ var _keys  := {}
 var _pressed := {}
 var _elapsed_ms := 0.0      # total ms since scene entered (for sin pulses)
 var _font: Font
-var _grimm_tex:   Texture2D = null
-var _blutbad_tex: Texture2D = null
+var _grimm_tex:          Texture2D = null
+var _blutbad_tex:        Texture2D = null
+var _hexenbiest_tex:     Texture2D = null
+var _spinnetod_tex:      Texture2D = null
+var _jagerbar_med_tex:   Texture2D = null
+var _fuchsbau_med_tex:   Texture2D = null
+var _lausenschlange_tex: Texture2D = null
+var _skalengeck_tex:     Texture2D = null
 
 # ─── init ─────────────────────────────────────────────────────────────────────
 func _ready() -> void:
 	_font = ThemeDB.fallback_font
-	_grimm_tex   = load("res://assets/sheets/grimm4.png")       as Texture2D
-	_blutbad_tex = load("res://assets/sheets/blutbud_sprite.png") as Texture2D
+	_grimm_tex          = load("res://assets/sheets/grimm4.png")                          as Texture2D
+	_blutbad_tex        = load("res://assets/sheets/blutbud_sprite.png")                  as Texture2D
+	_hexenbiest_tex     = load("res://assets/sheets/medieval_sprite_hexenbiest.png")      as Texture2D
+	_spinnetod_tex      = load("res://assets/sheets/medieval_sprite_spinnetod.png")       as Texture2D
+	_jagerbar_med_tex   = load("res://assets/sheets/medieval_sprite_Jagerbar.png")        as Texture2D
+	_fuchsbau_med_tex   = load("res://assets/sheets/medieval_sprite_fuchsbau.png")        as Texture2D
+	_lausenschlange_tex = load("res://assets/sheets/medieval_sprite_lausenschlange.png")  as Texture2D
+	_skalengeck_tex     = load("res://assets/sheets/medieval_sprite_skalengeck.png")      as Texture2D
 	p = GameState.player
 	var pc := GameState.pending_combat
 	var wid: String = pc.get("wid", "blutbad")
@@ -543,10 +555,14 @@ func _draw_wesen_combat(wid: String, x: float, y: float, wstate: String, t: floa
 	elif wstate == "stunned": sway = sin(t/100.0)*0.2
 	draw_set_transform(Vector2(x+lunge,y), sway)
 	match wid:
-		"blutbad":  _draw_blutbad(wstate)
-		"jagerbar": _draw_jagerbar(wstate)
-		"fuchsbau": _draw_fuchsbau(wstate)
-		_:          _draw_blutbad(wstate)
+		"blutbad":        _draw_blutbad(wstate)
+		"jagerbar":       _draw_medieval_sprite(_jagerbar_med_tex, 140.0, wstate)
+		"fuchsbau":       _draw_medieval_sprite(_fuchsbau_med_tex, 140.0, wstate)
+		"skalengeck":     _draw_medieval_sprite(_skalengeck_tex, 140.0, wstate)
+		"lausenschlange": _draw_medieval_sprite(_lausenschlange_tex, 140.0, wstate)
+		"spinnetod":      _draw_medieval_sprite(_spinnetod_tex, 141.0, wstate)
+		"hexenbiest":     _draw_hexenbiest(wstate)
+		_:                _draw_blutbad(wstate)
 	draw_set_transform(Vector2.ZERO)
 
 func _draw_blutbad(wstate: String) -> void:
@@ -603,6 +619,69 @@ func _draw_blutbad(wstate: String) -> void:
 		for i in 3: draw_rect(Rect2(-54+i*8,-22,2,5), Color.WHITE)
 	else:
 		for i in 3: draw_rect(Rect2(-50+i*8,-19,2,4), Color.WHITE)
+
+# Generic drawer for 1024-wide medieval sheets: 4 rows × 8 frames × 128px wide.
+# row_h: height of each row (559/4≈140 for standard sheets, 141 for 565-tall ones).
+# Row layout assumed: 0=human/idle, 1=stunned, 2=beast idle, 3=attack.
+func _draw_medieval_sprite(tex: Texture2D, row_h: float, wstate: String) -> void:
+	if not tex:
+		_draw_blutbad(wstate)
+		return
+	const FW     := 128.0
+	const DISP_H := 100.0
+	const N      := 8
+	var row_y: float
+	var frame_idx: int
+	match wstate:
+		"windup":
+			row_y = row_h * 3.0
+			var progress := 0.0
+			if c.get("enemy_move") != null:
+				progress = min(1.0, c["enemy_state_time"] / float(c["enemy_move"]["windup"]))
+			frame_idx = clamp(int(progress * N), 0, N - 1)
+		"stunned":
+			row_y = row_h
+			frame_idx = int(_elapsed_ms / 200.0) % N
+		_:
+			row_y = row_h * 2.0
+			frame_idx = int(_elapsed_ms / 150.0) % N
+	var disp_w := FW / row_h * DISP_H
+	var src    := Rect2(float(frame_idx) * FW, row_y, FW, row_h)
+	_draw_ellipse(Vector2(0, 28), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
+	draw_texture_rect_region(tex, Rect2(disp_w * 0.5, -DISP_H + 28.0, -disp_w, DISP_H), src)
+
+# Hexenbiest sheet (1024×529 after top-label crop).
+# Detected row borders at y=0,129,262,396 — each row starts 1px after its border.
+func _draw_hexenbiest(wstate: String) -> void:
+	if not _hexenbiest_tex:
+		_draw_blutbad(wstate)
+		return
+	const FW     := 128.0
+	const DISP_H := 95.0
+	const N      := 8
+	# [row_start, row_content_h] pairs — skip the 1px dark border on each row
+	var rows := [[1.0, 128.0], [130.0, 132.0], [263.0, 133.0], [397.0, 132.0]]
+	var row_idx: int
+	var frame_idx: int
+	match wstate:
+		"windup":
+			row_idx = 2
+			var progress := 0.0
+			if c.get("enemy_move") != null:
+				progress = min(1.0, c["enemy_state_time"] / float(c["enemy_move"]["windup"]))
+			frame_idx = clamp(int(progress * N), 0, N - 1)
+		"stunned":
+			row_idx = 1
+			frame_idx = int(_elapsed_ms / 200.0) % N
+		_:
+			row_idx = 0
+			frame_idx = int(_elapsed_ms / 150.0) % N
+	var row_y: float  = rows[row_idx][0]
+	var row_h: float  = rows[row_idx][1]
+	var disp_w := FW / row_h * DISP_H
+	var src    := Rect2(float(frame_idx) * FW, row_y, FW, row_h)
+	_draw_ellipse(Vector2(0, 28), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
+	draw_texture_rect_region(_hexenbiest_tex, Rect2(disp_w * 0.5, -DISP_H + 28.0, -disp_w, DISP_H), src)
 
 func _draw_jagerbar(wstate: String) -> void:
 	var fc := Color("#412402")
