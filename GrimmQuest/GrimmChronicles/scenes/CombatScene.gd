@@ -634,16 +634,16 @@ func _draw_medieval_sprite(tex: Texture2D, row_h: float, wstate: String) -> void
 	var frame_idx: int
 	match wstate:
 		"windup":
-			row_y = row_h * 3.0
+			row_y = row_h * 2.0   # row 2 = attack animations
 			var progress := 0.0
 			if c.get("enemy_move") != null:
 				progress = min(1.0, c["enemy_state_time"] / float(c["enemy_move"]["windup"]))
 			frame_idx = clamp(int(progress * N), 0, N - 1)
 		"stunned":
-			row_y = row_h
-			frame_idx = int(_elapsed_ms / 200.0) % N
+			row_y = row_h          # row 1 = beast idle (slowed)
+			frame_idx = int(_elapsed_ms / 300.0) % N
 		_:
-			row_y = row_h * 2.0
+			row_y = row_h          # row 1 = beast idle/walk cycle
 			frame_idx = int(_elapsed_ms / 150.0) % N
 	var disp_w := FW / row_h * DISP_H
 	var src    := Rect2(float(frame_idx) * FW, row_y, FW, row_h)
@@ -659,8 +659,14 @@ func _draw_hexenbiest(wstate: String) -> void:
 	const FW     := 128.0
 	const DISP_H := 95.0
 	const N      := 8
-	# [row_start, row_content_h] pairs — skip the 1px dark border on each row
-	var rows := [[1.0, 128.0], [130.0, 132.0], [263.0, 133.0], [397.0, 132.0]]
+	const LABEL_SKIP := 14.0  # baked-in "Col X: NAME" text at top of each row
+	# [row_start, row_content_h] — skip 1px dark border + 14px label text per row
+	var rows := [
+		[1.0  + LABEL_SKIP, 128.0 - LABEL_SKIP],  # row 0: human/woge  (unused in combat)
+		[130.0 + LABEL_SKIP, 132.0 - LABEL_SKIP],  # row 1: beast idle/walk
+		[263.0 + LABEL_SKIP, 133.0 - LABEL_SKIP],  # row 2: attacks
+		[397.0 + LABEL_SKIP, 132.0 - LABEL_SKIP],  # row 3: hit-stun / death
+	]
 	var row_idx: int
 	var frame_idx: int
 	match wstate:
@@ -671,10 +677,10 @@ func _draw_hexenbiest(wstate: String) -> void:
 				progress = min(1.0, c["enemy_state_time"] / float(c["enemy_move"]["windup"]))
 			frame_idx = clamp(int(progress * N), 0, N - 1)
 		"stunned":
-			row_idx = 1
-			frame_idx = int(_elapsed_ms / 200.0) % N
+			row_idx = 3
+			frame_idx = int(_elapsed_ms / 300.0) % N
 		_:
-			row_idx = 0
+			row_idx = 1  # beast idle/walk
 			frame_idx = int(_elapsed_ms / 150.0) % N
 	var row_y: float  = rows[row_idx][0]
 	var row_h: float  = rows[row_idx][1]
