@@ -627,28 +627,30 @@ func _draw_medieval_sprite(tex: Texture2D, row_h: float, wstate: String) -> void
 	if not tex:
 		_draw_blutbad(wstate)
 		return
-	const FW     := 128.0
-	const DISP_H := 100.0
-	const N      := 8
+	const FW       := 128.0
+	const DISP_H   := 115.0
+	const TOP_SKIP := 20.0   # skip empty space at top of each frame cell
+	const N        := 8
 	var row_y: float
 	var frame_idx: int
 	match wstate:
 		"windup":
-			row_y = row_h * 2.0   # row 2 = attack animations
+			row_y = row_h * 2.0
 			var progress := 0.0
 			if c.get("enemy_move") != null:
 				progress = min(1.0, c["enemy_state_time"] / float(c["enemy_move"]["windup"]))
 			frame_idx = clamp(int(progress * N), 0, N - 1)
 		"stunned":
-			row_y = row_h          # row 1 = beast idle (slowed)
+			row_y = row_h
 			frame_idx = int(_elapsed_ms / 300.0) % N
 		_:
-			row_y = row_h          # row 1 = beast idle/walk cycle
+			row_y = row_h
 			frame_idx = int(_elapsed_ms / 150.0) % N
-	var disp_w := FW / row_h * DISP_H
-	var src    := Rect2(float(frame_idx) * FW, row_y, FW, row_h)
-	_draw_ellipse(Vector2(0, 28), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
-	draw_texture_rect_region(tex, Rect2(disp_w * 0.5, -DISP_H + 28.0, -disp_w, DISP_H), src)
+	var src_h  := row_h - TOP_SKIP
+	var disp_w := FW / src_h * DISP_H
+	var src    := Rect2(float(frame_idx) * FW, row_y + TOP_SKIP, FW, src_h)
+	_draw_ellipse(Vector2(0, 8), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
+	draw_texture_rect_region(tex, Rect2(disp_w * 0.5, -DISP_H + 8.0, -disp_w, DISP_H), src)
 
 # Hexenbiest sheet (1024×529 after top-label crop).
 # Detected row borders at y=0,129,262,396 — each row starts 1px after its border.
@@ -657,7 +659,7 @@ func _draw_hexenbiest(wstate: String) -> void:
 		_draw_blutbad(wstate)
 		return
 	const FW     := 128.0
-	const DISP_H := 95.0
+	const DISP_H := 110.0
 	const N      := 8
 	const LABEL_SKIP := 14.0  # baked-in "Col X: NAME" text at top of each row
 	# [row_start, row_content_h] — skip 1px dark border + 14px label text per row
@@ -686,8 +688,8 @@ func _draw_hexenbiest(wstate: String) -> void:
 	var row_h: float  = rows[row_idx][1]
 	var disp_w := FW / row_h * DISP_H
 	var src    := Rect2(float(frame_idx) * FW, row_y, FW, row_h)
-	_draw_ellipse(Vector2(0, 28), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
-	draw_texture_rect_region(_hexenbiest_tex, Rect2(disp_w * 0.5, -DISP_H + 28.0, -disp_w, DISP_H), src)
+	_draw_ellipse(Vector2(0, 8), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
+	draw_texture_rect_region(_hexenbiest_tex, Rect2(disp_w * 0.5, -DISP_H + 8.0, -disp_w, DISP_H), src)
 
 func _draw_jagerbar(wstate: String) -> void:
 	var fc := Color("#412402")
