@@ -336,12 +336,7 @@ func _handle_click(pos: Vector2) -> void:
 			_dbg_wheel_last_time = _elapsed
 			if _dbg_wheel_clicks >= 4:
 				_dbg_wheel_clicks = 0
-				var contract: String = GameState.player.get("contract", "")
-				if not contract.is_empty():
-					_show_accusation()
-				else:
-					GameState.pending_combat = {"wid": "blutbad", "correct": true, "is_encounter": true}
-					SceneNav.go_combat()
+				_show_accusation()
 			return
 
 	# Hotspot click → walk to stand point
@@ -1538,13 +1533,19 @@ func _confirm_accusation() -> void:
 		return
 	var accused := _modal_sel
 	var contract: String = GameState.player.get("contract","")
+	var wid: String
+	var correct: bool
 	if contract.is_empty():
-		return
-	var true_killer: String = Data.HUNTS[contract]["true_killer"]
-	var correct := accused == true_killer
+		# Debug: no active contract — fight the accused wesen directly
+		wid = accused
+		correct = true
+	else:
+		var true_killer: String = Data.HUNTS[contract]["true_killer"]
+		correct = accused == true_killer
+		wid = true_killer
 	GameState.player["deduction"] = accused
 	GameState.pending_combat = {
-		"wid": true_killer,
+		"wid": wid,
 		"correct": correct,
 	}
 	_close_modal()
