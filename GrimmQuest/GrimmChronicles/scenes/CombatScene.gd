@@ -33,6 +33,7 @@ var _jagerbar_med_tex:   Texture2D = null
 var _fuchsbau_med_tex:   Texture2D = null
 var _lausenschlange_tex: Texture2D = null
 var _skalengeck_tex:     Texture2D = null
+var _bg_tex:             Dictionary = {}   # bg_key -> Texture2D or null
 
 # ─── init ─────────────────────────────────────────────────────────────────────
 func _ready() -> void:
@@ -342,6 +343,16 @@ func _end_combat(outcome: String) -> void:
 	GameState.save()
 	SceneNav.go_aftermath()
 
+func _get_bg_tex(bg: String) -> Texture2D:
+	if _bg_tex.has(bg):
+		return _bg_tex[bg]
+	var path := "res://assets/backgrounds/%s.png" % bg
+	var tex: Texture2D = null
+	if FileAccess.file_exists(path):
+		tex = load(path) as Texture2D
+	_bg_tex[bg] = tex
+	return tex
+
 # ─── DRAW ─────────────────────────────────────────────────────────────────────
 func _draw() -> void:
 	if c.is_empty(): return
@@ -352,18 +363,13 @@ func _draw() -> void:
 		oy = randf_range(-shake, shake)
 	draw_set_transform(Vector2(ox, oy))
 
-	# Night sky
-	draw_rect(Rect2(0,0,W,H), Color("#0d1828"))
-	# Moon
-	draw_circle(Vector2(560,55), 20, Color(0.98,0.93,0.85,0.7))
-	draw_circle(Vector2(555,50), 20, Color("#0d1828"))
-	# Distant trees
-	for i in 10:
-		var tx := 20.0 + i * 70.0
-		draw_rect(Rect2(tx-3,200,6,80), Color("#0a0d05"))
-		_draw_ellipse(Vector2(tx,190), 18, 28, Color("#0a0d05"))
-	# Ground
-	draw_rect(Rect2(0,280,W,H-280), Color("#1a1408"))
+	# Background — use current investigation location
+	var _bg_key: String = Data.SCENES.get(GameState.scene, {}).get("bg", "")
+	var _bg: Texture2D = _get_bg_tex(_bg_key)
+	if _bg:
+		draw_texture_rect(_bg, Rect2(0, 0, W, H), false)
+	else:
+		draw_rect(Rect2(0, 0, W, H), Color("#0d1828"))
 
 	# Player
 	var px_offset := 0.0
