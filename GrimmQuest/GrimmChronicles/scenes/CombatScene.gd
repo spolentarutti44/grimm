@@ -679,27 +679,25 @@ func _draw_hexenbiest(wstate: String) -> void:
 		return
 	const FW     := 128.0
 	const DISP_H := 110.0
-	const N      := 8
-	# New sheet: 1024×559, uniform 139px rows, no labels
-	# Row 0 (y=0,   h=139): human robed walker
-	# Row 1 (y=139, h=139): transformation
-	# Row 2 (y=278, h=139): beast creature walking  ← idle
-	# Row 3 (y=417, h=142): beast attacking          ← windup
+	# Row 2 (y=278, h=139): beast walking — idle (frames 0-3 ping-pong, tight cycle)
+	# Row 3 (y=417, h=142): attack sequence — f1-5 charge, f7 death/stunned
 	var y_start: float; var src_h: float; var frame_idx: int
 	match wstate:
 		"windup":
 			y_start = 417.0; src_h = 142.0
+			# frames 1-5: charge-up and strike (skip f0 standing, f6-7 death)
 			var progress := 0.0
 			if c.get("enemy_move") != null:
 				progress = min(1.0, c["enemy_state_time"] / float(c["enemy_move"]["windup"]))
-			frame_idx = clamp(int(progress * N), 0, N - 1)
+			frame_idx = 1 + clamp(int(progress * 5), 0, 4)
 		"stunned":
-			y_start = 139.0; src_h = 139.0
-			frame_idx = int(_elapsed_ms / 300.0) % N
+			y_start = 417.0; src_h = 142.0
+			frame_idx = 7  # lying down / dead frame
 		_:
 			y_start = 278.0; src_h = 139.0
-			var t := int(_elapsed_ms / 200.0) % (N * 2 - 2)
-			frame_idx = t if t < N else (N * 2 - 2 - t)
+			# frames 0-3 ping-pong: tighter walk cycle, less lateral drift
+			var t := int(_elapsed_ms / 220.0) % 6
+			frame_idx = t if t < 4 else (6 - t)
 	var disp_w := FW / src_h * DISP_H
 	var src    := Rect2(float(frame_idx) * FW, y_start, FW, src_h)
 	_draw_ellipse(Vector2(0, 8), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
@@ -707,29 +705,30 @@ func _draw_hexenbiest(wstate: String) -> void:
 
 # Spinnetod — 1024×559, 8 frames/row, uniform 139px rows, no labels
 # Row 0 (y=0,   h=139): human walking
-# Row 1 (y=139, h=139): hybrid transformation  ← stunned
+# Row 1 (y=139, h=139): hybrid transformation
 # Row 2 (y=278, h=139): full spider walking     ← idle
-# Row 3 (y=417, h=142): spider attacking        ← windup
+# Row 3 (y=417, h=142): spider attack + death   ← windup (f1-5) / stunned (f7)
 func _draw_spinnetod(wstate: String) -> void:
 	if not _spinnetod_tex: _draw_blutbad(wstate); return
 	const FW     := 128.0
 	const DISP_H := 110.0
-	const N      := 8
 	var y_start: float; var src_h: float; var frame_idx: int
 	match wstate:
 		"windup":
 			y_start = 417.0; src_h = 142.0
+			# frames 1-5: charge and strike (skip f0 biped standing, f6-7 death)
 			var progress := 0.0
 			if c.get("enemy_move") != null:
 				progress = min(1.0, c["enemy_state_time"] / float(c["enemy_move"]["windup"]))
-			frame_idx = clamp(int(progress * N), 0, N - 1)
+			frame_idx = 1 + clamp(int(progress * 5), 0, 4)
 		"stunned":
-			y_start = 139.0; src_h = 139.0
-			frame_idx = int(_elapsed_ms / 300.0) % N
+			y_start = 417.0; src_h = 142.0
+			frame_idx = 7  # lying down / dead frame
 		_:
 			y_start = 278.0; src_h = 139.0
-			var t := int(_elapsed_ms / 200.0) % (N * 2 - 2)
-			frame_idx = t if t < N else (N * 2 - 2 - t)
+			# frames 0-3 ping-pong: tighter spider walk cycle
+			var t := int(_elapsed_ms / 220.0) % 6
+			frame_idx = t if t < 4 else (6 - t)
 	var disp_w := FW / src_h * DISP_H
 	var src    := Rect2(float(frame_idx) * FW, y_start, FW, src_h)
 	_draw_ellipse(Vector2(0, 8), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
