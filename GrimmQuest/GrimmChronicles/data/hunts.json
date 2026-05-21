@@ -54,57 +54,39 @@
     "suspects": ["hexenbiest", "spinnetod", "cracher_mortel"]
   },
   "case_007": {
-    "contract_name": "The Red Feast",
-    "contract_flavor": "Bruno Stark, butcher's assistant, found partially consumed. Bite wounds unlike any tool — enormous radius, serrated edges. Whatever made them came back for more.",
-    "contract_gold": 50,
-    "true_killer": "skalenzahne",
-    "first_scene": "c7_yard",
+    "contract_name": "The Fox in the Vault",
+    "contract_flavor": "Jakob Weiss, moneylender, found at his counting table. The vault is empty — no forced entry. Two clean cuts at the throat, surgical not ragged. Whatever killed him, he let through the door himself.",
+    "contract_gold": 35,
+    "true_killer": "fuchsbau",
+    "first_scene": "c7_lockshop",
     "min_clues": 3,
-    "suspects": ["skalenzahne", "jagerbar", "blutbad"]
+    "suspects": ["fuchsbau", "skalengeck", "klaustreich"]
   },
   "case_008": {
-    "contract_name": "The Beautiful Shepherd",
-    "contract_flavor": "Three women gone missing over two months. No bodies. All last seen smiling, following a charming man. All described the same man. That is not a natural happiness.",
-    "contract_gold": 40,
-    "true_killer": "ziegevolk",
-    "first_scene": "c8_market",
+    "contract_name": "The Cold Culvert",
+    "contract_flavor": "Rolf Huber, east-gate watchman, found dead at the drainage channel. Twin puncture wounds at the throat, skin faintly green-tinged. He checked that culvert every night at the same hour. Something learned his schedule.",
+    "contract_gold": 38,
+    "true_killer": "skalengeck",
+    "first_scene": "c8_culvert",
     "min_clues": 3,
-    "suspects": ["ziegevolk", "hexenbiest", "klaustreich"]
+    "suspects": ["skalengeck", "lausenschlange", "fuchsbau"]
   },
   "case_009": {
-    "contract_name": "The Running Night",
-    "contract_flavor": "Ingrid Farr found at a crossroads at dawn. Wounds from multiple attackers. She ran — wounds suggest pursuit over distance. At least three sets of tracks follow her. She almost made it to the road.",
-    "contract_gold": 60,
-    "true_killer": "coyotl",
-    "first_scene": "c9_crossroads",
+    "contract_name": "The Winter Bear",
+    "contract_flavor": "Three charcoal burners found dead at their winter pit, deep in the Black Forest. No blade wounds — crushed. The third body was moved after death. Whatever came out of the deep forest was not in a hurry. The charcoal pit still burns.",
+    "contract_gold": 45,
+    "true_killer": "jagerbar",
+    "first_scene": "c9_charcoal",
     "min_clues": 3,
-    "suspects": ["coyotl", "blutbad", "klaustreich"]
+    "suspects": ["jagerbar", "blutbad", "skalengeck"]
   },
   "case_010": {
-    "contract_name": "Dead Men Walking",
-    "contract_flavor": "A merchant buried three days ago has been seen walking through the lower quarter at night — by four separate witnesses. His grave is empty. This is not a resurrection.",
-    "contract_gold": 80,
-    "true_killer": "cracher_mortel",
-    "first_scene": "c10_grave",
-    "min_clues": 4,
-    "suspects": ["cracher_mortel", "lausenschlange", "gevatter_tod"]
-  },
-  "case_011": {
-    "contract_name": "The Good Neighbour",
-    "contract_flavor": "Pieter Maus found at the base of a tenement wall — four storeys below an open window. Falls happen. But Pieter was careful and sober, and the railing was solid. The claw marks on his shoulders are the thing.",
-    "contract_gold": 30,
-    "true_killer": "klaustreich",
-    "first_scene": "c11_tenement",
+    "contract_name": "The Second Beauty",
+    "contract_flavor": "Heinrich Braun, cloth merchant, found dead in his chamber. No wounds. Expression serene. His gold family chain is gone. His wife says a beautiful woman visited twice this week — pale, dark hair. Heinrich would not say her name.",
+    "contract_gold": 55,
+    "true_killer": "spinnetod",
+    "first_scene": "c10_merchant_house",
     "min_clues": 3,
-    "suspects": ["klaustreich", "fuchsbau", "coyotl"]
-  },
-  "case_012": {
-    "contract_name": "The Clean Hand",
-    "contract_flavor": "Four guild masters found dead at the table, as if in mid-conversation. No wounds. No poison in the cups. No evidence of anything except four men who simply stopped — together, at the same moment.",
-    "contract_gold": 90,
-    "true_killer": "gevatter_tod",
-    "first_scene": "c12_guildhall",
-    "min_clues": 4,
-    "suspects": ["gevatter_tod", "hexenbiest", "cracher_mortel"]
+    "suspects": ["spinnetod", "hexenbiest", "fuchsbau"]
   }
 }

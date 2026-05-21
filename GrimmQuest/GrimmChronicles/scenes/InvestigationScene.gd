@@ -1600,23 +1600,30 @@ func _confirm_accusation() -> void:
 		correct = accused == true_killer
 		wid = true_killer
 	GameState.player["deduction"] = accused
-	GameState.pending_combat = {
-		"wid": wid,
-		"correct": correct,
-	}
 	_close_modal()
-	# Brief confirmation modal then navigate
-	var go_combat_action := func():
+
+	if not correct:
+		var go_hub := func():
+			_close_modal()
+			GameState.scene = "hub"
+			SceneNav.go_investigation()
+		_open_modal("simple", {
+			"title": "A wrong hunt",
+			"eyebrow": "The accusation fails",
+			"body": "That is not the one. The signs led you astray — or you did not read them true.\n\nReturn to the waystation. The case is not closed.",
+			"buttons": [{"label": "Back to the waystation", "primary": true, "blood": false, "action": go_hub}],
+		})
+		return
+
+	GameState.pending_combat = {"wid": wid, "correct": true}
+	var go_combat := func():
 		_close_modal()
 		SceneNav.go_combat()
-	var body := ("You read the signs true. You walk in armed with knowing." if correct else \
-		"You suspect a %s. You will know soon enough." % Data.WESEN[accused]["name"]) + \
-		"\n\nCombat: A/D dodge · J parry (precise!) · K strike · Shift block.\nWatch the Wesen's aura — yellow=parry, blue=dodge, red=block."
 	_open_modal("simple", {
-		"title": ("Sure of your quarry" if correct else "Uncertain steel"),
+		"title": "Sure of your quarry",
 		"eyebrow": "The hunt begins",
-		"body": body,
-		"buttons": [{"label": "Draw steel", "primary": true, "blood": true, "action": go_combat_action}],
+		"body": "You read the signs true. You walk in armed with knowing.\n\nCombat: A/D dodge · J parry (precise!) · K strike · Shift block.\nWatch the Wesen's aura — yellow=parry, blue=dodge, red=block.",
+		"buttons": [{"label": "Draw steel", "primary": true, "blood": true, "action": go_combat}],
 	})
 
 func _close_modal() -> void:

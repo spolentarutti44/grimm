@@ -89,11 +89,7 @@ func _start_combat(wid: String, deduced_correct: bool) -> void:
 		"combo":           0,
 		"block_held":      false,
 	}
-	# Stamina penalty for wrong deduction
-	if not deduced_correct:
-		p["stam"] = max(2, p["max_stam"] - 2)
-	else:
-		p["stam"] = p["max_stam"]
+	p["stam"] = p["max_stam"]
 
 # ─── main loop ────────────────────────────────────────────────────────────────
 func _process(delta: float) -> void:
@@ -577,13 +573,13 @@ func _draw_wesen_combat(wid: String, x: float, y: float, wstate: String, t: floa
 		"jagerbar":       _draw_medieval_sprite(_jagerbar_med_tex,   140.0, wstate)
 		"fuchsbau":       _draw_medieval_sprite(_fuchsbau_med_tex,   140.0, wstate)
 		"skalengeck":     _draw_medieval_sprite(_skalengeck_tex,     140.0, wstate)
-		"lausenschlange": _draw_medieval_sprite(_lausenschlange_tex, 140.0, wstate)
-		"spinnetod":      _draw_medieval_sprite(_spinnetod_tex,      141.0, wstate)
+		"lausenschlange": _draw_lausenschlange(wstate)
+		"spinnetod":      _draw_spinnetod(wstate)
 		"hexenbiest":     _draw_hexenbiest(wstate)
-		"coyotl":         _draw_medieval_sprite(_coyotl_tex,         139.0, wstate)
+		"coyotl":         _draw_coyotl(wstate)
 		"cracher_mortel": _draw_medieval_sprite(_cracher_tex,        108.0, wstate, 128.0, 140.0, 2, 3, 1, 0.0)
 		"gevatter_tod":   _draw_medieval_sprite(_gevatter_tex,       123.0, wstate,  75.0, 110.0, 1, 2, 1, 0.0)
-		"klaustreich":    _draw_medieval_sprite(_klaustreich_tex,    182.0, wstate, 128.0, 130.0, 2, 2, 3, 0.0)
+		"klaustreich":    _draw_klaustreich(wstate)
 		"ziegevolk":      _draw_medieval_sprite(_ziegevolk_tex,      147.0, wstate)
 		_:                _draw_blutbad(wstate)
 	draw_set_transform(Vector2.ZERO)
@@ -684,35 +680,151 @@ func _draw_hexenbiest(wstate: String) -> void:
 	const FW     := 128.0
 	const DISP_H := 110.0
 	const N      := 8
-	const LABEL_SKIP := 14.0  # baked-in "Col X: NAME" text at top of each row
-	# [row_start, row_content_h] — skip 1px dark border + 14px label text per row
-	var rows := [
-		[1.0  + LABEL_SKIP, 128.0 - LABEL_SKIP],  # row 0: human/woge  (unused in combat)
-		[130.0 + LABEL_SKIP, 132.0 - LABEL_SKIP],  # row 1: beast idle/walk
-		[263.0 + LABEL_SKIP, 133.0 - LABEL_SKIP],  # row 2: attacks
-		[397.0 + LABEL_SKIP, 132.0 - LABEL_SKIP],  # row 3: hit-stun / death
-	]
-	var row_idx: int
-	var frame_idx: int
+	# New sheet: 1024×559, uniform 139px rows, no labels
+	# Row 0 (y=0,   h=139): human robed walker
+	# Row 1 (y=139, h=139): transformation
+	# Row 2 (y=278, h=139): beast creature walking  ← idle
+	# Row 3 (y=417, h=142): beast attacking          ← windup
+	var y_start: float; var src_h: float; var frame_idx: int
 	match wstate:
 		"windup":
-			row_idx = 2
+			y_start = 417.0; src_h = 142.0
 			var progress := 0.0
 			if c.get("enemy_move") != null:
 				progress = min(1.0, c["enemy_state_time"] / float(c["enemy_move"]["windup"]))
 			frame_idx = clamp(int(progress * N), 0, N - 1)
 		"stunned":
-			row_idx = 3
+			y_start = 139.0; src_h = 139.0
 			frame_idx = int(_elapsed_ms / 300.0) % N
 		_:
-			row_idx = 1  # beast idle/walk
-			frame_idx = int(_elapsed_ms / 150.0) % N
-	var row_y: float  = rows[row_idx][0]
-	var row_h: float  = rows[row_idx][1]
-	var disp_w := FW / row_h * DISP_H
-	var src    := Rect2(float(frame_idx) * FW, row_y, FW, row_h)
+			y_start = 278.0; src_h = 139.0
+			var t := int(_elapsed_ms / 200.0) % (N * 2 - 2)
+			frame_idx = t if t < N else (N * 2 - 2 - t)
+	var disp_w := FW / src_h * DISP_H
+	var src    := Rect2(float(frame_idx) * FW, y_start, FW, src_h)
 	_draw_ellipse(Vector2(0, 8), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
 	draw_texture_rect_region(_hexenbiest_tex, Rect2(disp_w * 0.5, -DISP_H + 8.0, -disp_w, DISP_H), src)
+
+# Spinnetod — 1024×559, 8 frames/row, uniform 139px rows, no labels
+# Row 0 (y=0,   h=139): human walking
+# Row 1 (y=139, h=139): hybrid transformation  ← stunned
+# Row 2 (y=278, h=139): full spider walking     ← idle
+# Row 3 (y=417, h=142): spider attacking        ← windup
+func _draw_spinnetod(wstate: String) -> void:
+	if not _spinnetod_tex: _draw_blutbad(wstate); return
+	const FW     := 128.0
+	const DISP_H := 110.0
+	const N      := 8
+	var y_start: float; var src_h: float; var frame_idx: int
+	match wstate:
+		"windup":
+			y_start = 417.0; src_h = 142.0
+			var progress := 0.0
+			if c.get("enemy_move") != null:
+				progress = min(1.0, c["enemy_state_time"] / float(c["enemy_move"]["windup"]))
+			frame_idx = clamp(int(progress * N), 0, N - 1)
+		"stunned":
+			y_start = 139.0; src_h = 139.0
+			frame_idx = int(_elapsed_ms / 300.0) % N
+		_:
+			y_start = 278.0; src_h = 139.0
+			var t := int(_elapsed_ms / 200.0) % (N * 2 - 2)
+			frame_idx = t if t < N else (N * 2 - 2 - t)
+	var disp_w := FW / src_h * DISP_H
+	var src    := Rect2(float(frame_idx) * FW, y_start, FW, src_h)
+	_draw_ellipse(Vector2(0, 8), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
+	draw_texture_rect_region(_spinnetod_tex, Rect2(disp_w * 0.5, -DISP_H + 8.0, -disp_w, DISP_H), src)
+
+# Lausenschlange — 1024×559, 8 frames/row. Small label at top, then 4 beast rows:
+#   Block 0 (y=41,  h=128): snake-hybrid idle (bipedal combat stance)
+#   Block 1 (y=185, h=114): coiled snake (stunned/coiled)
+#   Block 2 (y=312, h=117): snake attacking with burst
+#   Block 3 (y=437, h=122): snake striking
+func _draw_lausenschlange(wstate: String) -> void:
+	if not _lausenschlange_tex: _draw_blutbad(wstate); return
+	const FW     := 128.0
+	const DISP_H := 115.0
+	const N      := 8
+	var y_start: float; var src_h: float; var frame_idx: int
+	match wstate:
+		"windup":
+			y_start = 312.0; src_h = 117.0
+			var progress := 0.0
+			if c.get("enemy_move") != null:
+				progress = min(1.0, c["enemy_state_time"] / float(c["enemy_move"]["windup"]))
+			frame_idx = clamp(int(progress * N), 0, N - 1)
+		"stunned":
+			y_start = 185.0; src_h = 114.0
+			frame_idx = int(_elapsed_ms / 300.0) % N
+		_:
+			y_start = 41.0; src_h = 128.0
+			var t := int(_elapsed_ms / 200.0) % (N * 2 - 2)
+			frame_idx = t if t < N else (N * 2 - 2 - t)
+	var disp_w := FW / src_h * DISP_H
+	var src    := Rect2(float(frame_idx) * FW, y_start, FW, src_h)
+	_draw_ellipse(Vector2(0, 8), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
+	draw_texture_rect_region(_lausenschlange_tex, Rect2(disp_w * 0.5, -DISP_H + 8.0, -disp_w, DISP_H), src)
+
+# Coyotl — 1024×556, 8 frames/row. Natural row blocks with separator gaps:
+#   Row 0 humans: y=8,   h=98   (unused in combat)
+#   Row 1 idle:   y=119, h=102
+#   Row 2 attack: y=236, h=96
+#   Row 3 stun:   y=345, h=92
+func _draw_coyotl(wstate: String) -> void:
+	if not _coyotl_tex: _draw_blutbad(wstate); return
+	const FW     := 128.0
+	const DISP_H := 110.0
+	const N      := 8
+	var y_start: float; var src_h: float; var frame_idx: int
+	match wstate:
+		"windup":
+			y_start = 236.0; src_h = 96.0
+			var progress := 0.0
+			if c.get("enemy_move") != null:
+				progress = min(1.0, c["enemy_state_time"] / float(c["enemy_move"]["windup"]))
+			frame_idx = clamp(int(progress * N), 0, N - 1)
+		"stunned":
+			y_start = 345.0; src_h = 92.0
+			frame_idx = int(_elapsed_ms / 300.0) % N
+		_:
+			y_start = 119.0; src_h = 102.0
+			var t := int(_elapsed_ms / 200.0) % (N * 2 - 2)
+			frame_idx = t if t < N else (N * 2 - 2 - t)
+	var disp_w := FW / src_h * DISP_H
+	var src    := Rect2(float(frame_idx) * FW, y_start, FW, src_h)
+	_draw_ellipse(Vector2(0, 8), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
+	draw_texture_rect_region(_coyotl_tex, Rect2(disp_w * 0.5, -DISP_H + 8.0, -disp_w, DISP_H), src)
+
+# Klaustreich — 1024×728, 8 frames/row. Five natural content blocks:
+#   Block 0 woge:   y=14,  h=121 (unused in combat)
+#   Block 1 human:  y=161, h=123 (unused in combat)
+#   Block 2 attack: y=314, h=116
+#   Block 3 idle:   y=455, h=120 (hybrid upright combat stance)
+#   Block 4 stun:   y=618, h=92  (cowering small beast)
+func _draw_klaustreich(wstate: String) -> void:
+	if not _klaustreich_tex: _draw_blutbad(wstate); return
+	const FW     := 128.0
+	const DISP_H := 120.0
+	const N      := 8
+	var y_start: float; var src_h: float; var frame_idx: int
+	match wstate:
+		"windup":
+			y_start = 314.0; src_h = 116.0
+			var progress := 0.0
+			if c.get("enemy_move") != null:
+				progress = min(1.0, c["enemy_state_time"] / float(c["enemy_move"]["windup"]))
+			frame_idx = clamp(int(progress * N), 0, N - 1)
+		"stunned":
+			y_start = 618.0; src_h = 92.0
+			frame_idx = int(_elapsed_ms / 300.0) % N
+		_:
+			y_start = 455.0; src_h = 120.0
+			var t := int(_elapsed_ms / 200.0) % (N * 2 - 2)
+			frame_idx = t if t < N else (N * 2 - 2 - t)
+	var disp_w := FW / src_h * DISP_H
+	var src    := Rect2(float(frame_idx) * FW, y_start, FW, src_h)
+	_draw_ellipse(Vector2(0, 8), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
+	draw_texture_rect_region(_klaustreich_tex, Rect2(disp_w * 0.5, -DISP_H + 8.0, -disp_w, DISP_H), src)
 
 func _draw_jagerbar(wstate: String) -> void:
 	var fc := Color("#412402")
