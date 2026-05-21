@@ -51,6 +51,7 @@ var _diary_art_mode := true       # true = show illustration, false = show text 
 # ─── random encounter ─────────────────────────────────────────────────────────
 const ENCOUNTER_POOL := ["blutbad", "jagerbar", "klaustreich", "coyotl", "fuchsbau"]
 var _encounter_timer := 0.0
+var _active_evid: Dictionary = {}   # scene_id -> active evidence hotspot id ("" = none)
 
 # ─── debug ────────────────────────────────────────────────────────────────────
 var _dbg_wheel_clicks    := 0
@@ -113,8 +114,22 @@ func _enter_scene(sid: String) -> void:
 	_hover_hs = null
 	_near_hs  = null
 	_modal    = {}
+	_roll_active_evid(sid)
 	_rebuild_exit_btns()
 	queue_redraw()
+
+func _roll_active_evid(sid: String) -> void:
+	var pool: Array = []
+	for h: Dictionary in Data.SCENES[sid].get("hotspots", []):
+		if h.get("interact", "").begins_with("evid:"):
+			pool.append(h["id"])
+	for p: Dictionary in GameState.placed_objects.get(sid, []):
+		if p.get("interact", "").begins_with("evid:"):
+			pool.append(p.get("item_id", p.get("slot", "")))
+	if pool.is_empty() or randf() < 0.2:
+		_active_evid[sid] = ""
+	else:
+		_active_evid[sid] = pool[randi() % pool.size()]
 
 func _rebuild_exit_btns() -> void:
 	_exit_btns.clear()
@@ -227,6 +242,10 @@ func _effective_hotspots() -> Array:
 			"stand_x":  pos[0],
 			"stand_y":  pos[1] + 30.0,
 		})
+	# Only one evidence hotspot visible per visit
+	var active: String = _active_evid.get(GameState.scene, "")
+	hs = hs.filter(func(h: Dictionary) -> bool:
+		return not h.get("interact", "").begins_with("evid:") or h["id"] == active)
 	return hs
 
 func _update_hotspot_detection() -> void:
@@ -458,6 +477,7 @@ func _draw() -> void:
 	_draw_objects()
 	_draw_hotspots()
 	_draw_player()
+	_draw_lantern_vignette()
 	_draw_hud()
 	_draw_exits()
 	if not _modal.is_empty():
@@ -847,30 +867,64 @@ func _draw_background() -> void:
 		_:
 			draw_rect(Rect2(0,0,W,H), C_BG)
 
+# ── lantern vignette ──────────────────────────────────────────────────────────
+const LANTERN_R    := 60.0    # bright radius around player
+const REVEAL_DIST  := 72.0    # distance at which evidence hotspots become visible
+
+func _player_dist_sq(h: Dictionary) -> float:
+	var px: float = GameState.pc["x"]
+	var py: float = GameState.pc["y"]
+	var dx := px - float(h["x"])
+	var dy := py - float(h["y"])
+	return dx * dx + dy * dy
+
+func _is_evidence_hs(h: Dictionary) -> bool:
+	return h.get("interact", "").begins_with("evid:")
+
+func _draw_lantern_vignette() -> void:
+	var px: float = GameState.pc["x"]
+	var py: float = GameState.pc["y"]
+	const MAX_R   := 820.0
+	const STEPS   := 36
+	const MAX_DARK := 0.72
+	var step := (MAX_R - LANTERN_R) / float(STEPS)
+	for i in range(STEPS + 1):
+		var t := float(i) / float(STEPS)
+		draw_arc(Vector2(px, py), LANTERN_R + step * float(i), 0, TAU, 52,
+			Color(0.0, 0.0, 0.0, MAX_DARK * t * t), step * 1.35)
+	# Warm glow ring at lantern edge
+	draw_arc(Vector2(px, py), LANTERN_R, 0, TAU, 52,
+		Color(0.95, 0.75, 0.35, 0.18), 14.0)
+
 # ── hotspots ──────────────────────────────────────────────────────────────────
 func _draw_hotspots() -> void:
-	var s: Dictionary = Data.SCENES[GameState.scene]
-	for h: Dictionary in s["hotspots"]:
+	for h: Dictionary in _effective_hotspots():
 		_draw_hotspot_prop(h)
 
-	# Hover ring
-	if _hover_hs:
+	# Hover ring (hidden for evidence hotspots outside lantern range)
+	if _hover_hs and (not _is_evidence_hs(_hover_hs) or _player_dist_sq(_hover_hs) <= REVEAL_DIST * REVEAL_DIST):
 		var pulse := 0.4 + 0.3 * sin(_elapsed * TAU / 0.6)
 		var hx := float(_hover_hs["x"]); var hy := float(_hover_hs["y"])
 		var hr := float(_hover_hs["r"])
 		draw_arc(Vector2(hx, hy), hr, 0, TAU, 32,
 			Color(C_GLOW.r, C_GLOW.g, C_GLOW.b, pulse), 2.0)
 
-	# Proximity dashed ring
-	if _near_hs and _near_hs != _hover_hs:
+	# Proximity ring (same gate)
+	if _near_hs and _near_hs != _hover_hs and (not _is_evidence_hs(_near_hs) or _player_dist_sq(_near_hs) <= REVEAL_DIST * REVEAL_DIST):
 		var hx := float(_near_hs["x"]); var hy := float(_near_hs["y"])
 		var hr := float(_near_hs["r"])
 		draw_arc(Vector2(hx, hy), hr, 0, TAU, 32,
 			Color(C_BLUE.r, C_BLUE.g, C_BLUE.b, 0.3), 1.5)
 
 func _draw_hotspot_prop(h: Dictionary) -> void:
+	if _is_evidence_hs(h) and _player_dist_sq(h) > REVEAL_DIST * REVEAL_DIST:
+		return
 	var hid: String = h["id"]
 	var x := float(h["x"]); var y := float(h["y"])
+	const EVID_SCALE := 0.6
+	if _is_evidence_hs(h):
+		draw_set_transform(Vector2(x, y), 0.0, Vector2(EVID_SCALE, EVID_SCALE))
+		x = 0.0; y = 0.0
 	match hid:
 		"trailer":
 			draw_set_transform(Vector2(x, y), 0.0, Vector2(1.5, 1.5))
@@ -1048,6 +1102,8 @@ func _draw_hotspot_prop(h: Dictionary) -> void:
 			draw_arc(Vector2(x,y-22), 7, PI, TAU, 12, Color("#412402"))
 			draw_circle(Vector2(x-3,y-18), 0.8, C_DARK)
 			draw_circle(Vector2(x+3,y-18), 0.8, C_DARK)
+	if _is_evidence_hs(h):
+		draw_set_transform(Vector2.ZERO)
 
 # ── player character ──────────────────────────────────────────────────────────
 func _draw_player() -> void:
