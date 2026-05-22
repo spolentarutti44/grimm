@@ -487,40 +487,56 @@ func _draw_combat_hud() -> void:
 
 # ─── character drawings ───────────────────────────────────────────────────────
 func _draw_player_combat(x: float, y: float, pstate: String, t: float, blocking: bool) -> void:
-	if _grimm_tex:
-		# grimm4.png — 4 rows × 6 frames, ROW_H=140, FW=170.67, SKIP=13 (top margin)
+	if _grimm_med_tex:
+		# medieval_sprite_grimm.png — 1024×500, FW=128 (8 frames/row), non-uniform row heights
+		# Row 0 (y=0,   h=101): torch walk   → dodging
+		# Row 1 (y=125, h=96):  combat ready  → idle / parrying / hit
+		# Row 2 (y=250, h=91):  weapon attack  → striking
+		const FW     := 128.0
+		const DISP_H := 96.0
+		var y_start: float; var src_h: float; var frame_idx: int
+		var flip_x := 1.0
+		if pstate == "striking":
+			y_start = 250.0; src_h = 91.0
+			frame_idx = clamp(int(t / 250.0 * 8), 0, 7)
+		elif pstate == "parrying":
+			y_start = 125.0; src_h = 96.0
+			frame_idx = 2 + int(_elapsed_ms / 120.0) % 2
+		elif pstate == "dodging":
+			y_start = 0.0; src_h = 101.0
+			frame_idx = 1 + int(_elapsed_ms / 80.0) % 3
+			flip_x = float(c.get("player_dodge_dir", 1))
+		elif pstate == "hit":
+			y_start = 125.0; src_h = 96.0
+			frame_idx = 7
+		else:
+			y_start = 125.0; src_h = 96.0
+			frame_idx = 1 if blocking else 0
+		var disp_w := FW / src_h * DISP_H
+		var src    := Rect2(float(frame_idx) * FW, y_start, FW, src_h)
+		_draw_ellipse(Vector2(x, y + 5.0), disp_w * 0.4, 5.0, Color(0, 0, 0, 0.5))
+		draw_set_transform(Vector2(x, y), 0.0, Vector2(flip_x, 1.0))
+		draw_texture_rect_region(_grimm_med_tex, Rect2(-disp_w * 0.5, -DISP_H, disp_w, DISP_H), src)
+		draw_set_transform(Vector2.ZERO)
+	elif _grimm_tex:
+		# grimm4.png — 1024×559, 4 rows × 6 frames, ROW_H=140, FW=170.67, SKIP=13
 		const ROW_H  := 140.0
 		const DISP_H := 96.0
 		const FW     := 1024.0 / 6.0
 		const SKIP   := 13.0
 		const N      := 6
-
-		var row_y:    float
-		var frame_idx: int
-		var flip_x := 1.0
-
+		var row_y: float; var frame_idx: int; var flip_x := 1.0
 		if pstate == "striking":
-			# Row 2: fire sequence — animate all 6 frames over 250ms
-			row_y     = ROW_H * 2.0
-			frame_idx = clamp(int(t / 250.0 * N), 0, N - 1)
+			row_y = ROW_H * 2.0; frame_idx = clamp(int(t / 250.0 * N), 0, N - 1)
 		elif pstate == "parrying":
-			# Row 1: aiming stances, cycle frames 2-3
-			row_y     = ROW_H
-			frame_idx = 2 + int(_elapsed_ms / 120.0) % 2
+			row_y = ROW_H; frame_idx = 2 + int(_elapsed_ms / 120.0) % 2
 		elif pstate == "dodging":
-			# Row 3: run frames 1-3, flip toward dodge direction
-			row_y     = ROW_H * 3.0
-			frame_idx = 1 + int(_elapsed_ms / 80.0) % 3
-			flip_x    = float(c.get("player_dodge_dir", 1))
+			row_y = ROW_H * 3.0; frame_idx = 1 + int(_elapsed_ms / 80.0) % 3
+			flip_x = float(c.get("player_dodge_dir", 1))
 		elif pstate == "hit":
-			# Row 1: last frame (recoil)
-			row_y     = ROW_H
-			frame_idx = 5
+			row_y = ROW_H; frame_idx = 5
 		else:
-			# Row 1: ready stance — frame 1 for blocking, frame 0 otherwise
-			row_y     = ROW_H
-			frame_idx = 1 if blocking else 0
-
+			row_y = ROW_H; frame_idx = 1 if blocking else 0
 		var disp_w := FW / ROW_H * DISP_H
 		var src    := Rect2(float(frame_idx) * FW, row_y + SKIP, FW, ROW_H - SKIP)
 		_draw_ellipse(Vector2(x, y + 5.0), disp_w * 0.4, 5.0, Color(0, 0, 0, 0.5))
@@ -580,7 +596,8 @@ func _draw_wesen_combat(wid: String, x: float, y: float, wstate: String, t: floa
 		"cracher_mortel": _draw_medieval_sprite(_cracher_tex,        108.0, wstate, 128.0, 140.0, 2, 3, 1, 0.0)
 		"gevatter_tod":   _draw_medieval_sprite(_gevatter_tex,       123.0, wstate,  75.0, 110.0, 1, 2, 1, 0.0)
 		"klaustreich":    _draw_klaustreich(wstate)
-		"ziegevolk":      _draw_medieval_sprite(_ziegevolk_tex,      147.0, wstate)
+		"ziegevolk":      _draw_medieval_sprite(_ziegevolk_tex,      147.0, wstate, 128.0, 115.0, 2, 3, 2, 0.0)
+		"skalenzahne":    _draw_skalenzahne(wstate)
 		_:                _draw_blutbad(wstate)
 	draw_set_transform(Vector2.ZERO)
 
@@ -671,16 +688,16 @@ func _draw_medieval_sprite(tex: Texture2D, row_h: float, wstate: String,
 	_draw_ellipse(Vector2(0, 8), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
 	draw_texture_rect_region(tex, Rect2(disp_w * 0.5, -disp_h + 8.0, -disp_w, disp_h), src)
 
-# Hexenbiest sheet (1024×529 after top-label crop).
-# Detected row borders at y=0,129,262,396 — each row starts 1px after its border.
+# Hexenbiest — 1024×559, 8 frames/row, uniform 139px rows.
+# Rows 0-2: human/transformation walking forms (unused in combat — show human form)
+# Row 3 (y=417, h=142): beast form — f0-1 idle sway, f1-5 charge, f7 death/stunned
 func _draw_hexenbiest(wstate: String) -> void:
 	if not _hexenbiest_tex:
 		_draw_blutbad(wstate)
 		return
 	const FW     := 128.0
 	const DISP_H := 110.0
-	# Row 2 (y=278, h=139): beast walking — idle (frames 0-3 ping-pong, tight cycle)
-	# Row 3 (y=417, h=142): attack sequence — f1-5 charge, f7 death/stunned
+	# Row 3 (y=417, h=142): beast form — f0-1 idle sway, f1-5 charge, f7 death/stunned
 	var y_start: float; var src_h: float; var frame_idx: int
 	match wstate:
 		"windup":
@@ -694,10 +711,10 @@ func _draw_hexenbiest(wstate: String) -> void:
 			y_start = 417.0; src_h = 142.0
 			frame_idx = 7  # lying down / dead frame
 		_:
-			y_start = 278.0; src_h = 139.0
-			# frames 0-3 ping-pong: tighter walk cycle, less lateral drift
-			var t := int(_elapsed_ms / 220.0) % 6
-			frame_idx = t if t < 4 else (6 - t)
+			y_start = 417.0; src_h = 142.0
+			# frames 0-1 slow ping-pong: beast standing with slight sway
+			var t := int(_elapsed_ms / 600.0) % 2
+			frame_idx = t
 	var disp_w := FW / src_h * DISP_H
 	var src    := Rect2(float(frame_idx) * FW, y_start, FW, src_h)
 	_draw_ellipse(Vector2(0, 8), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
@@ -818,12 +835,57 @@ func _draw_klaustreich(wstate: String) -> void:
 			frame_idx = int(_elapsed_ms / 300.0) % N
 		_:
 			y_start = 455.0; src_h = 120.0
-			var t := int(_elapsed_ms / 200.0) % (N * 2 - 2)
-			frame_idx = t if t < N else (N * 2 - 2 - t)
+			# frames 0-1 only: upright hybrid stance (frames 2-7 are a large running panther — different scale)
+			frame_idx = int(_elapsed_ms / 500.0) % 2
 	var disp_w := FW / src_h * DISP_H
 	var src    := Rect2(float(frame_idx) * FW, y_start, FW, src_h)
 	_draw_ellipse(Vector2(0, 8), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
 	draw_texture_rect_region(_klaustreich_tex, Rect2(disp_w * 0.5, -DISP_H + 8.0, -disp_w, DISP_H), src)
+
+func _draw_skalenzahne(wstate: String) -> void:
+	var bc := Color("#1a3a1a")   # dark green body
+	var sc := Color("#2a5a2a")   # lighter scale highlight
+	var tc := Color("#0d200d")   # dark underbelly
+	# Body — wide, low-slung torso
+	_draw_ellipse(Vector2(0, 5), 44, 28, bc)
+	# Tail arcing behind (right side)
+	_draw_ellipse(Vector2(30, 12), 22, 10, bc)
+	_draw_ellipse(Vector2(50, 18), 12, 6, bc)
+	# Head — elongated snout
+	_draw_ellipse(Vector2(-36, -18), 20, 14, bc)
+	_draw_ellipse(Vector2(-52, -16), 14, 8, bc)   # snout tip
+	# Eye
+	draw_circle(Vector2(-40, -26), 4, Color("#e8c840"))
+	draw_circle(Vector2(-40, -26), 2, Color("#111"))
+	# Dorsal scutes along spine
+	for i in 5:
+		var sx := -18.0 + i * 10.0
+		draw_colored_polygon(PackedVector2Array([
+			Vector2(sx, -5), Vector2(sx + 4, -16), Vector2(sx + 8, -5)
+		]), sc)
+	# Legs
+	draw_rect(Rect2(-22, 24, 10, 16), bc)
+	draw_rect(Rect2(-4, 24, 10, 16), bc)
+	draw_rect(Rect2(12, 20, 9, 14), bc)
+	# Underbelly stripe
+	_draw_ellipse(Vector2(-5, 12), 28, 10, tc)
+	match wstate:
+		"windup":
+			# Lunge forward — jaw open wide
+			_draw_ellipse(Vector2(-55, -10), 16, 7, bc)
+			draw_line(Vector2(-45, -12), Vector2(-66, -8), Color("#e8e8d0"), 2)
+			draw_line(Vector2(-45, -20), Vector2(-66, -14), Color("#e8e8d0"), 2)
+			for i in 4:
+				draw_line(Vector2(-50 + i * 4, -12), Vector2(-50 + i * 4, -20), Color("#e8e8d0"), 1)
+		"stunned":
+			# Rolled partly onto back, dazed
+			draw_circle(Vector2(-40, -22), 3, Color("#e8c840"))
+			draw_circle(Vector2(-38, -24), 1, Color("#111"))
+			draw_line(Vector2(-46, -30), Vector2(-36, -26), Color("#ffffff"), 1)
+		_:
+			# Idle — jaw closed, slow sway handled by caller
+			draw_line(Vector2(-47, -14), Vector2(-65, -12), Color("#4a6a4a"), 1)
+	_draw_ellipse(Vector2(0, 28), 34, 5, Color(0, 0, 0, 0.5))
 
 func _draw_jagerbar(wstate: String) -> void:
 	var fc := Color("#412402")
