@@ -1113,18 +1113,13 @@ func _draw_player() -> void:
 	var anim: float = p.get("anim", 0.0)
 	var walking: bool = p["walking"]
 
-	# grimm4.png — 4 rows × 6 frames, each row 140px tall, frame width ≈170.67px
-	# Row 0 (y=  0): IDLE — standing, lantern, hat-adjust (6 frames)
-	# Row 1 (y=140): WEAPON — drawn/aiming stances       (6 frames)
-	# Row 2 (y=280): FIRE — shoot sequence + muzzle flash (6 frames)
-	# Row 3 (y=420): RUN/ATTACK — run cycle + melee      (6 frames)
-	# No printed labels; rows have a ~13px top margin only.
-	const ROW_H  := 140.0
+	# medieval_sprite_grimm.png — 1024×500, FW=128 (8 frames/row), non-uniform row heights
+	# Row 0 (y=0,   h=101): torch walk — walking / idle
+	# Row 1 (y=125, h=96):  combat stances — near-hotspot (armed/ready)
+	const FW     := 128.0
 	const DISP_H := 72.0
-	const FW     := 1024.0 / 6.0   # ≈170.67
-	const SKIP   := 13.0           # top margin to crop
 
-	var tex := _get_sheet_tex("grimm4")
+	var tex := _get_sheet_tex("medieval_sprite_grimm")
 	if not tex:
 		# Procedural fallback
 		var leg_off := sin(anim) * 5.0 if walking else 0.0
@@ -1148,24 +1143,24 @@ func _draw_player() -> void:
 		draw_set_transform(Vector2.ZERO)
 		return
 
-	var row_y:    float
+	var y_start: float; var src_h: float
 	var frame_idx: int
 
 	if _near_hs != null and not walking:
-		# Stopped at a hotspot — hold lantern frame (frame 2, row 0)
-		row_y     = 0.0
-		frame_idx = 2
+		# Stopped at hotspot — combat-ready stance (row 1, frame 0)
+		y_start = 125.0; src_h = 96.0
+		frame_idx = 0
 	elif walking:
-		# Run cycle: frames 1-2-3 of row 3
-		row_y     = ROW_H * 3.0
-		frame_idx = 1 + int(anim * 1.6) % 3
+		# Torch-walk cycle: row 0, all 8 frames
+		y_start = 0.0; src_h = 101.0
+		frame_idx = int(anim * 2.0) % 8
 	else:
-		# Idle breathing — slow cycle through row 0
-		row_y     = 0.0
-		frame_idx = int(_elapsed * 1.2) % 6
+		# Idle: row 0, slow torch sway frames 0-1
+		y_start = 0.0; src_h = 101.0
+		frame_idx = int(_elapsed * 0.8) % 2
 
-	var disp_w := FW / ROW_H * DISP_H
-	var src    := Rect2(float(frame_idx) * FW, row_y + SKIP, FW, ROW_H - SKIP)
+	var disp_w := FW / src_h * DISP_H
+	var src    := Rect2(float(frame_idx) * FW, y_start, FW, src_h)
 
 	_draw_ellipse(Vector2(px, py + 2.0), disp_w * 0.45, 4.0, Color(0, 0, 0, 0.4))
 	draw_set_transform(Vector2(px, py), 0.0, Vector2(float(facing), 1.0))

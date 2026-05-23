@@ -498,7 +498,7 @@ func _draw_player_combat(x: float, y: float, pstate: String, t: float, blocking:
 		var flip_x := 1.0
 		if pstate == "striking":
 			y_start = 250.0; src_h = 91.0
-			frame_idx = clamp(int(t / 250.0 * 8), 0, 7)
+			frame_idx = clamp(int(t / 250.0 * 6), 0, 5)
 		elif pstate == "parrying":
 			y_start = 125.0; src_h = 96.0
 			frame_idx = 2 + int(_elapsed_ms / 120.0) % 2
@@ -508,7 +508,7 @@ func _draw_player_combat(x: float, y: float, pstate: String, t: float, blocking:
 			flip_x = float(c.get("player_dodge_dir", 1))
 		elif pstate == "hit":
 			y_start = 125.0; src_h = 96.0
-			frame_idx = 7
+			frame_idx = 5
 		else:
 			y_start = 125.0; src_h = 96.0
 			frame_idx = 1 if blocking else 0
