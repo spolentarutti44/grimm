@@ -596,7 +596,7 @@ func _draw_wesen_combat(wid: String, x: float, y: float, wstate: String, t: floa
 		"cracher_mortel": _draw_medieval_sprite(_cracher_tex,        108.0, wstate, 128.0, 140.0, 2, 3, 1, 0.0)
 		"gevatter_tod":   _draw_medieval_sprite(_gevatter_tex,       123.0, wstate,  75.0, 110.0, 1, 2, 1, 0.0)
 		"klaustreich":    _draw_klaustreich(wstate)
-		"ziegevolk":      _draw_medieval_sprite(_ziegevolk_tex,      147.0, wstate, 128.0, 115.0, 2, 3, 2, 0.0)
+		"ziegevolk":      _draw_medieval_sprite(_ziegevolk_tex,      143.0, wstate, 128.0, 115.0, 2, 3, 2, 0.0)
 		"skalenzahne":    _draw_skalenzahne(wstate)
 		_:                _draw_blutbad(wstate)
 	draw_set_transform(Vector2.ZERO)
