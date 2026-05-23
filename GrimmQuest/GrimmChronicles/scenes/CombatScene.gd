@@ -697,21 +697,22 @@ func _draw_hexenbiest(wstate: String) -> void:
 		return
 	const FW     := 128.0
 	const DISP_H := 110.0
-	# Row 3 (y=417, h=142): beast form — f0-1 idle sway, f1-5 charge, f7 death/stunned
+	# 1024×590, 4 rows @ 147px each
+	# Row 3 (y=441, h=149): beast form — f0-1 idle sway, f1-5 charge, f7 stunned
 	var y_start: float; var src_h: float; var frame_idx: int
 	match wstate:
 		"windup":
-			y_start = 417.0; src_h = 142.0
+			y_start = 441.0; src_h = 149.0
 			# frames 1-5: charge-up and strike (skip f0 standing, f6-7 death)
 			var progress := 0.0
 			if c.get("enemy_move") != null:
 				progress = min(1.0, c["enemy_state_time"] / float(c["enemy_move"]["windup"]))
 			frame_idx = 1 + clamp(int(progress * 5), 0, 4)
 		"stunned":
-			y_start = 417.0; src_h = 142.0
-			frame_idx = 7  # lying down / dead frame
+			y_start = 441.0; src_h = 149.0
+			frame_idx = 7
 		_:
-			y_start = 417.0; src_h = 142.0
+			y_start = 441.0; src_h = 149.0
 			# frames 0-1 slow ping-pong: beast standing with slight sway
 			var t := int(_elapsed_ms / 600.0) % 2
 			frame_idx = t
@@ -720,11 +721,11 @@ func _draw_hexenbiest(wstate: String) -> void:
 	_draw_ellipse(Vector2(0, 8), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
 	draw_texture_rect_region(_hexenbiest_tex, Rect2(disp_w * 0.5, -DISP_H + 8.0, -disp_w, DISP_H), src)
 
-# Spinnetod — 1024×559, 8 frames/row, uniform 139px rows, no labels
-# Row 0 (y=0,   h=139): human walking
-# Row 1 (y=139, h=139): hybrid transformation
-# Row 2 (y=278, h=139): full spider walking     ← idle
-# Row 3 (y=417, h=142): spider attack + death   ← windup (f1-5) / stunned (f7)
+# Spinnetod — 1024×590, 8 frames/row, 4 rows @ 147px each
+# Row 0 (y=0,   h=147): human walking
+# Row 1 (y=147, h=147): hybrid transformation
+# Row 2 (y=294, h=147): full spider walking     ← idle
+# Row 3 (y=441, h=149): spider attack + death   ← windup (f1-5) / stunned (f7)
 func _draw_spinnetod(wstate: String) -> void:
 	if not _spinnetod_tex: _draw_blutbad(wstate); return
 	const FW     := 128.0
@@ -732,17 +733,17 @@ func _draw_spinnetod(wstate: String) -> void:
 	var y_start: float; var src_h: float; var frame_idx: int
 	match wstate:
 		"windup":
-			y_start = 417.0; src_h = 142.0
-			# frames 1-5: charge and strike (skip f0 biped standing, f6-7 death)
+			y_start = 441.0; src_h = 149.0
+			# frames 1-5: charge and strike (skip f0 standing, f6-7 death)
 			var progress := 0.0
 			if c.get("enemy_move") != null:
 				progress = min(1.0, c["enemy_state_time"] / float(c["enemy_move"]["windup"]))
 			frame_idx = 1 + clamp(int(progress * 5), 0, 4)
 		"stunned":
-			y_start = 417.0; src_h = 142.0
-			frame_idx = 7  # lying down / dead frame
+			y_start = 441.0; src_h = 149.0
+			frame_idx = 7
 		_:
-			y_start = 278.0; src_h = 139.0
+			y_start = 294.0; src_h = 147.0
 			# frames 0-3 ping-pong: tighter spider walk cycle
 			var t := int(_elapsed_ms / 220.0) % 6
 			frame_idx = t if t < 4 else (6 - t)
@@ -811,12 +812,11 @@ func _draw_coyotl(wstate: String) -> void:
 	_draw_ellipse(Vector2(0, 8), disp_w * 0.35, 5.0, Color(0, 0, 0, 0.45))
 	draw_texture_rect_region(_coyotl_tex, Rect2(disp_w * 0.5, -DISP_H + 8.0, -disp_w, DISP_H), src)
 
-# Klaustreich — 1024×728, 8 frames/row. Five natural content blocks:
-#   Block 0 woge:   y=14,  h=121 (unused in combat)
-#   Block 1 human:  y=161, h=123 (unused in combat)
-#   Block 2 attack: y=314, h=116
-#   Block 3 idle:   y=455, h=120 (hybrid upright combat stance)
-#   Block 4 stun:   y=618, h=92  (cowering small beast)
+# Klaustreich — 1024×590, 8 frames/row, 4 rows @ 147px each
+#   Row 0 (y=0,   h=147): human walking (unused in combat)
+#   Row 1 (y=147, h=147): beast idle — f0-1 upright stance, f2-7 running panther
+#   Row 2 (y=294, h=147): beast attack (8 frames)
+#   Row 3 (y=441, h=149): beast fallen / stunned (3 frames only)
 func _draw_klaustreich(wstate: String) -> void:
 	if not _klaustreich_tex: _draw_blutbad(wstate); return
 	const FW     := 128.0
@@ -825,17 +825,17 @@ func _draw_klaustreich(wstate: String) -> void:
 	var y_start: float; var src_h: float; var frame_idx: int
 	match wstate:
 		"windup":
-			y_start = 314.0; src_h = 116.0
+			y_start = 294.0; src_h = 147.0
 			var progress := 0.0
 			if c.get("enemy_move") != null:
 				progress = min(1.0, c["enemy_state_time"] / float(c["enemy_move"]["windup"]))
 			frame_idx = clamp(int(progress * N), 0, N - 1)
 		"stunned":
-			y_start = 618.0; src_h = 92.0
-			frame_idx = int(_elapsed_ms / 300.0) % N
+			y_start = 441.0; src_h = 149.0
+			frame_idx = int(_elapsed_ms / 300.0) % 3  # only 3 fallen frames in row 3
 		_:
-			y_start = 455.0; src_h = 120.0
-			# frames 0-1 only: upright hybrid stance (frames 2-7 are a large running panther — different scale)
+			y_start = 147.0; src_h = 147.0
+			# frames 0-1 only: upright hybrid stance (frames 2-7 are running panther)
 			frame_idx = int(_elapsed_ms / 500.0) % 2
 	var disp_w := FW / src_h * DISP_H
 	var src    := Rect2(float(frame_idx) * FW, y_start, FW, src_h)
