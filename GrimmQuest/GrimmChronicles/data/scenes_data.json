@@ -5,7 +5,7 @@
     "floor": [40, 260, 640, 360],
     "spawn": [340, 310],
     "hotspots": [
-      {"id": "trailer",  "x": 200, "y": 290, "r": 60, "name": "Aunt Marie's trailer", "interact": "enter_trailer", "stand_x": 200, "stand_y": 330},
+      {"id": "trailer",  "x": 200, "y": 290, "r": 60, "name": "Aunt Marie's carriage", "interact": "enter_trailer", "stand_x": 200, "stand_y": 330},
       {"id": "campfire", "x": 340, "y": 292, "r": 40, "name": "The campfire",          "interact": "rest",           "stand_x": 340, "stand_y": 325},
       {"id": "post",     "x": 560, "y": 280, "r": 50, "name": "The contract post",     "interact": "contracts",      "stand_x": 560, "stand_y": 320}
     ],

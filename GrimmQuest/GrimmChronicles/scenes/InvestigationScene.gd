@@ -194,6 +194,7 @@ func _update_movement(delta: float) -> void:
 		var sp := SPEED * delta
 		p["x"] += kx * sp; p["y"] += ky * sp
 		if kx != 0.0: p["facing"] = 1 if kx > 0.0 else -1
+		if not p.get("walking", false): p["anim"] = 0.0  # start cycle from frame 0
 		p["walking"] = true
 		p["tx"] = p["x"]; p["ty"] = p["y"]
 		p["pending_interact"] = ""
@@ -219,7 +220,7 @@ func _update_movement(delta: float) -> void:
 	p["y"] = clamp(p["y"], float(f[1]), float(f[3]))
 
 	if p["walking"] or kx != 0.0 or ky != 0.0:
-		p["anim"] = p.get("anim", 0.0) + delta * 8.0
+		p["anim"] = p.get("anim", 0.0) + delta * 5.5
 
 func _effective_hotspots() -> Array:
 	var s: Dictionary = Data.SCENES[GameState.scene]
@@ -344,10 +345,11 @@ func _handle_click(pos: Vector2) -> void:
 			_enter_scene(b["exit"]["to"])
 			return
 
-	# Secret debug trigger: click either trailer wheel 4× within 2s → fight
+	# Secret debug trigger: click either carriage wheel 4× within 2s → fight
+	# Wheel positions match horse_hub_clean.png at Rect2(45,165,260,145)
 	if GameState.scene == "hub":
-		var lw := Vector2(158, 298)
-		var rw := Vector2(242, 298)
+		var lw := Vector2(66, 279)
+		var rw := Vector2(116, 280)
 		if pos.distance_to(lw) < 18 or pos.distance_to(rw) < 18:
 			if _elapsed - _dbg_wheel_last_time > 2.0:
 				_dbg_wheel_clicks = 0
@@ -366,6 +368,7 @@ func _handle_click(pos: Vector2) -> void:
 		if dx * dx + dy * dy < float(h["r"]) * float(h["r"]):
 			var p := GameState.pc
 			p["tx"] = float(h["stand_x"]); p["ty"] = float(h["stand_y"])
+			p["anim"] = 0.0
 			p["walking"] = true
 			p["pending_interact"] = h["interact"]
 			p["facing"] = 1 if float(h["x"]) > p["x"] else -1
@@ -377,6 +380,7 @@ func _handle_click(pos: Vector2) -> void:
 	   pos.y >= float(f[1]) and pos.y <= float(f[3]):
 		var p := GameState.pc
 		p["tx"] = pos.x; p["ty"] = pos.y
+		p["anim"] = 0.0
 		p["walking"] = true
 		p["pending_interact"] = ""
 		p["facing"] = 1 if pos.x > p["x"] else -1
@@ -927,44 +931,42 @@ func _draw_hotspot_prop(h: Dictionary) -> void:
 		x = 0.0; y = 0.0
 	match hid:
 		"trailer":
-			draw_set_transform(Vector2(x, y), 0.0, Vector2(1.5, 1.5))
-			# Undercarriage
-			draw_rect(Rect2(-46,-6,92,8), Color("#484C52"))
-			# Wheels
-			draw_circle(Vector2(-28,5), 9, Color("#222428"))
-			draw_circle(Vector2(-28,5), 4, Color("#424650"))
-			draw_circle(Vector2(28,5), 9, Color("#222428"))
-			draw_circle(Vector2(28,5), 4, Color("#424650"))
-			# Main aluminium body
-			draw_rect(Rect2(-48,-44,96,40), Color("#B2B6BA"))
-			_draw_ellipse(Vector2(-48,-24), 10, 20, Color("#B2B6BA"))
-			_draw_ellipse(Vector2(48,-24), 10, 20, Color("#B2B6BA"))
-			# Top highlight strip (lighter)
-			draw_rect(Rect2(-40,-44,80,11), Color("#D2D6DA"))
-			_draw_ellipse(Vector2(-48,-38), 10, 6, Color("#C4C8CC"))
-			_draw_ellipse(Vector2(48,-38), 10, 6, Color("#C4C8CC"))
-			# Horizontal ribs
-			for ri in 5:
-				draw_line(Vector2(-46, -38.0+float(ri)*6.0),
-					Vector2(46, -38.0+float(ri)*6.0), Color("#8A9098"), 0.8)
-			# Porthole windows
-			draw_circle(Vector2(-18,-28), 7, Color("#3a5878"))
-			draw_circle(Vector2(-18,-28), 7, Color("#6A90B0"), false, 1.2)
-			draw_circle(Vector2(-20,-30), 2.5, Color(1,1,1,0.28))
-			draw_circle(Vector2(8,-28), 7, Color("#3a5878"))
-			draw_circle(Vector2(8,-28), 7, Color("#6A90B0"), false, 1.2)
-			draw_circle(Vector2(6,-30), 2.5, Color(1,1,1,0.28))
-			# Door (right side)
-			draw_rect(Rect2(22,-40,15,36), Color("#8E9296"))
-			draw_rect(Rect2(22,-40,15,36), Color("#76797E"), false, 1)
-			draw_circle(Vector2(24,-22), 1.5, Color("#D0D4D8"))
-			# Roof vent
-			draw_rect(Rect2(-7,-44,14,5), Color("#C6CACC"))
-			draw_rect(Rect2(-5,-47,10,4), Color("#9CA0A4"))
-			# Hitch
-			draw_line(Vector2(-50,-7), Vector2(-61,-1), Color("#7A7E84"), 2)
-			draw_circle(Vector2(-62,-1), 3, Color("#9CA0A4"))
-			draw_set_transform(Vector2.ZERO)
+			var _horse_tex := _get_sheet_tex("horse_hub_clean")
+			if _horse_tex:
+				# horse_hub_clean.png 608×338: background-removed stagecoach + horses.
+				# 260×145 display; carriage sits left of campfire, wheels at ~y=280.
+				draw_texture_rect(_horse_tex, Rect2(45.0, 165.0, 260.0, 145.0), false)
+			else:
+				# Procedural fallback — original Aunt Marie's trailer (kept for reference)
+				draw_set_transform(Vector2(x, y), 0.0, Vector2(1.5, 1.5))
+				draw_rect(Rect2(-46,-6,92,8), Color("#484C52"))
+				draw_circle(Vector2(-28,5), 9, Color("#222428"))
+				draw_circle(Vector2(-28,5), 4, Color("#424650"))
+				draw_circle(Vector2(28,5), 9, Color("#222428"))
+				draw_circle(Vector2(28,5), 4, Color("#424650"))
+				draw_rect(Rect2(-48,-44,96,40), Color("#B2B6BA"))
+				_draw_ellipse(Vector2(-48,-24), 10, 20, Color("#B2B6BA"))
+				_draw_ellipse(Vector2(48,-24), 10, 20, Color("#B2B6BA"))
+				draw_rect(Rect2(-40,-44,80,11), Color("#D2D6DA"))
+				_draw_ellipse(Vector2(-48,-38), 10, 6, Color("#C4C8CC"))
+				_draw_ellipse(Vector2(48,-38), 10, 6, Color("#C4C8CC"))
+				for ri in 5:
+					draw_line(Vector2(-46, -38.0+float(ri)*6.0),
+						Vector2(46, -38.0+float(ri)*6.0), Color("#8A9098"), 0.8)
+				draw_circle(Vector2(-18,-28), 7, Color("#3a5878"))
+				draw_circle(Vector2(-18,-28), 7, Color("#6A90B0"), false, 1.2)
+				draw_circle(Vector2(-20,-30), 2.5, Color(1,1,1,0.28))
+				draw_circle(Vector2(8,-28), 7, Color("#3a5878"))
+				draw_circle(Vector2(8,-28), 7, Color("#6A90B0"), false, 1.2)
+				draw_circle(Vector2(6,-30), 2.5, Color(1,1,1,0.28))
+				draw_rect(Rect2(22,-40,15,36), Color("#8E9296"))
+				draw_rect(Rect2(22,-40,15,36), Color("#76797E"), false, 1)
+				draw_circle(Vector2(24,-22), 1.5, Color("#D0D4D8"))
+				draw_rect(Rect2(-7,-44,14,5), Color("#C6CACC"))
+				draw_rect(Rect2(-5,-47,10,4), Color("#9CA0A4"))
+				draw_line(Vector2(-50,-7), Vector2(-61,-1), Color("#7A7E84"), 2)
+				draw_circle(Vector2(-62,-1), 3, Color("#9CA0A4"))
+				draw_set_transform(Vector2.ZERO)
 		"campfire":
 			var flick  := sin(_elapsed * 8.3) * 1.5
 			var flick2 := sin(_elapsed * 11.7 + 1.2) * 1.2
@@ -1151,9 +1153,10 @@ func _draw_player() -> void:
 		y_start = 165.0; src_h = 145.0
 		frame_idx = 0
 	elif walking:
-		# Full 8-frame profile walk cycle — stand→turn→stride→profile→profile→stride→turn→stand
+		# Ping-pong 0→7→0 so the loop reverses instead of hard-jumping back to frame 0
 		y_start = 10.0; src_h = 146.0
-		frame_idx = int(anim * 2.0) % 8
+		var _raw: int = int(anim * 2.0) % 14
+		frame_idx = _raw if _raw < 8 else 14 - _raw
 	else:
 		# Idle: row 0 frame 0 (neutral standing)
 		y_start = 10.0; src_h = 146.0

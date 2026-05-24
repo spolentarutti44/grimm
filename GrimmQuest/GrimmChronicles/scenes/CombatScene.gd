@@ -89,6 +89,7 @@ func _start_combat(wid: String, deduced_correct: bool) -> void:
 		"combo":           0,
 		"block_held":      false,
 		"parry_perfect_timing": false,
+		"strike_cooldown":      0.0,
 	}
 	p["stam"] = p["max_stam"]
 
@@ -128,7 +129,8 @@ func _update_combat(dt: float) -> void:
 	c["player_state_time"] = c["player_state_time"] + dt
 	c["log_time"]     = max(0.0, c["log_time"]     - dt)
 	c["flash_screen"] = max(0.0, c["flash_screen"] - dt)
-	c["shake_amount"] = max(0.0, c["shake_amount"] - dt * 0.03)
+	c["shake_amount"]    = max(0.0, c["shake_amount"]    - dt * 0.03)
+	c["strike_cooldown"] = max(0.0, c["strike_cooldown"] - dt)
 
 	# Fade floaters
 	var ft_alive := []
@@ -207,8 +209,10 @@ func _update_combat(dt: float) -> void:
 				c["parry_perfect_timing"] = _pw >= 0.72
 			else:
 				c["parry_perfect_timing"] = false
-		elif _pressed.get("k", false):
-			_pressed.erase("k"); c["player_state"]="striking"; c["player_state_time"]=0.0; _execute_player_strike()
+		elif _pressed.get("k", false) and c["strike_cooldown"] <= 0.0:
+			_pressed.erase("k"); c["player_state"]="striking"; c["player_state_time"]=0.0
+			c["strike_cooldown"] = 1500.0
+			_execute_player_strike()
 			if c.is_empty(): return
 
 	# ── State timeouts ───────────────────────────────────────────────────────
@@ -229,7 +233,7 @@ func _pick_move() -> Dictionary:
 
 func _execute_player_strike() -> void:
 	if c["enemy_state"] == "stunned":
-		var cursor_pos := sin(_elapsed_ms * 0.012) * 0.5 + 0.5
+		var cursor_pos := sin(float(c["enemy_state_time"]) * 0.012) * 0.5 + 0.5
 		var dmg: int
 		if cursor_pos >= 0.42 and cursor_pos <= 0.58:
 			dmg = randi_range(12, 18) + int(c["combo"]) * 4
@@ -536,8 +540,13 @@ func _draw_combat_hud() -> void:
 
 	# Legend
 	draw_rect(Rect2(W/2.0-200,H-40,400,28), Color(0.08,0.06,0.04,0.65))
+	var cd: float = float(c["strike_cooldown"])
+	var k_col := C_CREAM if cd <= 0.0 else Color(C_CREAM.r, C_CREAM.g, C_CREAM.b, 0.35)
 	draw_string(_font, Vector2(W/2.0,H-22), "[K] Strike  [J] Parry  [A/D] Dodge  [Shift] Block",
-		HORIZONTAL_ALIGNMENT_CENTER,-1,11,C_CREAM)
+		HORIZONTAL_ALIGNMENT_CENTER,-1,11,k_col)
+	if cd > 0.0:
+		var fill := (1.0 - cd / 1500.0) * 68.0
+		draw_rect(Rect2(W/2.0 - 200.0, H - 42.0, fill, 3.0), Color(C_GLOW, 0.7))
 
 # ─── character drawings ───────────────────────────────────────────────────────
 func _draw_player_combat(x: float, y: float, pstate: String, t: float, blocking: bool) -> void:
@@ -943,24 +952,31 @@ func _draw_skalenzahne(wstate: String) -> void:
 	_draw_ellipse(Vector2(0, 28), 34, 5, Color(0, 0, 0, 0.5))
 
 func _draw_strike_window() -> void:
-	const BX := 80.0; const BY := 268.0; const BW := 200.0; const BH := 10.0
-	# Background
-	draw_rect(Rect2(BX, BY, BW, BH), Color(0.08, 0.06, 0.04, 0.9))
+	const BX := 240.0; const BY := 320.0; const BW := 200.0; const BH := 18.0
+	# Dark backing panel
+	draw_rect(Rect2(BX - 8.0, BY - 22.0, BW + 16.0, BH + 30.0), Color(0.04, 0.03, 0.02, 0.85))
 	# Zone: chip (outer 30% each side, red)
-	draw_rect(Rect2(BX,              BY, BW * 0.30, BH), Color(C_BLOOD.r, C_BLOOD.g, C_BLOOD.b, 0.55))
-	draw_rect(Rect2(BX + BW * 0.70,  BY, BW * 0.30, BH), Color(C_BLOOD.r, C_BLOOD.g, C_BLOOD.b, 0.55))
+	draw_rect(Rect2(BX,              BY, BW * 0.30, BH), Color(C_BLOOD.r, C_BLOOD.g, C_BLOOD.b, 0.70))
+	draw_rect(Rect2(BX + BW * 0.70,  BY, BW * 0.30, BH), Color(C_BLOOD.r, C_BLOOD.g, C_BLOOD.b, 0.70))
 	# Zone: good (12% flanking center, gold)
-	draw_rect(Rect2(BX + BW * 0.30,  BY, BW * 0.12, BH), Color(C_GOLD.r,  C_GOLD.g,  C_GOLD.b,  0.80))
-	draw_rect(Rect2(BX + BW * 0.58,  BY, BW * 0.12, BH), Color(C_GOLD.r,  C_GOLD.g,  C_GOLD.b,  0.80))
-	# Zone: perfect (center 16%, green)
-	draw_rect(Rect2(BX + BW * 0.42,  BY, BW * 0.16, BH), Color(C_GREEN.r, C_GREEN.g, C_GREEN.b, 1.00))
+	draw_rect(Rect2(BX + BW * 0.30,  BY, BW * 0.12, BH), Color(C_GOLD.r,  C_GOLD.g,  C_GOLD.b,  0.90))
+	draw_rect(Rect2(BX + BW * 0.58,  BY, BW * 0.12, BH), Color(C_GOLD.r,  C_GOLD.g,  C_GOLD.b,  0.90))
+	# Zone: perfect (center 16%, green) — pulsing
+	var gpulse := 0.7 + sin(_elapsed_ms / 120.0) * 0.3
+	draw_rect(Rect2(BX + BW * 0.42,  BY, BW * 0.16, BH), Color(C_GREEN.r * gpulse, C_GREEN.g * gpulse, C_GREEN.b * gpulse, 1.00))
 	# Oscillating cursor
-	var cursor_pos := sin(_elapsed_ms * 0.012) * 0.5 + 0.5
+	var cursor_pos := sin(float(c["enemy_state_time"]) * 0.012) * 0.5 + 0.5
 	var cx := BX + cursor_pos * BW
-	draw_rect(Rect2(cx - 2.0, BY - 4.0, 4.0, BH + 8.0), C_CREAM)
-	# Label
-	draw_string(_font, Vector2(BX + BW * 0.5, BY - 9.0), "[K] Strike",
-		HORIZONTAL_ALIGNMENT_CENTER, -1, 11, C_CREAM)
+	draw_rect(Rect2(cx - 3.0, BY - 5.0, 6.0, BH + 10.0), C_CREAM)
+	# Labels
+	draw_string(_font, Vector2(BX + BW * 0.5, BY - 8.0), "[K] STRIKE!",
+		HORIZONTAL_ALIGNMENT_CENTER, -1, 13, C_GLOW)
+	draw_string(_font, Vector2(BX + BW * 0.30, BY + BH + 8.0), "chip",
+		HORIZONTAL_ALIGNMENT_CENTER, -1, 9, Color(C_BLOOD, 0.8))
+	draw_string(_font, Vector2(BX + BW * 0.70, BY + BH + 8.0), "chip",
+		HORIZONTAL_ALIGNMENT_CENTER, -1, 9, Color(C_BLOOD, 0.8))
+	draw_string(_font, Vector2(BX + BW * 0.50, BY + BH + 8.0), "PERFECT",
+		HORIZONTAL_ALIGNMENT_CENTER, -1, 9, Color(C_GREEN, 1.0))
 
 func _draw_jagerbar(wstate: String) -> void:
 	var fc := Color("#412402")
