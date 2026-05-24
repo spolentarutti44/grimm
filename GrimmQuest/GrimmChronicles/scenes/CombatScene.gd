@@ -88,6 +88,7 @@ func _start_combat(wid: String, deduced_correct: bool) -> void:
 		"log_time":        2500.0,
 		"combo":           0,
 		"block_held":      false,
+		"parry_perfect_timing": false,
 	}
 	p["stam"] = p["max_stam"]
 
@@ -169,7 +170,17 @@ func _update_combat(dt: float) -> void:
 				c["enemy_state"] = "windup"
 				c["enemy_state_time"] = 0.0
 		"windup":
-			if c["enemy_state_time"] >= float(c["enemy_move"]["windup"]):
+			if c["player_state"] == "parrying" and c.get("parry_perfect_timing", false):
+				c["enemy_state"] = "stunned"; c["enemy_state_time"] = 0.0
+				c["combo"] = min(2, c["combo"] + 1)
+				c["parry_perfect_timing"] = false
+				c["player_state"] = "idle"; c["player_state_time"] = 0.0
+				_float(450, 140, "PERFECT!", C_GLOW, true)
+				c["flash_screen"] = 200.0; c["flash_color"] = Color.WHITE
+				c["shake_amount"] = 5.0
+				p["stam"] = min(p["max_stam"], p["stam"] + 1)
+				_log("Flawless read! The Wesen staggers — strike now! (K)")
+			elif c["enemy_state_time"] >= float(c["enemy_move"]["windup"]):
 				_execute_enemy_strike()
 				if c.is_empty(): return
 		"recover":
@@ -191,6 +202,11 @@ func _update_combat(dt: float) -> void:
 			_pressed.erase("d"); c["player_state"]="dodging"; c["player_state_time"]=0.0; c["player_dodge_dir"]=1
 		elif _pressed.get("j", false):
 			_pressed.erase("j"); c["player_state"]="parrying"; c["player_state_time"]=0.0
+			if c["enemy_state"] == "windup" and c["enemy_move"] != null:
+				var _pw: float = minf(1.0, float(c["enemy_state_time"]) / float(c["enemy_move"]["windup"]))
+				c["parry_perfect_timing"] = _pw >= 0.72
+			else:
+				c["parry_perfect_timing"] = false
 		elif _pressed.get("k", false):
 			_pressed.erase("k"); c["player_state"]="striking"; c["player_state_time"]=0.0; _execute_player_strike()
 			if c.is_empty(): return
@@ -213,22 +229,51 @@ func _pick_move() -> Dictionary:
 
 func _execute_player_strike() -> void:
 	if c["enemy_state"] == "stunned":
-		var dmg: int = randi_range(8, 12) + int(c["combo"]) * 3
+		var cursor_pos := sin(_elapsed_ms * 0.012) * 0.5 + 0.5
+		var dmg: int
+		if cursor_pos >= 0.42 and cursor_pos <= 0.58:
+			dmg = randi_range(12, 18) + int(c["combo"]) * 4
+			_float(450, 140, "PERFECT! -" + str(dmg), C_GLOW, true)
+			c["shake_amount"] = 8.0
+			_log("Perfect timing! A devastating blow. %d damage." % dmg)
+		elif (cursor_pos >= 0.30 and cursor_pos < 0.42) or (cursor_pos > 0.58 and cursor_pos <= 0.70):
+			dmg = randi_range(8, 12) + int(c["combo"]) * 3
+			_float(450, 150, "-" + str(dmg), C_GLOW, true)
+			c["shake_amount"] = 6.0
+			_log("Clean strike on the stagger! %d damage." % dmg)
+		else:
+			dmg = randi_range(3, 6)
+			_float(450, 150, "-" + str(dmg), C_CREAM)
+			c["shake_amount"] = 3.0
+			_log("Late swing. %d damage." % dmg)
 		c["enemy_hp"] = max(0, c["enemy_hp"] - dmg)
-		_float(450,150, "-"+str(dmg), C_GLOW, true)
-		c["shake_amount"] = 6.0
-		_log("A clean strike on the stagger! %d damage." % dmg)
 		if c["enemy_hp"] <= 0: _end_combat("killed")
 	elif c["enemy_state"] == "recover":
+		# Counter-attack window — moderate damage
 		var dmg := randi_range(5,8)
 		c["enemy_hp"] = max(0, c["enemy_hp"] - dmg)
 		_float(450,150, "-"+str(dmg), C_CREAM)
 		c["shake_amount"] = 3.0
+		_log("Counter hit! %d damage." % dmg)
+		if c["enemy_hp"] <= 0: _end_combat("killed")
+	elif c["enemy_state"] == "windup":
+		# Interrupt strike — risky, costs stamina, light damage
+		var dmg := randi_range(3,5)
+		c["enemy_hp"] = max(0, c["enemy_hp"] - dmg)
+		p["stam"] = max(0, p["stam"] - 2)
+		c["enemy_state"] = "recover"; c["enemy_state_time"] = 0.0
+		_float(450,150, "-"+str(dmg), C_BLOOD)
+		c["shake_amount"] = 2.0
+		_log("You interrupt the attack! %d damage, but it costs you." % dmg)
 		if c["enemy_hp"] <= 0: _end_combat("killed")
 	else:
-		p["stam"] = max(0, p["stam"] - 1)
-		_float(220,160, "miss", Color("#888780"))
-		_log("You swing wild. The Wesen is set.")
+		# Idle — chip strike costs stamina
+		var dmg := randi_range(2,4)
+		c["enemy_hp"] = max(0, c["enemy_hp"] - dmg)
+		p["stam"] = max(0, p["stam"] - 2)
+		_float(450,150, "-"+str(dmg), Color("#888780"))
+		_log("You press the attack. %d damage, but you're exposed." % dmg)
+		if c["enemy_hp"] <= 0: _end_combat("killed")
 
 func _execute_enemy_strike() -> void:
 	var move: Dictionary = c["enemy_move"]
@@ -391,6 +436,9 @@ func _draw() -> void:
 	# Wind-up indicator
 	if c["enemy_state"] == "windup" and c["enemy_move"]:
 		_draw_windup_indicator()
+	# Strike timing window — shown when enemy is stunned
+	if c["enemy_state"] == "stunned" and not c["spare_offered"]:
+		_draw_strike_window()
 
 	draw_set_transform(Vector2.ZERO)
 
@@ -443,8 +491,14 @@ func _draw_windup_indicator() -> void:
 
 	# Wind-up bar
 	draw_rect(Rect2(ex-50,165,100,8), Color(0.08,0.06,0.04,0.85))
+	# Perfect parry zone (last 28% of bar, gold tint) — press J here for instant stun
+	draw_rect(Rect2(ex-50 + 100.0*0.72, 165.0, 100.0*0.28, 8.0), Color(C_GOLD.r, C_GOLD.g, C_GOLD.b, 0.40))
 	draw_rect(Rect2(ex-48,167,min(96.0, 96.0*progress),4), tell_col)
 	draw_string(_font, Vector2(ex,185), move["name"], HORIZONTAL_ALIGNMENT_CENTER,-1,11,C_CREAM)
+	# J hint pulsing above the gold zone
+	var _ja := 0.55 + sin(_elapsed_ms / 160.0) * 0.45
+	draw_string(_font, Vector2(ex + 36.0, 162.0), "J",
+		HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color(C_GOLD.r, C_GOLD.g, C_GOLD.b, _ja))
 
 	# Red flash near strike
 	if progress > 0.85:
@@ -481,37 +535,38 @@ func _draw_combat_hud() -> void:
 	draw_rect(Rect2(W-212,36,184.0*ehp_pct,8), C_BLOOD)
 
 	# Legend
-	draw_rect(Rect2(W/2.0-150,H-40,300,28), Color(0.08,0.06,0.04,0.65))
-	draw_string(_font, Vector2(W/2.0,H-22), "⚔ yellow=PARRY(J)  ↘ blue=DODGE(A/D)  🛡 red=BLOCK(Shift)",
+	draw_rect(Rect2(W/2.0-200,H-40,400,28), Color(0.08,0.06,0.04,0.65))
+	draw_string(_font, Vector2(W/2.0,H-22), "[K] Strike  [J] Parry  [A/D] Dodge  [Shift] Block",
 		HORIZONTAL_ALIGNMENT_CENTER,-1,11,C_CREAM)
 
 # ─── character drawings ───────────────────────────────────────────────────────
 func _draw_player_combat(x: float, y: float, pstate: String, t: float, blocking: bool) -> void:
 	if _grimm_med_tex:
-		# medieval_sprite_grimm.png — 1024×500, FW=128 (8 frames/row), non-uniform row heights
-		# Row 0 (y=0,   h=101): torch walk   → dodging
-		# Row 1 (y=125, h=96):  combat ready  → idle / parrying / hit
-		# Row 2 (y=250, h=91):  weapon attack  → striking
+		# medieval_sprite_grimm.png — 1024×590, FW=128, actual row bounds:
+		# Row 0 (y=10,  h=146): profile walk cycle    → dodging (8 frames, all clean)
+		# Row 1 (y=165, h=145): combat stances        → idle / parrying / blocking
+		# Row 2 (y=322, h=139): attack animations     → striking (skip f4=double)
+		# Row 3 (y=472, h=114): fallen / hit          → hit (f0=double, use f1-2)
 		const FW     := 128.0
-		const DISP_H := 96.0
+		const DISP_H := 110.0
 		var y_start: float; var src_h: float; var frame_idx: int
 		var flip_x := 1.0
 		if pstate == "striking":
-			y_start = 250.0; src_h = 91.0
-			frame_idx = clamp(int(t / 250.0 * 6), 0, 5)
+			y_start = 322.0; src_h = 139.0
+			frame_idx = ([3, 5, 6])[clamp(int(t / 250.0 * 3), 0, 2)]
 		elif pstate == "parrying":
-			y_start = 125.0; src_h = 96.0
-			frame_idx = 2 + int(_elapsed_ms / 120.0) % 2
+			y_start = 165.0; src_h = 145.0
+			frame_idx = 5 + int(_elapsed_ms / 120.0) % 2
 		elif pstate == "dodging":
-			y_start = 0.0; src_h = 101.0
-			frame_idx = 1 + int(_elapsed_ms / 80.0) % 3
+			y_start = 10.0; src_h = 146.0
+			frame_idx = int(_elapsed_ms / 80.0) % 8
 			flip_x = float(c.get("player_dodge_dir", 1))
 		elif pstate == "hit":
-			y_start = 125.0; src_h = 96.0
-			frame_idx = 5
+			y_start = 472.0; src_h = 114.0
+			frame_idx = 1 + clamp(int(t / 300.0 * 2), 0, 1)
 		else:
-			y_start = 125.0; src_h = 96.0
-			frame_idx = 1 if blocking else 0
+			y_start = 165.0; src_h = 145.0
+			frame_idx = 7 if blocking else 0
 		var disp_w := FW / src_h * DISP_H
 		var src    := Rect2(float(frame_idx) * FW, y_start, FW, src_h)
 		_draw_ellipse(Vector2(x, y + 5.0), disp_w * 0.4, 5.0, Color(0, 0, 0, 0.5))
@@ -886,6 +941,26 @@ func _draw_skalenzahne(wstate: String) -> void:
 			# Idle — jaw closed, slow sway handled by caller
 			draw_line(Vector2(-47, -14), Vector2(-65, -12), Color("#4a6a4a"), 1)
 	_draw_ellipse(Vector2(0, 28), 34, 5, Color(0, 0, 0, 0.5))
+
+func _draw_strike_window() -> void:
+	const BX := 80.0; const BY := 268.0; const BW := 200.0; const BH := 10.0
+	# Background
+	draw_rect(Rect2(BX, BY, BW, BH), Color(0.08, 0.06, 0.04, 0.9))
+	# Zone: chip (outer 30% each side, red)
+	draw_rect(Rect2(BX,              BY, BW * 0.30, BH), Color(C_BLOOD.r, C_BLOOD.g, C_BLOOD.b, 0.55))
+	draw_rect(Rect2(BX + BW * 0.70,  BY, BW * 0.30, BH), Color(C_BLOOD.r, C_BLOOD.g, C_BLOOD.b, 0.55))
+	# Zone: good (12% flanking center, gold)
+	draw_rect(Rect2(BX + BW * 0.30,  BY, BW * 0.12, BH), Color(C_GOLD.r,  C_GOLD.g,  C_GOLD.b,  0.80))
+	draw_rect(Rect2(BX + BW * 0.58,  BY, BW * 0.12, BH), Color(C_GOLD.r,  C_GOLD.g,  C_GOLD.b,  0.80))
+	# Zone: perfect (center 16%, green)
+	draw_rect(Rect2(BX + BW * 0.42,  BY, BW * 0.16, BH), Color(C_GREEN.r, C_GREEN.g, C_GREEN.b, 1.00))
+	# Oscillating cursor
+	var cursor_pos := sin(_elapsed_ms * 0.012) * 0.5 + 0.5
+	var cx := BX + cursor_pos * BW
+	draw_rect(Rect2(cx - 2.0, BY - 4.0, 4.0, BH + 8.0), C_CREAM)
+	# Label
+	draw_string(_font, Vector2(BX + BW * 0.5, BY - 9.0), "[K] Strike",
+		HORIZONTAL_ALIGNMENT_CENTER, -1, 11, C_CREAM)
 
 func _draw_jagerbar(wstate: String) -> void:
 	var fc := Color("#412402")

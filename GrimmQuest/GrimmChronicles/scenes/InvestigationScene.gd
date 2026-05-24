@@ -1113,9 +1113,9 @@ func _draw_player() -> void:
 	var anim: float = p.get("anim", 0.0)
 	var walking: bool = p["walking"]
 
-	# medieval_sprite_grimm.png — 1024×500, FW=128 (8 frames/row), non-uniform row heights
-	# Row 0 (y=0,   h=101): torch walk — walking / idle
-	# Row 1 (y=125, h=96):  combat stances — near-hotspot (armed/ready)
+	# medieval_sprite_grimm.png — 1024×590, FW=128, actual row bounds:
+	# Row 0 (y=10,  h=146): profile walk cycle — walking / idle (8 frames, all clean)
+	# Row 1 (y=165, h=145): combat stances     — near-hotspot (armed/ready)
 	const FW     := 128.0
 	const DISP_H := 72.0
 
@@ -1148,16 +1148,16 @@ func _draw_player() -> void:
 
 	if _near_hs != null and not walking:
 		# Stopped at hotspot — combat-ready stance (row 1, frame 0)
-		y_start = 125.0; src_h = 96.0
+		y_start = 165.0; src_h = 145.0
 		frame_idx = 0
 	elif walking:
-		# Torch-walk cycle: row 0, all 8 frames
-		y_start = 0.0; src_h = 101.0
+		# Full 8-frame profile walk cycle — stand→turn→stride→profile→profile→stride→turn→stand
+		y_start = 10.0; src_h = 146.0
 		frame_idx = int(anim * 2.0) % 8
 	else:
-		# Idle: row 0, slow torch sway frames 0-1
-		y_start = 0.0; src_h = 101.0
-		frame_idx = int(_elapsed * 0.8) % 2
+		# Idle: row 0 frame 0 (neutral standing)
+		y_start = 10.0; src_h = 146.0
+		frame_idx = 0
 
 	var disp_w := FW / src_h * DISP_H
 	var src    := Rect2(float(frame_idx) * FW, y_start, FW, src_h)
