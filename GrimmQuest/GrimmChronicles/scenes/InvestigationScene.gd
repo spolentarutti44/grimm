@@ -220,7 +220,7 @@ func _update_movement(delta: float) -> void:
 	p["y"] = clamp(p["y"], float(f[1]), float(f[3]))
 
 	if p["walking"] or kx != 0.0 or ky != 0.0:
-		p["anim"] = p.get("anim", 0.0) + delta * 5.5
+		p["anim"] = p.get("anim", 0.0) + delta * 8.0
 
 func _effective_hotspots() -> Array:
 	var s: Dictionary = Data.SCENES[GameState.scene]
@@ -1153,10 +1153,8 @@ func _draw_player() -> void:
 		y_start = 165.0; src_h = 145.0
 		frame_idx = 0
 	elif walking:
-		# Ping-pong 0→7→0 so the loop reverses instead of hard-jumping back to frame 0
 		y_start = 10.0; src_h = 146.0
-		var _raw: int = int(anim * 2.0) % 14
-		frame_idx = _raw if _raw < 8 else 14 - _raw
+		frame_idx = int(anim) % 8
 	else:
 		# Idle: row 0 frame 0 (neutral standing)
 		y_start = 10.0; src_h = 146.0
