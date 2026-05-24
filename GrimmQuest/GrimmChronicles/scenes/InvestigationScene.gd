@@ -1171,15 +1171,24 @@ func _draw_player() -> void:
 # ── cursor ────────────────────────────────────────────────────────────────────
 func _draw_cursor() -> void:
 	var cx := _mouse.x; var cy := _mouse.y
-	draw_line(Vector2(cx-6,cy), Vector2(cx-2,cy), C_CREAM, 1.2)
-	draw_line(Vector2(cx+2,cy), Vector2(cx+6,cy), C_CREAM, 1.2)
-	draw_line(Vector2(cx,cy-6), Vector2(cx,cy-2), C_CREAM, 1.2)
-	draw_line(Vector2(cx,cy+2), Vector2(cx,cy+6), C_CREAM, 1.2)
+	var col := C_GLOW if _hover_hs else C_CREAM
+	# Shadow for contrast on any background
+	draw_line(Vector2(cx-10,cy+1), Vector2(cx-3,cy+1), Color(0,0,0,0.5), 2.5)
+	draw_line(Vector2(cx+3, cy+1), Vector2(cx+10,cy+1), Color(0,0,0,0.5), 2.5)
+	draw_line(Vector2(cx+1,cy-10), Vector2(cx+1,cy-3), Color(0,0,0,0.5), 2.5)
+	draw_line(Vector2(cx+1,cy+3), Vector2(cx+1,cy+10), Color(0,0,0,0.5), 2.5)
+	# Main crosshair
+	draw_line(Vector2(cx-10,cy), Vector2(cx-3,cy), col, 2.0)
+	draw_line(Vector2(cx+3, cy), Vector2(cx+10,cy), col, 2.0)
+	draw_line(Vector2(cx,cy-10), Vector2(cx,cy-3), col, 2.0)
+	draw_line(Vector2(cx,cy+3), Vector2(cx,cy+10), col, 2.0)
+	draw_circle(Vector2(cx,cy), 1.5, col)
 	if _hover_hs:
-		draw_arc(Vector2(cx,cy), 4, 0, TAU, 12, C_GLOW, 1)
+		var pulse := 7.0 + sin(_elapsed * TAU / 0.7) * 1.5
+		draw_arc(Vector2(cx,cy), pulse, 0, TAU, 24, Color(C_GLOW,0.85), 1.5)
 		# Tooltip above cursor
 		var lbl: String = _hover_hs["name"]
-		_draw_tooltip(Vector2(cx+12, cy+12), lbl)
+		_draw_tooltip(Vector2(cx+14, cy+14), lbl)
 
 # ── HUD ───────────────────────────────────────────────────────────────────────
 func _draw_hud() -> void:
@@ -1188,10 +1197,10 @@ func _draw_hud() -> void:
 
 	# ── left card: scene + stats
 	var scene_name: String = Data.SCENES[GameState.scene]["name"]
-	_draw_card(Rect2(8,8,220,44))
-	draw_string(_font, Vector2(16,22), scene_name, HORIZONTAL_ALIGNMENT_LEFT,-1,12,C_CREAM)
+	_draw_card(Rect2(8,8,230,50))
+	draw_string(_font, Vector2(16,25), scene_name, HORIZONTAL_ALIGNMENT_LEFT,-1,13,C_CREAM)
 	var stats := "Vigor %d/%d  ·  Gold %d" % [pl["hp"], pl["max_hp"], pl["gold"]]
-	draw_string(_font, Vector2(16,36), stats, HORIZONTAL_ALIGNMENT_LEFT,-1,11,C_CREAM)
+	draw_string(_font, Vector2(16,41), stats, HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color(C_CREAM,0.75))
 
 	# ── right card: buttons
 	var bx := W - 8.0
@@ -1199,16 +1208,16 @@ func _draw_hud() -> void:
 	var _contract: String = pl.get("contract", "")
 	var _min: int = Data.HUNTS[_contract].get("min_clues", 4) if _contract != "" else 4
 	if _contract != "" and pl["evidence"].size() >= _min:
-		var rect := Rect2(bx-90, 10, 82, 20)
-		bx -= 96
-		_draw_hud_btn(rect, "Accuse", Color(C_BLOOD.r,C_BLOOD.g,C_BLOOD.b,0.35))
+		var rect := Rect2(bx-96, 8, 88, 26)
+		bx -= 102
+		_draw_hud_btn(rect, "Accuse", Color(C_BLOOD.r,C_BLOOD.g,C_BLOOD.b,0.75))
 		_hud_btns.append({"rect": rect, "action": _show_accusation})
 
-	var rect_ev := Rect2(bx-130,10,122,20); bx -= 136
+	var rect_ev := Rect2(bx-138,8,130,26); bx -= 144
 	_draw_hud_btn(rect_ev, "Evidence (%d)" % pl["evidence"].size())
 	_hud_btns.append({"rect": rect_ev, "action": _show_evidence_list})
 
-	var rect_di := Rect2(bx-60,10,52,20)
+	var rect_di := Rect2(bx-68,8,60,26)
 	_draw_hud_btn(rect_di, "Diary")
 	_hud_btns.append({"rect": rect_di, "action": _show_diary})
 
@@ -1222,14 +1231,14 @@ func _draw_hud() -> void:
 		draw_string(_font, Vector2(px+8,py+16), label, HORIZONTAL_ALIGNMENT_LEFT,-1,12,C_CREAM)
 
 func _draw_card(r: Rect2) -> void:
-	draw_rect(r, Color(0.08,0.06,0.04,0.85))
-	draw_rect(r, Color(0.98,0.93,0.85,0.2), false, 0.5)
+	draw_rect(r, Color(0.06,0.04,0.03,0.92))
+	draw_rect(r, Color(0.98,0.93,0.85,0.5), false, 1.0)
 
-func _draw_hud_btn(r: Rect2, label: String, bg_col := Color(0.98,0.93,0.85,0.15)) -> void:
+func _draw_hud_btn(r: Rect2, label: String, bg_col := Color(0.08,0.06,0.04,0.82)) -> void:
 	draw_rect(r, bg_col)
-	draw_rect(r, Color(0.98,0.93,0.85,0.2), false, 0.5)
-	draw_string(_font, Vector2(r.position.x+6, r.position.y+14), label,
-		HORIZONTAL_ALIGNMENT_LEFT,-1,11,C_CREAM)
+	draw_rect(r, Color(0.98,0.93,0.85,0.55), false, 1.0)
+	draw_string(_font, Vector2(r.position.x+8, r.position.y+15), label,
+		HORIZONTAL_ALIGNMENT_LEFT,-1,12,C_CREAM)
 
 # ── exits ─────────────────────────────────────────────────────────────────────
 func _draw_exits() -> void:
