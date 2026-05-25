@@ -1267,10 +1267,10 @@ func _draw_modal() -> void:
 	draw_rect(Rect2(0,0,W,H), Color(0.04,0.03,0.02,0.78))
 
 	var kind: String = _modal.get("_kind","simple")
-	var panel := Rect2(50, 30, 580, 330)
+	var panel := Rect2(40, 24, 600, 346)
 	# Panel background
 	draw_rect(panel, C_PARCH)
-	draw_rect(panel, Color("#8a6f3d"), false, 1)
+	draw_rect(panel, Color("#8a6f3d"), false, 2.0)
 
 	# Clip content inside panel with scroll
 	var cx := panel.position.x + 16.0
@@ -1292,20 +1292,20 @@ func _modal_text(cx: float, cy_ref: float, text: String, size: int, col: Color, 
 	return cy_ref + size + 6
 
 func _modal_btn(cx: float, cy: float, label: String, w: float, action: Callable, primary := false, blood := false, mercy := false) -> float:
-	var h := 26.0
+	var h := 32.0
 	var r := Rect2(cx, cy, w, h)
 	var bg := Color("#E8D9B2")
 	if primary: bg = Color("#3a2a14")
 	if blood:   bg = Color("#993C1D")
 	if mercy:   bg = Color("#E1F5EE")
 	draw_rect(r, bg)
-	draw_rect(r, Color("#8a6f3d"), false, 0.5)
+	draw_rect(r, Color("#8a6f3d") if not blood else Color("#c0391a"), false, 1.5)
 	var fc := Color("#3a2a14")
 	if primary or blood: fc = C_PARCH
 	if mercy: fc = Color("#0F6E56")
-	draw_string(_font, Vector2(cx+8, cy+17), label, HORIZONTAL_ALIGNMENT_LEFT,-1,12,fc)
+	draw_string(_font, Vector2(cx + w * 0.5, cy + 21), label, HORIZONTAL_ALIGNMENT_CENTER,-1,13,fc)
 	_modal_btns.append({"rect": r, "action": action})
-	return cy + h + 8
+	return cy + h + 10
 
 func _draw_modal_simple(cx: float, cy: float, max_y: float, _panel: Rect2) -> void:
 	var eyebrow: String = _modal.get("eyebrow","")
@@ -1562,32 +1562,37 @@ func _draw_modal_accusation(cx: float, cy: float, max_y: float, _panel: Rect2) -
 	var contract: String = pl.get("contract", "")
 	var suspects: Array = Data.HUNTS[contract].get("suspects", Data.WESEN.keys()) \
 		if Data.HUNTS.has(contract) else Data.WESEN.keys()
-	var col_w := 260.0
-	var grid_x := [cx, cx + col_w + 16]
+	const CARD_W := 262.0; const CARD_H := 80.0; const CARD_GAP := 14.0
+	var grid_x := [cx, cx + CARD_W + CARD_GAP]
 	var gi := 0
 	var row_y := cy2
 	for wid: String in suspects:
 		if not Data.WESEN.has(wid): continue
 		var w: Dictionary = Data.WESEN[wid]
 		var gx: float = grid_x[gi % 2]
-		if gi % 2 == 0 and gi > 0: row_y += 72
+		if gi % 2 == 0 and gi > 0: row_y += CARD_H + 8.0
 		var gy := row_y
 		var is_sel := _modal_sel == wid
-		var card_bg := Color("#FCEBEB") if is_sel else C_PARCH
-		draw_rect(Rect2(gx-4,gy,col_w,66), card_bg)
-		draw_rect(Rect2(gx-4,gy,col_w,66), Color("#993C1D") if is_sel else Color("#8a6f3d"), false, 1.0 if is_sel else 0.5)
-		draw_string(_font, Vector2(gx+4,gy+16), w["name"], HORIZONTAL_ALIGNMENT_LEFT,-1,13,col_dark)
-		draw_string(_font, Vector2(gx+4,gy+30), _truncate(w["signs"].split(".")[0]+".",40), HORIZONTAL_ALIGNMENT_LEFT,-1,11,col_brow)
+		var card_bg := Color("#FCEBEB") if is_sel else Color("#EEE0C0")
+		draw_rect(Rect2(gx, gy, CARD_W, CARD_H), card_bg)
+		var border_col := Color("#993C1D") if is_sel else Color("#8a6f3d")
+		var border_w   := 2.0             if is_sel else 1.0
+		draw_rect(Rect2(gx, gy, CARD_W, CARD_H), border_col, false, border_w)
+		if is_sel:
+			draw_string(_font, Vector2(gx + CARD_W - 18, gy + 18), "✓", HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("#993C1D"))
+		draw_string(_font, Vector2(gx+10, gy+20), w["name"], HORIZONTAL_ALIGNMENT_LEFT,-1,15,col_dark)
+		var desc := _truncate(w["signs"].split(".")[0]+".", 44)
+		draw_string(_font, Vector2(gx+10, gy+36), desc, HORIZONTAL_ALIGNMENT_LEFT,-1,11,col_brow)
 		var captured_wid := wid
-		_modal_btns.append({"rect": Rect2(gx-4,gy,col_w,66), "action": func():
+		_modal_btns.append({"rect": Rect2(gx, gy, CARD_W, CARD_H), "action": func():
 			_modal_sel = captured_wid
 			queue_redraw()})
 		gi += 1
 
-	cy2 = row_y + 78
+	cy2 = row_y + CARD_H + 14.0
 	if not _modal_sel.is_empty():
-		cy2 = _modal_btn(cx, cy2, "Draw steel and hunt", 200, _confirm_accusation, true, true)
-	_modal_btn(cx+208, cy2-34, "Not yet", 90, _close_modal)
+		cy2 = _modal_btn(cx, cy2, "Draw steel and hunt", 220, _confirm_accusation, true, true)
+	_modal_btn(cx + 228, cy2 - 42, "Not yet", 110, _close_modal)
 
 func _confirm_accusation() -> void:
 	if _modal_sel.is_empty():
