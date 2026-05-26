@@ -35,7 +35,8 @@ var _modal       := {}    # empty = no modal
 var _modal_scroll := 0.0
 var _modal_btns  := []    # Array of {rect: Rect2, action: Callable}
 var _modal_tab   := ""    # diary tab id
-var _modal_sel   := ""    # accusation selection
+var _modal_sel      := ""    # accusation: selected wesen id
+var _modal_item_sel := ""    # accusation: selected item name
 
 # ─── HUD click regions ───────────────────────────────────────────────────────
 var _hud_btns    := []    # same format as _modal_btns
@@ -166,11 +167,10 @@ func _process(delta: float) -> void:
 		# E key interaction
 		if _pressed.get("e", false) and _near_hs:
 			_trigger(_near_hs["interact"])
-		# Random encounter countdown — only outside hub with an active contract
-		if GameState.scene != "hub" and not GameState.player.get("contract", "").is_empty():
-			_encounter_timer -= delta
-			if _encounter_timer <= 0.0:
-				_trigger_encounter()
+		# Random encounter timer — disabled (combat removed, kept for future use)
+		# if GameState.scene != "hub" and not GameState.player.get("contract","").is_empty():
+		#     _encounter_timer -= delta
+		#     if _encounter_timer <= 0.0: _trigger_encounter()
 	else:
 		# Keyboard scroll when modal is open (held keys = smooth, ~180px/s)
 		if _keys.get("up", false) or _keys.get("w", false):
@@ -411,7 +411,7 @@ func _show_trailer() -> void:
 	_open_modal("simple", {
 		"title": "Aunt Marie's trailer",
 		"eyebrow": "A small kingdom of ink",
-		"body": "Books, weapons, ink.\n\nHunts: %d  ·  Level: %d  ·  XP: %d" % [pl["hunts"], pl["level"], pl["xp"]],
+		"body": "Books, weapons, ink.\n\nHunts completed: %d  ·  Gold: %d" % [pl.get("hunts", 0), pl.get("gold", 0)],
 		"buttons": [
 			{"label": "Read the diary", "action": _show_diary},
 			{"label": "Close"},
@@ -419,9 +419,6 @@ func _show_trailer() -> void:
 	})
 
 func _show_rest() -> void:
-	var pl := GameState.player
-	pl["hp"] = pl["max_hp"]
-	pl["stam"] = pl["max_stam"]
 	_open_modal("simple", {
 		"title": "Rest at the fire",
 		"eyebrow": "A small kindness",
@@ -444,24 +441,7 @@ func _show_evidence_list() -> void:
 	_open_modal("evidence_list", {})
 
 func _trigger_encounter() -> void:
-	_encounter_timer = randf_range(50.0, 100.0)
-	var contract: String = GameState.player.get("contract", "")
-	if contract.is_empty() or not Data.HUNTS.has(contract):
-		return
-	var true_killer: String = Data.HUNTS[contract]["true_killer"]
-	var pool: Array = ENCOUNTER_POOL.filter(func(wid: String) -> bool: return wid != true_killer)
-	var wid: String = pool[randi() % pool.size()]
-	var wesen_name: String = Data.WESEN[wid]["name"]
-	var fight_fn := func():
-		_close_modal()
-		GameState.pending_combat = {"wid": wid, "correct": false, "is_encounter": true}
-		SceneNav.go_combat()
-	_open_modal("simple", {
-		"title": "Something in the dark",
-		"eyebrow": "An encounter",
-		"body": "A %s has caught your scent. There is no talking your way clear of this." % wesen_name,
-		"buttons": [{"label": "Draw steel", "primary": true, "blood": true, "action": fight_fn}],
-	})
+	pass  # Random encounters removed — combat replaced by deduction system
 
 func _show_accusation() -> void:
 	_modal_sel = ""
@@ -1199,7 +1179,7 @@ func _draw_hud() -> void:
 	var scene_name: String = Data.SCENES[GameState.scene]["name"]
 	_draw_card(Rect2(8,8,230,50))
 	draw_string(_font, Vector2(16,25), scene_name, HORIZONTAL_ALIGNMENT_LEFT,-1,13,C_CREAM)
-	var stats := "Vigor %d/%d  ·  Gold %d" % [pl["hp"], pl["max_hp"], pl["gold"]]
+	var stats := "Gold %d" % pl.get("gold", 0)
 	draw_string(_font, Vector2(16,41), stats, HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color(C_CREAM,0.75))
 
 	# ── right card: buttons
@@ -1288,8 +1268,12 @@ func _draw_modal() -> void:
 func _modal_text(cx: float, cy_ref: float, text: String, size: int, col: Color, max_y: float) -> float:
 	if cy_ref > max_y or cy_ref < 20.0:
 		return cy_ref + size + 4
-	draw_string(_font, Vector2(cx, cy_ref), text, HORIZONTAL_ALIGNMENT_LEFT, 540, size, col)
-	return cy_ref + size + 6
+	var wrap_w := 552.0
+	draw_multiline_string(_font, Vector2(cx, cy_ref), text,
+		HORIZONTAL_ALIGNMENT_LEFT, wrap_w, size, -1, col)
+	var ms: Vector2 = _font.get_multiline_string_size(text,
+		HORIZONTAL_ALIGNMENT_LEFT, wrap_w, size)
+	return cy_ref + ms.y + 6
 
 func _modal_btn(cx: float, cy: float, label: String, w: float, action: Callable, primary := false, blood := false, mercy := false) -> float:
 	var h := 32.0
@@ -1303,7 +1287,7 @@ func _modal_btn(cx: float, cy: float, label: String, w: float, action: Callable,
 	var fc := Color("#3a2a14")
 	if primary or blood: fc = C_PARCH
 	if mercy: fc = Color("#0F6E56")
-	draw_string(_font, Vector2(cx + w * 0.5, cy + 21), label, HORIZONTAL_ALIGNMENT_CENTER,-1,13,fc)
+	draw_string(_font, Vector2(cx, cy + 21), label, HORIZONTAL_ALIGNMENT_CENTER, w, 13, fc)
 	_modal_btns.append({"rect": r, "action": action})
 	return cy + h + 10
 
@@ -1347,14 +1331,24 @@ func _draw_modal_evid_detail(cx: float, cy: float, max_y: float, _panel: Rect2) 
 	var pl := GameState.player
 	var is_flagged: bool = eid in pl["flagged_evidence"]
 	var flag_label := ("★ Flagged — unflag" if is_flagged else "☆ Flag as key evidence")
-	cy2 = _modal_btn(cx, cy2, flag_label, 220, func():
+	var from_list_flag: bool = _modal.get("from_list", false)
+	cy2 = _modal_btn(cx, cy2, flag_label, 260, func():
 		if eid in pl["flagged_evidence"]:
 			pl["flagged_evidence"].erase(eid)
 		else:
 			pl["flagged_evidence"].append(eid)
 		GameState.save()
-		_close_modal())
-	_modal_btn(cx+228, cy2-34, "Close", 80, _close_modal, true)
+		_open_modal("evidence_detail", {
+			"title": Data.EVIDENCE[eid]["name"],
+			"body": Data.EVIDENCE[eid]["detail"],
+			"red_herring": Data.EVIDENCE[eid].get("red_herring", false),
+			"eid": eid,
+			"from_list": from_list_flag,
+		}))
+	if from_list_flag:
+		_modal_btn(cx+268, cy2-34, "← List", 80, func(): _open_modal("evidence_list", {}), true)
+	else:
+		_modal_btn(cx+268, cy2-34, "Close", 80, _close_modal, true)
 
 func _draw_modal_contracts(cx: float, _cy: float, _max_y: float, panel: Rect2) -> void:
 	var col_dark := Color("#3a2a14")
@@ -1449,40 +1443,51 @@ func _draw_modal_diary(cx: float, cy: float, _max_y: float, panel: Rect2) -> voi
 	var nav_y          := panel.end.y - 44.0
 	var content_max    := nav_y - 6.0
 
-	# ── Art mode — illustration fills the panel ───────────────────────────────
-	var tex: Texture2D = _get_wesen_tex(wid)
-	if tex and _diary_art_mode:
+	var unlocked: Array = GameState.player.get("unlocked_wesen", [])
+	var is_locked: bool = not (wid in unlocked)
+	var tex: Texture2D = null if is_locked else _get_wesen_tex(wid)
+
+	if is_locked:
+		# ── Locked entry — redacted placeholder ───────────────────────────────
 		var art_rect := Rect2(panel.position.x, panel.position.y, panel.size.x, nav_y - panel.position.y - 2)
-		# Dark fill so image margins don't expose the parchment background
-		draw_rect(art_rect, Color("#1a1210"))
-		# Fit image centered, maintaining aspect ratio (letterbox with dark bars)
-		var img_aspect := tex.get_width() / float(tex.get_height())
-		var box_aspect := art_rect.size.x / art_rect.size.y
-		var fit_w: float
-		var fit_h: float
-		if img_aspect > box_aspect:
-			fit_w = art_rect.size.x
-			fit_h = fit_w / img_aspect
-		else:
-			fit_h = art_rect.size.y
-			fit_w = fit_h * img_aspect
-		var offset := Vector2((art_rect.size.x - fit_w) * 0.5, (art_rect.size.y - fit_h) * 0.5)
-		draw_texture_rect(tex, Rect2(art_rect.position + offset, Vector2(fit_w, fit_h)), false)
-		# Subtle dark strip so nav row stays legible
-		draw_rect(Rect2(panel.position.x, nav_y - 10, panel.size.x, 12), Color(0, 0, 0, 0.45))
+		draw_rect(art_rect, Color("#0e0b09"))
+		var lock_cy := panel.position.y + art_rect.size.y * 0.35
+		draw_string(_font, Vector2(cx + 274.0 * 0.5 - 14, lock_cy),
+			"?", HORIZONTAL_ALIGNMENT_CENTER, -1, 64, Color(col_brow, 0.25))
+		var cy2 := lock_cy + 72.0
+		cy2 = _modal_text(cx, cy2, "ENTRY %d / %d — LOCKED" % [idx + 1, total], 10, Color(col_brow, 0.5), content_max)
+		_modal_text(cx, cy2, "Name this creature to unlock the entry.", 12, Color(col_brow, 0.4), content_max)
 	else:
-		# ── Text / stats mode ────────────────────────────────────────────────
-		var cy2 := cy
-		cy2 = _modal_text(cx, cy2, "GRIMM DIARY  ·  %d / %d" % [idx + 1, total], 10, col_brow, content_max)
-		cy2 = _modal_text(cx, cy2, w["name"], 18, col_dark, content_max)
-		cy2 += 4
-		cy2 = _modal_text(cx, cy2, w["desc"], 13, col_brow, content_max)
-		cy2 += 6
-		cy2 = _modal_text(cx, cy2, "THE SIGNS", 10, col_red, content_max)
-		cy2 = _modal_text(cx, cy2, w["signs"], 13, col_dark, content_max)
-		cy2 += 6
-		cy2 = _modal_text(cx, cy2, "THE WEAKNESS", 10, col_red, content_max)
-		cy2 = _modal_text(cx, cy2, w["weakness"], 13, col_dark, content_max)
+		# ── Art mode — illustration fills the panel ───────────────────────────
+		if tex and _diary_art_mode:
+			var art_rect := Rect2(panel.position.x, panel.position.y, panel.size.x, nav_y - panel.position.y - 2)
+			draw_rect(art_rect, Color("#1a1210"))
+			var img_aspect := tex.get_width() / float(tex.get_height())
+			var box_aspect := art_rect.size.x / art_rect.size.y
+			var fit_w: float
+			var fit_h: float
+			if img_aspect > box_aspect:
+				fit_w = art_rect.size.x
+				fit_h = fit_w / img_aspect
+			else:
+				fit_h = art_rect.size.y
+				fit_w = fit_h * img_aspect
+			var offset := Vector2((art_rect.size.x - fit_w) * 0.5, (art_rect.size.y - fit_h) * 0.5)
+			draw_texture_rect(tex, Rect2(art_rect.position + offset, Vector2(fit_w, fit_h)), false)
+			draw_rect(Rect2(panel.position.x, nav_y - 10, panel.size.x, 12), Color(0, 0, 0, 0.45))
+		else:
+			# ── Text / stats mode ──────────────────────────────────────────────
+			var cy2 := cy
+			cy2 = _modal_text(cx, cy2, "GRIMM DIARY  ·  %d / %d" % [idx + 1, total], 10, col_brow, content_max)
+			cy2 = _modal_text(cx, cy2, w["name"], 18, col_dark, content_max)
+			cy2 += 4
+			cy2 = _modal_text(cx, cy2, w["desc"], 13, col_brow, content_max)
+			cy2 += 6
+			cy2 = _modal_text(cx, cy2, "THE SIGNS", 10, col_red, content_max)
+			cy2 = _modal_text(cx, cy2, w["signs"], 13, col_dark, content_max)
+			cy2 += 6
+			cy2 = _modal_text(cx, cy2, "THE WEAKNESS", 10, col_red, content_max)
+			cy2 = _modal_text(cx, cy2, w["weakness"], 13, col_dark, content_max)
 
 	# ── Nav row — pinned, not scrolled ───────────────────────────────────────
 	draw_line(Vector2(panel.position.x + 10, nav_y - 6),
@@ -1530,27 +1535,114 @@ func _draw_modal_evidence_list(cx: float, cy: float, max_y: float, _panel: Rect2
 			var ev: Dictionary = Data.EVIDENCE[eid]
 			var flagged: bool = eid in pl["flagged_evidence"]
 			var row_bg := Color("#FCEBEB") if flagged else Color("#E8D9B2")
-			draw_rect(Rect2(cx-8,cy2-4,556,46), row_bg)
-			draw_rect(Rect2(cx-8,cy2-4,556,46), Color("#8a6f3d"),false,0.5)
+			var card_r := Rect2(cx-8, cy2-4, 556, 46)
+			draw_rect(card_r, row_bg)
+			draw_rect(card_r, Color("#8a6f3d"), false, 0.5)
 			if flagged:
 				draw_string(_font, Vector2(cx+530-8,cy2+10), "★", HORIZONTAL_ALIGNMENT_RIGHT,-1,11,C_BLOOD)
+			# Arrow hint
+			draw_string(_font, Vector2(cx+530-8,cy2+24), "→", HORIZONTAL_ALIGNMENT_RIGHT,-1,11,Color(col_brow,0.5))
 			cy2 = _modal_text(cx, cy2+2, ev["name"], 12, col_dark, max_y)
 			cy2 = _modal_text(cx, cy2, _truncate(ev["detail"],60), 11, col_brow, max_y)
 			cy2 += 4
+			var captured_eid := eid
+			_modal_btns.append({"rect": card_r, "action": func():
+				_open_modal("evidence_detail", {
+					"title": Data.EVIDENCE[captured_eid]["name"],
+					"body": Data.EVIDENCE[captured_eid]["detail"],
+					"red_herring": Data.EVIDENCE[captured_eid].get("red_herring", false),
+					"eid": captured_eid,
+					"from_list": true,
+				})})
 	cy2 += 4
 	_modal_btn(cx, cy2, "Close", 80, _close_modal)
+
+const ITEM_FLAVOUR := {
+	"Wolfsbane tincture":           "The old forest remedy. They cannot abide it.",
+	"Silver-tipped bolt":           "Forged cold. It remembers what they are.",
+	"Salt line":                    "Ancient protection. The Fox-kin will not cross it.",
+	"Iron threshold bar":           "Cold iron at the door. Their tricks stop here.",
+	"Pitch tar flask":              "Seizes the claws. The bear becomes slow stone.",
+	"Bear-iron manacle":            "Forged heavy for the largest quarry. Hold fast.",
+	"Torch brand":                  "Cold blood needs warmth gone — give it fire instead.",
+	"Fire oil vial":                "One vial, one match. The scales go still.",
+	"Body strike — no limb cuts":   "The limbs grow back. Strike what matters.",
+	"Sealed-room trap":             "No ceiling, no walls. Remove the advantage.",
+	"Spine blade":                  "One precise strike. The patience ends.",
+	"Constrict-break wedge":        "Force something between the coils. Buy a breath.",
+	"Grimm blood vial":             "A single drop. Permanent. Irreversible.",
+	"Zaubertrank nullifier":        "Old alchemy to silence old power.",
+	"Underbelly blade":             "Through the soft pale hide. Not the armoured back.",
+	"Lunge bait snare":             "Let it lunge. Be elsewhere when the jaw closes.",
+	"Nose cover — wax plug":        "Deny the pheromone its passage.",
+	"Rush approach — no pause":     "Move fast. Every second of exposure costs you.",
+	"Clan mother testimony":        "Words can end this. But you must have the right ones.",
+	"Ritual token — peace offering":"Come bearing the old signs. Speak before you draw.",
+	"Ground confinement net":       "Strip the vertical. The advantage collapses.",
+	"Flat-room trap":               "A cage with no ceiling. The cat loses its edge.",
+	"Tetrodotoxin reversal agent":  "Four days. This must reach the victim by then.",
+	"Pre-exposure antidote":        "Swallowed before contact. The spit lands harmless.",
+	"Follow the money — financier": "The hand that threw held no malice. Follow the coin.",
+	"Hired hand intercept":         "Cut the chain between order and execution.",
+}
 
 func _draw_modal_accusation(cx: float, cy: float, max_y: float, _panel: Rect2) -> void:
 	var col_dark := Color("#3a2a14")
 	var col_brow := Color("#8a6f3d")
 	var pl := GameState.player
 	var cy2 := cy
+
+	# ── Step 2: item selection (wesen already chosen) ─────────────────────
+	if not _modal_sel.is_empty():
+		var wesen_name: String = Data.WESEN[_modal_sel]["name"]
+		cy2 = _modal_text(cx, cy2, "NAME THE MEANS", 10, col_brow, max_y)
+		cy2 = _modal_text(cx, cy2, "What stops a " + wesen_name + "?", 17, col_dark, max_y)
+		cy2 = _modal_text(cx, cy2, "Choose the remedy from the diary's guidance.", 12, col_brow, max_y)
+		cy2 += 6
+
+		var contract: String = pl.get("contract", "")
+		var items: Array = []
+		if contract != "" and Data.HUNTS.has(contract):
+			items = Data.HUNTS[contract].get("available_items", [])
+		elif Data.WESEN.has(_modal_sel):
+			items = Data.WESEN[_modal_sel].get("weakness_items", [])
+
+		const CARD_W := 262.0; const CARD_H := 72.0; const CARD_GAP := 14.0
+		var grid_x := [cx, cx + CARD_W + CARD_GAP]
+		var gi := 0; var row_y := cy2
+		for item: String in items:
+			var gx: float = grid_x[gi % 2]
+			if gi % 2 == 0 and gi > 0: row_y += CARD_H + 6.0
+			var gy := row_y
+			var is_sel := _modal_item_sel == item
+			draw_rect(Rect2(gx, gy, CARD_W, CARD_H), Color("#FCEBEB") if is_sel else Color("#EEE0C0"))
+			draw_rect(Rect2(gx, gy, CARD_W, CARD_H), Color("#993C1D") if is_sel else Color("#8a6f3d"),
+				false, 2.0 if is_sel else 1.0)
+			if is_sel:
+				draw_string(_font, Vector2(gx + CARD_W - 18, gy + 18), "✓",
+					HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("#993C1D"))
+			draw_string(_font, Vector2(gx+10, gy+18), item, HORIZONTAL_ALIGNMENT_LEFT,-1,13,col_dark)
+			var flavour: String = ITEM_FLAVOUR.get(item, "")
+			draw_string(_font, Vector2(gx+10, gy+34), flavour, HORIZONTAL_ALIGNMENT_LEFT,-1,10,col_brow)
+			var captured_item := item
+			_modal_btns.append({"rect": Rect2(gx, gy, CARD_W, CARD_H), "action": func():
+				_modal_item_sel = captured_item
+				queue_redraw()})
+			gi += 1
+
+		cy2 = row_y + CARD_H + 14.0
+		if not _modal_item_sel.is_empty():
+			cy2 = _modal_btn(cx, cy2, "Confirm accusation", 220, _resolve_accusation, true, true)
+		_modal_btn(cx + 228, cy2 - 42, "← Back", 110, func():
+			_modal_sel = ""; _modal_item_sel = ""; queue_redraw())
+		return
+
+	# ── Step 1: wesen selection ───────────────────────────────────────────
 	cy2 = _modal_text(cx, cy2, "NAME THE KILLER", 10, col_brow, max_y)
 	cy2 = _modal_text(cx, cy2, "The accusation", 17, col_dark, max_y)
 	cy2 = _modal_text(cx, cy2, "Read the signs against the diary. Name the species.", 13, col_brow, max_y)
 	cy2 += 4
 
-	# Flagged evidence
 	if not pl["flagged_evidence"].is_empty():
 		draw_rect(Rect2(cx-8,cy2-4,556,16+pl["flagged_evidence"].size()*16), Color("#FCEBEB"))
 		cy2 = _modal_text(cx, cy2, "★ FLAGGED", 10, Color("#501313"), max_y)
@@ -1558,83 +1650,96 @@ func _draw_modal_accusation(cx: float, cy: float, max_y: float, _panel: Rect2) -
 			cy2 = _modal_text(cx, cy2, "— " + Data.EVIDENCE[eid]["name"], 12, Color("#501313"), max_y)
 		cy2 += 4
 
-	# Wesen grid (2 columns) — filtered to case suspects only
 	var contract: String = pl.get("contract", "")
 	var suspects: Array = Data.HUNTS[contract].get("suspects", Data.WESEN.keys()) \
 		if Data.HUNTS.has(contract) else Data.WESEN.keys()
 	const CARD_W := 262.0; const CARD_H := 80.0; const CARD_GAP := 14.0
 	var grid_x := [cx, cx + CARD_W + CARD_GAP]
-	var gi := 0
-	var row_y := cy2
+	var gi := 0; var row_y := cy2
 	for wid: String in suspects:
 		if not Data.WESEN.has(wid): continue
 		var w: Dictionary = Data.WESEN[wid]
 		var gx: float = grid_x[gi % 2]
 		if gi % 2 == 0 and gi > 0: row_y += CARD_H + 8.0
 		var gy := row_y
-		var is_sel := _modal_sel == wid
-		var card_bg := Color("#FCEBEB") if is_sel else Color("#EEE0C0")
-		draw_rect(Rect2(gx, gy, CARD_W, CARD_H), card_bg)
-		var border_col := Color("#993C1D") if is_sel else Color("#8a6f3d")
-		var border_w   := 2.0             if is_sel else 1.0
-		draw_rect(Rect2(gx, gy, CARD_W, CARD_H), border_col, false, border_w)
-		if is_sel:
-			draw_string(_font, Vector2(gx + CARD_W - 18, gy + 18), "✓", HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("#993C1D"))
+		draw_rect(Rect2(gx, gy, CARD_W, CARD_H), Color("#EEE0C0"))
+		draw_rect(Rect2(gx, gy, CARD_W, CARD_H), Color("#8a6f3d"), false, 1.0)
 		draw_string(_font, Vector2(gx+10, gy+20), w["name"], HORIZONTAL_ALIGNMENT_LEFT,-1,15,col_dark)
 		var desc := _truncate(w["signs"].split(".")[0]+".", 44)
 		draw_string(_font, Vector2(gx+10, gy+36), desc, HORIZONTAL_ALIGNMENT_LEFT,-1,11,col_brow)
+		draw_string(_font, Vector2(gx+10, gy+54), "Tap to select →", HORIZONTAL_ALIGNMENT_LEFT,-1,10,Color(col_brow,0.6))
 		var captured_wid := wid
 		_modal_btns.append({"rect": Rect2(gx, gy, CARD_W, CARD_H), "action": func():
 			_modal_sel = captured_wid
+			_modal_item_sel = ""
 			queue_redraw()})
 		gi += 1
 
 	cy2 = row_y + CARD_H + 14.0
-	if not _modal_sel.is_empty():
-		cy2 = _modal_btn(cx, cy2, "Draw steel and hunt", 220, _confirm_accusation, true, true)
-	_modal_btn(cx + 228, cy2 - 42, "Not yet", 110, _close_modal)
+	_modal_btn(cx, cy2, "Not yet", 110, _close_modal)
 
-func _confirm_accusation() -> void:
-	if _modal_sel.is_empty():
+func _resolve_accusation() -> void:
+	if _modal_sel.is_empty() or _modal_item_sel.is_empty():
 		return
 	var accused := _modal_sel
-	var contract: String = GameState.player.get("contract","")
-	var wid: String
-	var correct: bool
+	var item    := _modal_item_sel
+	var contract: String = GameState.player.get("contract", "")
+
+	var true_killer: String
 	if contract.is_empty():
-		# Debug: no active contract — fight the accused wesen directly
-		wid = accused
-		correct = true
+		true_killer = accused   # debug path: no contract, test against own weakness
 	else:
-		var true_killer: String = Data.HUNTS[contract]["true_killer"]
-		correct = accused == true_killer
-		wid = true_killer
-	GameState.player["deduction"] = accused
+		true_killer = Data.HUNTS[contract]["true_killer"]
+
+	var correct_wesen := accused == true_killer
+	var correct_item: bool = item in Data.WESEN[true_killer].get("weakness_items", [])
+
+	var outcome: String
+	if correct_wesen and correct_item:
+		outcome = "full"
+	elif correct_wesen:
+		outcome = "partial"
+	else:
+		outcome = "wrong"
+
+	var base_gold: int = Data.HUNTS.get(contract, {}).get("contract_gold", 30)
+	var gold_delta: int
+	match outcome:
+		"full":    gold_delta = base_gold
+		"partial": gold_delta = int(base_gold * 0.3)
+		_:         gold_delta = -10
+	GameState.player["gold"] = max(0, GameState.player.get("gold", 0) + gold_delta)
+
+	var new_unlock := false
+	if outcome != "wrong":
+		var unlocked: Array = GameState.player.get("unlocked_wesen", [])
+		if not (true_killer in unlocked):
+			unlocked.append(true_killer)
+			GameState.player["unlocked_wesen"] = unlocked
+			new_unlock = true
+
+	if not contract.is_empty():
+		var done: Array = GameState.player.get("completed_hunts", [])
+		done.append(contract)
+		GameState.player["completed_hunts"] = done
+		GameState.player["hunts"] = GameState.player.get("hunts", 0) + 1
+		GameState.player["contract"] = ""
+		GameState.player["evidence"] = []
+		GameState.player["flagged_evidence"] = []
+		GameState.player["deduction"] = accused
+
+	GameState.result = {
+		"outcome":            outcome,
+		"gold":               gold_delta,
+		"wesen_id":           true_killer,
+		"wesen_name":         Data.WESEN[true_killer]["name"],
+		"correct_wesen":      correct_wesen,
+		"correct_item":       correct_item,
+		"item_used":          item,
+		"new_wesen_unlocked": new_unlock,
+	}
 	_close_modal()
-
-	if not correct:
-		var go_hub := func():
-			_close_modal()
-			GameState.scene = "hub"
-			SceneNav.go_investigation()
-		_open_modal("simple", {
-			"title": "A wrong hunt",
-			"eyebrow": "The accusation fails",
-			"body": "That is not the one. The signs led you astray — or you did not read them true.\n\nReturn to the waystation. The case is not closed.",
-			"buttons": [{"label": "Back to the waystation", "primary": true, "blood": false, "action": go_hub}],
-		})
-		return
-
-	GameState.pending_combat = {"wid": wid, "correct": true}
-	var go_combat := func():
-		_close_modal()
-		SceneNav.go_combat()
-	_open_modal("simple", {
-		"title": "Sure of your quarry",
-		"eyebrow": "The hunt begins",
-		"body": "You read the signs true. You walk in armed with knowing.\n\nCombat: A/D dodge · J parry (precise!) · K strike · Shift block.\nWatch the Wesen's aura — yellow=parry, blue=dodge, red=block.",
-		"buttons": [{"label": "Draw steel", "primary": true, "blood": true, "action": go_combat}],
-	})
+	SceneNav.go_resolution()
 
 func _close_modal() -> void:
 	_modal = {}

@@ -1,115 +1,444 @@
 {
-  "body":         {"name": "Hans, the woodcutter",           "detail": "The throat is opened — ragged tearing, not a clean cut. Fang-work. The face is calm; he did not see it coming."},
-  "axe":          {"name": "The fallen axe",                 "detail": "A good axe, recently sharpened. He was felling, not fighting. Whatever took him surprised him at his work."},
-  "briar_fur":    {"name": "A tuft of fur on the briar",    "detail": "Coarse fur. Grey at the root, silvering at the tip. Oily to the touch. About four fingers long."},
-  "dirt_churned": {"name": "Churned dirt around the body",  "detail": "The ground is torn up in a wide arc around the corpse. Whatever killed him paced, or circled."},
-  "paw_print":    {"name": "A pawprint in the trail mud",   "detail": "Broader than a man's palm. Four toes, wide splay, a heel-pad too long for a true wolf. The track disappears into bracken — and never returns to four-legged form."},
-  "small_track":  {"name": "Smaller tracks beside the trail","detail": "Dainty four-toed prints. A fox passed this way recently. The tracks do not approach the body.", "red_herring": true},
-  "broken_branch":{"name": "A snapped branch over the trail","detail": "Snapped at chest-height. Something tall pushed through here."},
-  "cloak_scrap":  {"name": "A torn scrap of brown cloak",   "detail": "Heavy brown wool. Peasant cloth. There is a long grey-silver hair caught in the wool."},
-  "bed":          {"name": "The bed, unmade",                "detail": "The blankets are turned back, hastily. He rose in haste, perhaps to a noise."},
-  "meal":         {"name": "A half-eaten supper",            "detail": "Bread, cheese, an onion. He was eating when he left."},
-  "drawing":      {"name": "A child's scratchings on a slate","detail": "A drawing of a man with an axe and a small girl. The widow said there was no daughter. There was."},
-  "journal":      {"name": "A page from his ledger",         "detail": "\"The grey came again last night — I heard it howl long. Hans says do not fear. I do not believe Hans.\""},
-  "innkeeper":    {"name": "The innkeeper, mopping the bar", "detail": "\"Hans the woodcutter? Drank here Tuesday. Quiet man. He had words with Karl the trapper at the back.\""},
-  "trapper":      {"name": "Karl the trapper, in his cups",  "detail": "\"Hans? He said his neighbour was a man with too-long teeth in the moon-time.\""},
-  "farmhand":     {"name": "A frightened farmhand by the fire","detail": "\"I heard it. A howl, low and long, then nothing. Then a howl right close.\""},
-  "notice":       {"name": "A posted notice",                "detail": "\"BY ORDER OF THE BAILIFF: a reward of twenty pieces silver to any man who slays the wolf.\""},
-  "knife":        {"name": "A discarded knife in the alley", "detail": "A short knife, blade snapped clean. Tavern-brawl detritus.", "red_herring": true},
-  "miller_body":  {"name": "The miller, by the wheel",       "detail": "His ribs are stove in. The chest is concave — crushed, not torn. No blood at the throat, no fang-mark."},
-  "millstone":    {"name": "A grain-sack, ripped open",      "detail": "A heavy sack of barley, torn down its full length — not cut, ripped."},
-  "flour_print":  {"name": "A great pawprint in the spilled flour","detail": "Five thick claws, blunt. The print is plantigrade — the heel touches as well as the toes."},
-  "cracked_beam": {"name": "The cracked rafter overhead",    "detail": "A timber as thick as your thigh, cracked clean. Whatever did this stood up to do it."},
-  "bear_tooth":   {"name": "A carved boar-tooth on the floor","detail": "A boar-tooth amulet on rough twine, the twine snapped. Three notches cut into the bone."},
-  "prentice":     {"name": "The half-mad prentice",          "detail": "\"It came in through the door. It stood up. I saw the eyes, brown like a man's, and then the hands came down on him.\""},
-  "mill_journal": {"name": "The miller's ledger",            "detail": "\"Owe Bernholt the bear-farmer twelve pieces for the spring grain. He grows wroth.\""},
-  "wife_bed":     {"name": "The miller's wife, weeping",     "detail": "\"My husband has been afraid these three weeks. Of Bernholt, mostly. There was a boy too — his grandson — he'd started watching.\""},
-  "scales":       {"name": "The grain-scales",               "detail": "The weights have been altered. The miller WAS cheating his customers.", "red_herring": true},
-  "hearth":       {"name": "A cold hearth",                  "detail": "The fire is out. A jar of honey sits on the hearthstone."},
-  "bank_tracks":  {"name": "Pawprints down to the water",    "detail": "The same broad, plantigrade prints. They walk in — and walk out the far side."},
-  "bank_fur":     {"name": "Brown shag on the willow",       "detail": "A clump of fur. Coarse and brown and oily, longer than wolf-hair."},
-  "scarecrow":    {"name": "A scarecrow in the field",       "detail": "A common scarecrow. Nothing more.", "red_herring": true},
-  "fish_basket":  {"name": "A spilled fish-basket",          "detail": "Trout dumped on the bank, half-eaten. The bites are big."},
-  "mill_innkeep": {"name": "The downstream innkeeper",       "detail": "\"Bernholt was muttering about teaching the miller a Roh-Hatz lesson. His grandson Otto was with him, listening hard.\""},
-  "mill_drunkard":{"name": "A drunkard nodding by the fire", "detail": "\"Heard a roar two nights back. A great roaring like an old oak coming down.\""},
-  "bailiff_notice":{"name":"A bailiff's notice",             "detail": "\"Reward of forty pieces silver for the killer of Friedrich the Miller.\""},
-  "hidden_purse": {"name": "A coin-purse, tucked under the bench","detail": "Six silver pieces. New-minted. Hidden, not lost."},
-
-  "c3_neck_wounds":   {"name": "Fang-marks on the neck",       "detail": "Two small puncture wounds on the side of the neck — fang-shaped, roughly 4mm apart. Barely visible without close inspection."},
-  "c3_missing_rings": {"name": "Three rings, missing",          "detail": "Ernst's guild seal, a gold band, and a garnet signet — gone from his fingers. No signs of a struggle suggesting robbery."},
-  "c3_hollow_torso":  {"name": "The collapsed torso",           "detail": "The victim's chest is oddly sunken — ribs intact, but internal cavity feels soft and hollow when pressed. Organs partially dissolved.", "red_herring": false},
-  "c3_grey_hair":     {"name": "A grey-black hair",             "detail": "A single grey-black hair caught on the brass fitting hook beside the mirror. Too long and fine to be Ernst's."},
-  "c3_chemical_smell":{"name": "A sweet-chemical smell",        "detail": "A faint sweet-chemical smell lingers near the body — not perfume, not rot. Somewhere between the two."},
-  "c3_lock_scratches":{"name": "Scratches on the back-door lock","detail": "Scratch marks on the inside of the back door lock — picked from the outside, recently.", "red_herring": true},
-  "c3_unsigned_note": {"name": "An unsigned note",              "detail": "Tucked under the counter: 'You owe what was promised. Tonight.' Written in a rough hand.", "red_herring": true},
-  "c3_lena":          {"name": "Lena, the apprentice",          "detail": "\"A well-dressed woman came in two evenings ago. Ernst turned away his last appointment for her alone. She was striking — dark hair, very pale skin. She kept glancing at his hands. At his rings.\""},
-  "c3_georg":         {"name": "Georg, the neighbour",          "detail": "\"I heard voices from the shop around eleven. A woman's laugh — low, soft. Not unpleasant. Then silence.\""},
-  "c3_marta":         {"name": "Marta at the lodging house",    "detail": "\"A woman matching that description took a room here three days ago. Paid in advance. Her trunk is still here — full of men's jewellery. There was a strange smell from her room. A single grey glove on the windowsill — the fingers were split at the tips.\""},
-  "c3_lodge_elder":   {"name": "The Eisbiber lodge elder",      "detail": "\"Ernst wasn't the first. Young Pieter the silversmith — same thing, two months ago. And the clockmaker's son before that. All found peaceful. All drained. All missing their finest pieces.\""},
-
-  "c4_body":           {"name": "Willem Roth, in the snow",      "detail": "Deep claw lacerations across chest and shoulders. Expression of pure terror. Body partially dragged then abandoned. One boot missing."},
-  "c4_claw_spacing":   {"name": "The claw spacing",              "detail": "Claw spacing on chest wounds is 28cm — far beyond any natural wolf or bear. Pattern consistent with a single swipe from a large bipedal attacker."},
-  "c4_musk_scent":     {"name": "A musk in the air",             "detail": "A smell of wet fur and iron around the attack site — distinct, not a natural forest smell. Strongest at the point of first contact."},
-  "c4_red_eyes":       {"name": "Red eye-shine at the treeline", "detail": "A witness saw red eye-shine at the treeline around 10pm — too high off the ground, too steady for an animal."},
-  "c4_missing_boot":   {"name": "A boot, found deeper in",       "detail": "Willem's boot found 200 feet deeper in the forest — the drag was abandoned when the attacker heard something. A church bell rang at 11pm."},
-  "c4_coat_fabric":    {"name": "Torn coat-cloth on a branch",   "detail": "Heavy dark wool caught at chest height — not the victim's. Coarse, quality cut.", "red_herring": true},
-  "c4_contract_note":  {"name": "A contract dispute notice",     "detail": "Willem had recently won a case against the local miller, cutting him from a grain route. Threats were made.", "red_herring": true},
-  "c4_child":          {"name": "A child near the treeline",     "detail": "\"I saw a big man go into the trees right before I heard the screaming. He walked funny — hunched, like his back hurt him.\""},
-  "c4_innkeeper_4":    {"name": "The innkeeper",                 "detail": "\"Karl Metz was in here until half-nine. He seemed agitated. Kept looking at the door. And his eyes — the firelight caught them strange. Almost red.\""},
-  "c4_karl":           {"name": "Karl Metz, at his door",        "detail": "\"I was walking home. I heard something. I ran.\" His hands are trembling. There are scratches on his knuckles he keeps hiding in his sleeves."},
-
-  "c5_compression":    {"name": "Compression fractures, no bruising","detail": "Every rib fractured — but no bruising on the skin. Force was distributed evenly, applied slowly and with sustained pressure rather than impact."},
-  "c5_sinuous_trail":  {"name": "A sinuous trail in the dust",   "detail": "Faint parallel tracks in the dust — a sinuous trail leading from the drainage gap in the far wall to the barrels. About 40cm wide."},
-  "c5_widened_gap":    {"name": "A widened drainage gap",        "detail": "The drainage gap in the wall has been widened recently — mortar scraped away from the edges. Something large passed through it."},
-  "c5_shed_scale":     {"name": "A shed scale",                  "detail": "Translucent, about 3cm, faintly iridescent — caught on the barrel hoop. Not from any fish kept in this building."},
-  "c5_ledger_note":    {"name": "The ledger — 'ask Felix'",      "detail": "Petra's ledger has a discrepancy flagged: a large sum that didn't balance. She had written 'ask Felix' in the margin.", "red_herring": true},
-  "c5_wax_impression": {"name": "A wax key impression",          "detail": "A wax impression of the cellar key, found in a desk drawer in the office above. Recently made."},
-  "c5_boss":           {"name": "The wine merchant",             "detail": "\"Petra told me last week she'd found something in the accounts she couldn't explain. I told her to leave it alone.\""},
-  "c5_delivery_boy":   {"name": "A delivery boy",                "detail": "\"I saw someone near the back of the building around five. Big, kind of low to the ground. Moved strange. I thought maybe they were drunk.\""},
-  "c5_wesen_contact":  {"name": "A Wesen contact",               "detail": "\"There's a Lausenschlange been in this quarter for months. They hunt Mauzhertz — old instinct. If one was in that cellar it was waiting long before Petra came down.\""},
-
-  "c6_cold_body":      {"name": "The impossibly cold body",      "detail": "Lord Fenn's body is abnormally cold — well beyond what time of death and a warm room can explain. Internal temperature suggests frozen from within."},
-  "c6_copper_smell":   {"name": "Burnt copper in the air",       "detail": "A faint smell of burnt copper — not from the candles. Something else was combusted in this room recently."},
-  "c6_biest_mark":     {"name": "The biest mark",                "detail": "A small dark U-shaped mark found under the victim's tongue — looks like a birthmark. The biest mark — present in all Hexenbiester, living and dead."},
-  "c6_half_letter":    {"name": "A half-written letter",         "detail": "On the desk, addressed to 'V.': 'She has been asking questions about the eastern routes. I believe she is —' The sentence ends there."},
-  "c6_womans_glove":   {"name": "A glove — monogrammed M.V.",    "detail": "Fine leather, grey, very small. Found behind the bookcase. Monogrammed 'M.V.'"},
-  "c6_inheritance":    {"name": "The inheritance dispute",       "detail": "The butler reports a dispute between Lord Fenn and his nephew over the estate inheritance three weeks prior. Public threats were made.", "red_herring": true},
-  "c6_butler":         {"name": "The butler",                    "detail": "\"A woman came to dinner last week. Beautiful. Dark hair. Lord Fenn seemed captivated afterward — distracted, almost dreamy. When I passed back her wrap, I touched her hand. It was cold. Unnaturally cold.\""},
-  "c6_wesen_contact":  {"name": "A Wesen contact",               "detail": "\"M.V. — Marta Vaal. Verrat operative. A Hexenbiest. If Fenn was about to expose her in a letter, she'd have been sent to close him.\""},
-
-  "c7_jakob_body":     {"name": "Jakob Weiss, at his table",          "detail": "Two clean parallel cuts at the throat — surgical, not ragged. Curve inward. He was seated when it happened. No sign of a struggle."},
-  "c7_vault_open":     {"name": "The empty vault",                    "detail": "Undamaged lock — the vault was opened with a key, or something that fit exactly like one. Three hundred silver pieces gone. A velvet purse."},
-  "c7_surgical_cuts":  {"name": "The wound geometry",                 "detail": "Narrow parallel cuts, 8mm spacing, curving inward. Not a blade. A claw — small, controlled, deliberate. Not frenzy. Not hunger."},
-  "c7_fine_claw_mark": {"name": "A fine scrape on the doorframe",     "detail": "Four fine points, close together, 4cm spread — inside the back door frame. Small paw, recently made. Whatever left went out the back."},
-  "c7_missing_trophy": {"name": "The gold chain — taken",             "detail": "The heavy chain he wore every day is gone from his neck. The vault money matters. The chain mattered more — it was personal."},
-  "c7_dainty_prints":  {"name": "Dainty prints in the rear yard",     "detail": "Small four-toed prints in the soft earth — not a dog, not a true fox. Something that walks sometimes on two legs, sometimes four."},
-  "c7_dropped_coins":  {"name": "Coins near the gate",                "detail": "Three silver pieces scattered near the gate — dropped in haste. Whoever left took too much to carry safely.", "red_herring": false},
-  "c7_gate_scrapes":   {"name": "Fresh scratches on the rear gate",   "detail": "Fine parallel scratches at mid-body height on the gate latch. Whatever left went over or through it at speed."},
-
-  "c8_rolf_body":      {"name": "Rolf Huber, at the channel",         "detail": "Two small puncture wounds at the side of the throat, 12mm apart. The skin around them is greenish-tinged. Expression calm — no time for fear."},
-  "c8_green_scales":   {"name": "Green scales in the grate",          "detail": "Three small scales caught in the channel grate — translucent at the edge, faintly iridescent. Not from any fish kept in this district."},
-  "c8_bent_grille":    {"name": "The bent iron grille",               "detail": "The drainage grille has been bent outward from inside — recently. Something large navigated this passage. Knew the route."},
-  "c8_belly_trail":    {"name": "A sinuous belly-drag in the mud",    "detail": "A flat, sinuous trail pressed into the mud at the channel edge — about 30cm wide. Something moved here on its belly, and recently."},
-  "c8_cold_stones":    {"name": "Cold stones near the water",         "detail": "The stones around the culvert mouth are colder than the air allows. Cold-blooded things chill what they rest on for long periods."},
-  "c8_watch_log":      {"name": "The watchman's duty log",            "detail": "Rolf checked the east culvert every night at the tenth hour without variation — for six weeks. His schedule was perfectly predictable."},
-  "c8_guard_account":  {"name": "The relief guard",                   "detail": "\"Rolf had been complaining about something in the culvert all last week. Said it smelled wrong — cold mud and something chemical. I told him it was tannery runoff.\""},
-  "c8_wesen_8":        {"name": "A Wesen contact",                    "detail": "\"A Skalengeck hunts by ambush — cool blood, patient waiting. The venom is fast. Give it a dark, enclosed, wet space and it will wait there for days.\""},
-
-  "c9_crushed_burners":{"name": "Three charcoal burners, crushed",    "detail": "No blade wounds, no fang marks. Ribcages stove in from sustained pressure — force distributed, not impact. One man's spine broken in three places."},
-  "c9_charcoal_prints":{"name": "Huge prints in the snow",            "detail": "Five wide-splayed claws, a heel that touches the ground — the same as a bear's, but the stride length is a man's. Something tall walks on two legs here."},
-  "c9_snapped_birch":  {"name": "A birch snapped mid-height",         "detail": "A winter-hardened birch, two hands around, broken clean at chest height and thrown aside. The force required exceeds any natural predator."},
-  "c9_moved_body":     {"name": "A body moved after death",           "detail": "The third man was dragged 20 feet from where he fell — the groove is clear in the snow. He was examined, not fed upon."},
-  "c9_honey_scent":    {"name": "Honey on the equipment",             "detail": "The lead burner's equipment carries a fresh, strong honey scent — not his own. Something that handles honey was close to him recently."},
-  "c9_survivor":       {"name": "The fourth worker, fled",            "detail": "\"I was fetching wood from the cart. I heard a sound like a tree coming down. Then another. Then quiet. It had brown eyes — man's eyes — in something that was not a man.\""},
-  "c9_debt_note":      {"name": "A debt note in the satchel",         "detail": "\"The Ottmar family owes seven measures of charcoal. Last warning.\" Signed with a rough bear-claw mark.", "red_herring": true},
-  "c9_wesen_9":        {"name": "A Wesen contact",                    "detail": "\"A Jägerbär in Roh-Hatz does not kill from hunger. This was punishment. The burners wronged something sacred to a Jägerbär family. Find what was taken from them.\""},
-
-  "c10_heinrich_body": {"name": "Heinrich Braun, in his chamber",     "detail": "No wounds anywhere on the body. His chest feels oddly hollow — ribs intact, but the internal cavity gives under pressure. Expression perfectly serene."},
-  "c10_chain_missing": {"name": "The missing family chain",           "detail": "A heavy gold chain — family heirloom, seventeen years old — gone from around his neck. His coin, his trade ledgers, untouched. Only the chain was taken."},
-  "c10_neck_fang":     {"name": "Two tiny fang-marks",               "detail": "Two small puncture wounds on the side of the neck, 4mm apart. Barely visible. The skin around them is slightly discoloured."},
-  "c10_dark_hair":     {"name": "A long dark-grey hair on the bedpost","detail": "A single long, fine grey-black hair caught on the bedpost. Not his wife's colour, not his."},
-  "c10_sweet_smell":   {"name": "A sweet-chemical smell",             "detail": "A faint sweet-chemical smell in the chamber — not perfume, not rot. It lingers around the body specifically."},
-  "c10_wife_10":       {"name": "Margit Braun, his wife",             "detail": "\"She came twice this week. Beautiful — dark hair, very pale, almost grey. Heinrich would not tell me her name. He looked at her the way men look at something they know is wrong.\""},
-  "c10_vendor_10":     {"name": "A cloth stall vendor",               "detail": "\"She was at the market the last three days. I tried to speak with her. She smiled — very pleasantly — but I could not remember the conversation afterward.\""},
-  "c10_wesen_10":      {"name": "A Wesen contact",                    "detail": "\"A Spinnetod feeds every few years to arrest rapid aging. She chose Heinrich because he was wealthy and wore his valuables openly. She moves after each feeding — she will not be local long.\""}
+  "body": {
+    "name": "Hans, the woodcutter",
+    "detail": "The throat is opened — ragged tearing, not a clean cut. Fang-work. The face is calm; he did not see it coming."
+  },
+  "axe": {
+    "name": "The fallen axe",
+    "detail": "A good axe, recently sharpened. He was felling, not fighting. Whatever took him surprised him mid-swing."
+  },
+  "briar_fur": {
+    "name": "A tuft on the briar",
+    "detail": "Coarse fur, grey at the root and silvering at the tip. Oily to the touch. About four fingers long. A wolf sheds finer than this."
+  },
+  "dirt_churned": {
+    "name": "Churned ground around the body",
+    "detail": "The earth is torn in a wide arc around the corpse. Not a struggle — the victim never moved. Whatever stood here paced, and it paced for some time before it killed him."
+  },
+  "paw_print": {
+    "name": "A print in the trail mud",
+    "detail": "Broader than a man's palm. Four toes, splayed wide, a heel-pad that runs too long for a true wolf. The track goes into the bracken. It does not return on four legs."
+  },
+  "small_track": {
+    "name": "Smaller tracks beside the trail",
+    "detail": "Dainty four-toed prints in the soft earth. A fox passed this way — and recently. The tracks do not approach the body. The fox knew to stay clear.",
+    "red_herring": true
+  },
+  "broken_branch": {
+    "name": "A snapped branch over the trail",
+    "detail": "Broken clean at chest-height. Not bent by wind — the grain is wrong for that. Something tall pushed through here without ducking."
+  },
+  "cloak_scrap": {
+    "name": "Cloth caught on a thorn",
+    "detail": "Heavy brown wool, the kind a working man wears all his life. A single grey-silver hair is wound in the torn threads. It is longer than any man's."
+  },
+  "bed": {
+    "name": "The bed, unmade",
+    "detail": "The blankets thrown back hard, one pillow to the floor. He left in a hurry, or was dragged up by a sound he could not ignore."
+  },
+  "meal": {
+    "name": "A half-eaten supper",
+    "detail": "Bread, cheese, an onion — the onion cut but abandoned. He was mid-meal when something called him out."
+  },
+  "drawing": {
+    "name": "A child's scratchings on a slate",
+    "detail": "A man with an axe and a small girl, drawn in chalk. The widow said there was no daughter. There was. She was here until recently enough to leave this."
+  },
+  "journal": {
+    "name": "A torn page from the neighbour's ledger",
+    "detail": "\"The grey came again last night — I heard it howl long. Hans says do not fear. I do not believe Hans.\""
+  },
+  "innkeeper": {
+    "name": "The innkeeper, mopping the bar",
+    "detail": "\"Hans the woodcutter? Drank here Tuesday. Quiet man. He had words with Karl the trapper at the back — not a fight, but Karl's face after it was not pleasant.\""
+  },
+  "trapper": {
+    "name": "Karl the trapper, in his cups",
+    "detail": "\"Hans? He said his neighbour was a man with too-long teeth in the moon-time. Said it like he believed it. I told him he was drunk.\" Karl's eyes slide away when he speaks."
+  },
+  "farmhand": {
+    "name": "A frightened farmhand by the fire",
+    "detail": "\"I heard it. A howl, low and long, then silence. Then a howl close — so close. I did not go outside. I did not open the shutter. I am not ashamed to say so.\""
+  },
+  "notice": {
+    "name": "A posted notice",
+    "detail": "\"BY ORDER OF THE BAILIFF: a reward of twenty pieces silver to any man who slays the wolf.\" The ink is three days dry. No one has claimed it."
+  },
+  "knife": {
+    "name": "A discarded knife in the alley",
+    "detail": "A short knife, blade snapped clean near the hilt. The handle is tavern-sticky. Brawl refuse.",
+    "red_herring": true
+  },
+  "miller_body": {
+    "name": "The miller, beside his wheel",
+    "detail": "His ribcage is concave — crushed inward, not torn. No blood at the throat. No fang-mark. Something applied weight to his chest until the chest gave."
+  },
+  "millstone": {
+    "name": "A grain-sack, ripped open",
+    "detail": "A heavy sack of barley, torn from top to hem in one motion. Not cut. There is no blade that does that cleanly."
+  },
+  "flour_print": {
+    "name": "A great print in the spilled flour",
+    "detail": "Five thick claws, blunt. A heel-pad that touches the ground fully — plantigrade, like a man. The stride that follows it is a man's stride. Something is walking upright through this mill."
+  },
+  "cracked_beam": {
+    "name": "A cracked rafter overhead",
+    "detail": "A timber as thick as your thigh, cracked clean across the grain. Whatever did this rose to its full height in this room and met the ceiling. The miller would have watched it happen."
+  },
+  "bear_tooth": {
+    "name": "A carved tooth on a cord",
+    "detail": "A boar-tooth amulet on rough twine — the twine snapped, not cut. Three notches carved into the bone, their meaning private. It was worn by someone who is not the miller."
+  },
+  "prentice": {
+    "name": "The half-mad prentice",
+    "detail": "\"It came in through the door. It stood up. I saw the eyes — brown, a man's colour — and then the hands came down on him and I ran and I did not stop.\""
+  },
+  "mill_journal": {
+    "name": "The miller's ledger",
+    "detail": "\"Owe Bernholt the bear-farmer twelve pieces for the spring grain. He grows wroth. I do not have twelve pieces. I do not know what I will say to him.\""
+  },
+  "wife_bed": {
+    "name": "The miller's wife, weeping",
+    "detail": "\"My husband has been afraid three weeks. Of Bernholt, mostly. There was a boy too — his grandson — he had started watching the mill from the treeline. Every evening.\""
+  },
+  "scales": {
+    "name": "The grain-scales",
+    "detail": "The weights have been quietly altered — a thin sheet of lead tucked beneath each one. The miller was cheating every customer he weighed for. This is not why he is dead.",
+    "red_herring": true
+  },
+  "hearth": {
+    "name": "A cold hearth",
+    "detail": "The fire is out. A clay jar of honey sits on the hearthstone, lid off, a wooden spoon resting inside it. Someone was eating here, unhurried, not long ago."
+  },
+  "bank_tracks": {
+    "name": "Pawprints down to the water",
+    "detail": "The same broad plantigrade prints leading down the muddy bank. They walk in, and walk out the far side. Whatever this is, it crosses water without concern."
+  },
+  "bank_fur": {
+    "name": "Brown shag on the willow",
+    "detail": "A clump of fur caught at shoulder-height on a willow branch. Coarse, brown, oily — longer and coarser than any wolf. A bear's undercoat sheds like this, but the height is wrong for all fours."
+  },
+  "scarecrow": {
+    "name": "A scarecrow in the field",
+    "detail": "A common scarecrow. Nothing more.",
+    "red_herring": true
+  },
+  "fish_basket": {
+    "name": "A spilled fish-basket",
+    "detail": "Trout scattered across the bank, half-eaten. The bites are wide and blunt — not torn by beak or muzzle. Something bit these fish with a crushing jaw."
+  },
+  "mill_innkeep": {
+    "name": "The downstream innkeeper",
+    "detail": "\"Bernholt was muttering about teaching the miller a Roh-Hatz lesson. He used the old word — I hadn't heard it in years. His grandson Otto was beside him, listening with both ears.\""
+  },
+  "mill_drunkard": {
+    "name": "A drunkard by the fire",
+    "detail": "\"Heard a roar two nights back, just before the hour. A great sound like an old oak coming down — but there was no wind. I put my head under the blanket and waited for morning.\""
+  },
+  "bailiff_notice": {
+    "name": "A bailiff's notice",
+    "detail": "\"Reward of forty pieces silver for information leading to the killer of Friedrich the Miller.\" The sum has been scratched out twice and raised each time. Nobody is coming forward."
+  },
+  "hidden_purse": {
+    "name": "A coin-purse under the bench",
+    "detail": "Six silver pieces, new-minted, tucked into a gap in the bench frame. Hidden, not forgotten.",
+    "red_herring": true
+  },
+  "c3_neck_wounds": {
+    "name": "Fang-marks on the neck",
+    "detail": "Two small puncture wounds on the left side of the neck, four millimetres apart. The skin around them is undisturbed — no bruising, no swelling, no struggle reflex. Whatever made these marks was not rushed. It pressed carefully, and the care suggests it has done this before."
+  },
+  "c3_missing_rings": {
+    "name": "Three fingers, bare",
+    "detail": "Ernst wore his guild seal, his marriage band, and a garnet signet — you can see the tan lines where they sat. All three are gone. The hands show no marks of forced removal. He gave them willingly, or was past the point of caring."
+  },
+  "c3_hollow_torso": {
+    "name": "The collapsed chest",
+    "detail": "The ribcage is intact — no breaks, no crushing blow. But press the sternum and it gives, softly, like pressing a wet sack. The organs beneath have been dissolved. Whatever did this worked from the inside.",
+    "red_herring": false
+  },
+  "c3_grey_hair": {
+    "name": "A long hair on the fitting hook",
+    "detail": "A single hair, grey-black, fine as thread, caught on the brass hook beside the mirror. Ernst's own hair was close-cropped and brown at death. His wife is blonde. This hair is long enough to touch a woman's shoulder."
+  },
+  "c3_chemical_smell": {
+    "name": "A sweet smell near the body",
+    "detail": "Something between old flowers and a warm chemical — not perfume, not rot. It concentrates near Ernst's chair and fades toward the door. Whatever wore this scent was close to him for some time."
+  },
+  "c3_lock_scratches": {
+    "name": "Pick-marks on the back door",
+    "detail": "Fine parallel scratches on the outer plate of the back-door lock — the signature of a pick or a wrongly-cut key, working blind. Someone tried this door before entering. They came prepared to try.",
+    "red_herring": true
+  },
+  "c3_unsigned_note": {
+    "name": "A note — no signature",
+    "detail": "Found under the counter, folded twice: 'You owe what was promised. Tonight.' The hand is rough. The pressure on the pen was heavy. This is someone who does not write often and meant every word.",
+    "red_herring": true
+  },
+  "c3_lena": {
+    "name": "Lena, the apprentice",
+    "detail": "\"A woman came in two evenings ago. Ernst turned away his last appointment for her — alone, no witness. Dark hair, pale skin, very still. She kept glancing at his hands. At his rings, specifically. I thought it was admiration. I do not think that now.\""
+  },
+  "c3_georg": {
+    "name": "Georg, the neighbour",
+    "detail": "\"I heard voices from the shop around eleven. A woman's laugh — low, unhurried. Not unpleasant. Then silence, so complete I thought I had imagined the voices. I did not go to look. I wish I had.\""
+  },
+  "c3_street_stranger": {
+    "name": "A tannery worker, at the gate",
+    "detail": "\"A woman was on this street three evenings running. Dark hair, no hurry. She looked at the shop — not the window display, the door. The way you look at something you've already decided about. I don't know why I kept remembering her. I'm still remembering her.\""
+  },
+  "c3_marta": {
+    "name": "Marta, the lodging-house owner",
+    "detail": "\"She took a room three days ago. Paid the week in advance. Her trunk is still here — full of men's jewellery, rings and chains, more than any woman wears. And there was a smell from her room. Sweet, like something stored in wax. A single grey glove on the windowsill — the fingertips were split open from the inside.\""
+  },
+  "c3_glove": {
+    "name": "A glove — fingertips split",
+    "detail": "One grey glove, fine leather, left on the windowsill without concern. Each fingertip has been opened from within — cut along the seam, deliberately, not by wear. Whatever hand wore this needed the tips uncovered. The other glove is not here."
+  },
+  "c3_lodge_elder": {
+    "name": "The Eisbiber lodge elder",
+    "detail": "\"Ernst wasn't the first. Pieter the silversmith, two months ago — same thing, peaceful, drained. The clockmaker's son before that. All men of means. All missing their finest pieces. They move after each feeding. Whatever you're looking for will not stay long.\""
+  },
+  "c4_body": {
+    "name": "Willem Roth, in the snow",
+    "detail": "Deep claw lacerations across the chest and left shoulder — three parallel lines, spaced too widely for any wolf. The expression is pure terror. The body was partially dragged, then abandoned. One boot is gone."
+  },
+  "c4_claw_spacing": {
+    "name": "Claw spacing on the wounds",
+    "detail": "The wounds across Willem's chest are 28 centimetres apart at the widest point. A wolf's full-spread paw reaches perhaps 12. A man's hand, spread wide, reaches 20. Whatever opened this chest was larger than both."
+  },
+  "c4_musk_scent": {
+    "name": "A smell of wet fur and iron",
+    "detail": "A specific smell around the attack site — wet fur and iron underneath, something animal but not wild-animal. It is strongest at the point of first contact and fades toward the treeline. It does not smell like a wolf."
+  },
+  "c4_red_eyes": {
+    "name": "Red eye-shine at the treeline",
+    "detail": "A woman who would not give her name described two points of red light in the trees, around ten in the evening. At the height of a man's face, she said — but the steadiness of an animal's. She made the sign of the cross before and after speaking, and would not look at the treeline as she pointed to it."
+  },
+  "c4_missing_boot": {
+    "name": "A boot, found alone",
+    "detail": "Willem's right boot, found two hundred feet deeper in the forest. The drag mark in the snow leads here and stops. A church bell rang at eleven — whatever was carrying him heard it, dropped him, and did not return."
+  },
+  "c4_coat_fabric": {
+    "name": "Dark wool on a branch",
+    "detail": "A strip of heavy black wool, quality cut, caught on a branch at a man's chest height. Not Willem's — his coat was grey worsted. This cloth is expensive, the dye is proper black, and it was moving fast when it tore.",
+    "red_herring": true
+  },
+  "c4_contract_note": {
+    "name": "A ruling — with a note added",
+    "detail": "A district grain council ruling from six weeks ago, settling a route dispute in Willem's favour. In the margin, in a different hand and heavy pressure: 'You will regret this at Candlemas.' It is signed with an initial only. The ink is darker than the printed text — added after the fact, by someone who had to read it first.",
+    "red_herring": true
+  },
+  "c4_child": {
+    "name": "A child near the treeline",
+    "detail": "\"I saw a big man go into the trees just before I heard the screaming. He walked funny — hunched, like his spine hurt him. His arms were too long. I thought he was sick. I told my mother and she said do not speak of it again.\""
+  },
+  "c4_innkeeper_4": {
+    "name": "The innkeeper",
+    "detail": "\"Karl Metz was in here until half-nine. Agitated. Kept looking at the door. But when the fire caught him right, his eyes were strange — a red underneath the brown, like a coal going out. I've not seen that before.\""
+  },
+  "c4_karl": {
+    "name": "Karl Metz, at his door",
+    "detail": "\"I was walking home. I heard something. I ran.\" He keeps pulling his sleeves down over his knuckles. When they slip, you can see the scratches there — fresh, across all four fingers. He does not explain them."
+  },
+  "c5_compression": {
+    "name": "Fractured ribs — no bruising",
+    "detail": "Every rib fractured, but the skin is unmarked. No bruising, no impact point, no surface damage. The force was applied from outside, slowly, distributed along the full length of something that circled. Constriction leaves this signature. Nothing else does."
+  },
+  "c5_sinuous_trail": {
+    "name": "A trail in the cellar dust",
+    "detail": "Two parallel grooves pressed into the dust on the floor — a sinuous path from the drainage gap to the barrels where Petra was found. About forty centimetres wide. Whatever made this moved on its belly, and moved deliberately."
+  },
+  "c5_widened_gap": {
+    "name": "A widened drainage gap",
+    "detail": "The drainage gap in the far wall has been worked open — mortar scraped from the edges, the stones shifted. The work is old enough that the dust has resettled. Something large has been using this entrance for weeks."
+  },
+  "c5_shed_scale": {
+    "name": "A shed scale",
+    "detail": "Translucent, three centimetres across, faintly iridescent at the edge. Caught on a barrel hoop at mid-height. Not from any fish stored here. The scale is fresh — the colour bleaches out within a day of leaving the body."
+  },
+  "c5_ledger_note": {
+    "name": "Petra's ledger — 'ask Felix'",
+    "detail": "A large sum flagged in red in Petra's accounting book — an outgoing that does not correspond to any invoice. In the margin, in Petra's hand: 'ask Felix.' Felix is the wine merchant's senior clerk. Felix has not been asked.",
+    "red_herring": true
+  },
+  "c5_wax_impression": {
+    "name": "A key impression in beeswax",
+    "detail": "A thumb-sized block of beeswax, pressed around a key and carefully removed. The impression is sharp and clean — the work of someone unhurried. Found beneath a false felt lining in the bottom desk drawer above the cellar. Whoever made this knew which key it was, and knew where to look."
+  },
+  "c5_boss": {
+    "name": "The wine merchant",
+    "detail": "\"Petra told me last week she had found something in the accounts she could not explain — a figure that kept appearing and then being absorbed elsewhere. I told her to leave it alone. I should not have said that.\""
+  },
+  "c5_delivery_boy": {
+    "name": "A delivery boy",
+    "detail": "\"I saw someone near the back of the building around five. Big, low to the ground. Moved in a way I didn't like — a sort of sliding, like they had too many joints. I thought they were drunk. I didn't say anything to anyone.\""
+  },
+  "c5_wesen_contact": {
+    "name": "A Wesen contact",
+    "detail": "\"There is a Lausenschlange been in this quarter for months. They hunt Mauzhertz — old instinct, older than manners. If one was in that cellar, it was there long before Petra came down. It would have been waiting in the dark for days, patient as a stone.\""
+  },
+  "c6_cold_body": {
+    "name": "Lord Fenn — frozen from within",
+    "detail": "Lord Fenn's body is cold far beyond what the room temperature and time of death can account for. The servants say the room has been warm all day. He is cold at the core, as if the chill began inside him and worked outward."
+  },
+  "c6_copper_smell": {
+    "name": "Burnt copper in the study air",
+    "detail": "A smell of burnt copper, faint but specific, that does not come from the candles or the hearth. Something was combusted in this room recently — something that leaves no ash and no char. Zaubertrank burns like this when discharged."
+  },
+  "c6_biest_mark": {
+    "name": "The biest mark",
+    "detail": "A small dark crescent found under the victim's tongue — looks like a healed scar, or a birthmark of unusual symmetry. The biest mark. It is present in all Hexenbiester, living and dead. Lord Fenn did not put it there."
+  },
+  "c6_half_letter": {
+    "name": "A letter — cut off mid-sentence",
+    "detail": "On the desk, addressed to 'V.' in Lord Fenn's hand: 'She has been asking questions about the eastern routes. I believe she is —' The sentence stops. The pen is still in the dried ink where it landed. He did not choose to stop writing."
+  },
+  "c6_womans_glove": {
+    "name": "A glove — monogrammed M.V.",
+    "detail": "Fine grey leather, very small, found behind the bookcase. Monogrammed 'M.V.' in silver thread. It is cold to the touch, even now, in a way that has nothing to do with the temperature of the room."
+  },
+  "c6_inheritance": {
+    "name": "A solicitor's letter — the margin",
+    "detail": "Lord Fenn's nephew contested the estate division in this letter, at length and with feeling. A paragraph has been struck through in thick ink, but held to candlelight you can still read: 'If this arrangement stands, you will answer for it.' The letter is three days old. The nephew was seen at cards in Freiburg two nights ago.",
+    "red_herring": true
+  },
+  "c6_butler": {
+    "name": "The butler",
+    "detail": "\"A woman came to dinner last week. Beautiful. Dark hair. Lord Fenn seemed captivated after — distracted, dreamy. He cancelled two appointments. When I returned her wrap, I touched her hand. It was cold. Not cold from the night air. Cold in a way that stayed in my fingers for hours.\""
+  },
+  "c6_wesen_contact": {
+    "name": "A Wesen contact",
+    "detail": "\"M.V. — Marta Vaal. Verrat operative. A Hexenbiest who has been embedded in the eastern trade routes for four years. If Fenn was about to name her in a letter, she would have been sent to close him before it was sent.\""
+  },
+  "c7_jakob_body": {
+    "name": "Jakob Weiss, at his counting table",
+    "detail": "Two parallel cuts at the throat, clean and curved slightly inward. He was seated when it happened — his chair has not moved. No sign of struggle, no defensive wounds on the hands. He did not see it as a threat until it was already done."
+  },
+  "c7_vault_open": {
+    "name": "The empty vault",
+    "detail": "Three hundred silver pieces gone — the lock undamaged, the mechanism working perfectly. It was opened with the correct key, or with something that fitted exactly as a key would. Jakob's key is still in his pocket. There is another key to this vault."
+  },
+  "c7_surgical_cuts": {
+    "name": "The wound geometry",
+    "detail": "Narrow parallel cuts, eight millimetres apart, curving slightly inward. This is not a blade. A small claw, controlled and close. The angle requires the attacker to be standing very near, almost beside him. He let it get that close."
+  },
+  "c7_fine_claw_mark": {
+    "name": "Four fine scratches on the doorframe",
+    "detail": "Inside the back door frame, at mid-body height: four fine points, close together, four centimetres spread. A small paw. The marks face outward — made on the way out, not in. Whatever left came in through the front, and left through the back in a hurry."
+  },
+  "c7_missing_trophy": {
+    "name": "The chain — taken from his neck",
+    "detail": "The heavy gold chain Jakob wore every day is gone. The vault money is also gone, but the vault was a destination — the chain was personal. Someone removed it from a dead man's neck. That takes a different kind of want."
+  },
+  "c7_dainty_prints": {
+    "name": "Small prints in the rear yard",
+    "detail": "Small four-toed prints in the soft earth behind the building — not a dog, not a true fox. The stride alternates between two-legged and four-legged spacing. Something that walks as a person but moves, when pressed, as an animal."
+  },
+  "c7_dropped_coins": {
+    "name": "Coins near the gate",
+    "detail": "Three silver pieces scattered in the dirt near the rear gate. Dropped in haste, not thrown. Whoever left took more than they could carry cleanly, and they knew it and ran anyway.",
+    "red_herring": false
+  },
+  "c7_gate_scrapes": {
+    "name": "Fresh scratches on the gate latch",
+    "detail": "Four fine parallel scratches on the gate latch, at mid-body height. Made going over or through, at speed. The scratches are fresh enough that the raw metal still shows silver."
+  },
+  "c8_rolf_body": {
+    "name": "Rolf Huber, at the channel",
+    "detail": "Two small puncture wounds at the side of the throat, twelve millimetres apart. The skin around them has a faint greenish tinge — venom introduced at the site. His expression is calm. Whatever came for him, he did not have time to be afraid."
+  },
+  "c8_green_scales": {
+    "name": "Three scales in the channel grate",
+    "detail": "Caught in the iron grate: three small scales, translucent at the edge, faintly iridescent. Not from any fish kept or found in this district. They are freshly shed — the colour bleaches out within a day of leaving the body."
+  },
+  "c8_bent_grille": {
+    "name": "The iron grille — forced from inside",
+    "detail": "The drainage grille has been bent outward, away from the channel. Something came through from the inside — the force is on the city-side face of the iron. It knew this route, and it used it regularly enough to deform the metal."
+  },
+  "c8_belly_trail": {
+    "name": "A sinuous trail in the mud",
+    "detail": "A wide, flat depression pressed into the channel-bank mud — thirty centimetres across, sinuous, the signature of a large body moving on its underside. The trail leads from the water's edge to the culvert mouth. It is fresh."
+  },
+  "c8_cold_stones": {
+    "name": "Cold stones at the culvert mouth",
+    "detail": "The stones immediately around the culvert entrance are colder than the air, colder than the water. Cold-blooded things leech warmth from what they rest on. Something has been lying here, still, for hours at a time."
+  },
+  "c8_watch_log": {
+    "name": "Rolf's duty log",
+    "detail": "Rolf checked the east culvert at the tenth hour every night for six weeks without variation — the times recorded to the quarter-hour in his own hand. His schedule was a clock. Whatever waited in that culvert did not need to be fast. It only needed to know what time he would come."
+  },
+  "c8_guard_account": {
+    "name": "The relief guard",
+    "detail": "\"Rolf had been complaining about the culvert for two weeks — said it smelled wrong. Cold mud and something underneath, chemical, he said. I told him it was tannery runoff from upriver. He didn't argue. But he kept complaining.\""
+  },
+  "c8_wesen_8": {
+    "name": "A Wesen contact",
+    "detail": "\"A Skalengeck hunts by ambush — cold blood, perfect patience. Venom fast enough that the victim doesn't call out. Give it a dark, wet, enclosed space and it will wait there for days. It doesn't eat on a schedule. It eats on yours.\""
+  },
+  "c9_crushed_burners": {
+    "name": "Three charcoal burners, crushed",
+    "detail": "No blade wounds, no fang-marks. Every ribcage stove in — force distributed along the full torso, not concentrated at a point. One man's spine broken in three places. The third was killed last, and faced it. The expression on his face is not something you will forget quickly."
+  },
+  "c9_charcoal_prints": {
+    "name": "Huge prints in the snow",
+    "detail": "Five wide claws, a heel-pad that presses the ground flat — the same as a bear's, but the stride is a man's. The spacing between left and right foot is shoulder-wide. Whatever made these walked upright between the trees."
+  },
+  "c9_snapped_birch": {
+    "name": "A birch broken at the middle",
+    "detail": "A winter-hardened birch, two hands around the trunk, broken clean and thrown aside. The break is at chest-height — the height of something standing upright. No axe made this cut. The heartwood is crushed, not split."
+  },
+  "c9_moved_body": {
+    "name": "A body moved after death",
+    "detail": "The third man was dragged twenty feet from where he fell — the groove in the snow is clear. He was laid out afterward, hands beside him. He was not eaten. He was examined. Something looked at him for a while, and then left him there."
+  },
+  "c9_honey_scent": {
+    "name": "Honey on the lead burner's satchel",
+    "detail": "A strong, fresh honey scent on the canvas of the lead burner's satchel — not from anything he was carrying. Something that handles honey was very close to him, close enough to transfer the smell. Jägerbaren keep bees. They have kept bees in this valley for three generations."
+  },
+  "c9_survivor": {
+    "name": "The fourth worker, barely speaking",
+    "detail": "\"I was at the cart. I heard the first sound — like a tree falling, but no crack before it. Then another. I came around the pit and I saw it. It had a man's eyes, brown, and it was standing over Gerhardt and looking at him. It turned and looked at me. Then it walked into the trees. It did not run. It walked.\""
+  },
+  "c9_debt_note": {
+    "name": "A debt note in the lead burner's satchel",
+    "detail": "\"The Ottmar family owes seven measures of charcoal to the Bernau valley collective. This is the last notice.\" Signed with a mark that looks like a bear-claw pressed in ink. The note is a month old and still here, undelivered.",
+    "red_herring": true
+  },
+  "c9_wesen_9": {
+    "name": "A Wesen contact",
+    "detail": "\"A Jägerbar in Roh-Hatz does not kill from hunger. They kill in answer to a wrong. Find what the charcoal burners did to this family — took something sacred, burned a site, broke an agreement — and you will know who you are looking for.\""
+  },
+  "c10_heinrich_body": {
+    "name": "Heinrich Braun, in his chair",
+    "detail": "No wound anywhere on the body. His hands are in his lap, closed loosely. His chest feels oddly soft when pressed — the ribcage is intact, but the internal cavity gives like a wet sack. The organs have been dissolved from within. The expression is perfectly, entirely serene."
+  },
+  "c10_chain_missing": {
+    "name": "The family chain — gone",
+    "detail": "A heavy gold chain, seventeen years old, worn by Heinrich every day of his married life — gone from around his neck. His coin purse is on the table, full. His trade ledgers are undisturbed. Only the chain was taken. Whoever took it wanted something personal, not profit."
+  },
+  "c10_neck_fang": {
+    "name": "Two marks on the neck",
+    "detail": "Two small puncture wounds on the right side of the neck, four millimetres apart. Clean, precise, barely visible at first glance. The skin around them has a faint discolouration — not bruising, something enzymatic. The kind of mark that dissolves what it needs before it feeds."
+  },
+  "c10_dark_hair": {
+    "name": "A long hair on the bedpost",
+    "detail": "A single long hair, grey-black, fine, caught on the carved bedpost at about shoulder-height. Not his wife's colour. Not his. Long enough to belong to a woman who does not cut it. Left here because she did not notice, or because she had no reason to care."
+  },
+  "c10_sweet_smell": {
+    "name": "A sweet chemical smell — in the chair",
+    "detail": "Something between old flowers and a warm chemical, concentrated in and around Heinrich's chair. Not perfume — the composition is wrong. Not rot — the body is too fresh. It saturates the cloth of the armrest specifically, which means whatever produced it was here, against him, for long enough to soak through fabric."
+  },
+  "c10_wife_10": {
+    "name": "Margit Braun, his wife",
+    "detail": "\"She came twice this week. Dark hair, very pale — almost grey, like she had been grey a long time. Heinrich would not tell me her name. He looked at her the way men look at something they know is wrong but cannot stop looking at. The second visit, she stayed three hours.\""
+  },
+  "c10_vendor_10": {
+    "name": "A cloth stall vendor",
+    "detail": "\"She was at the market three mornings. I tried to speak with her once. She smiled — very pleasantly — and I have no memory of the rest of the conversation. Only that I felt well afterward. Unusually well. That was the part that troubled me later.\""
+  },
+  "c10_wesen_10": {
+    "name": "A Wesen contact",
+    "detail": "\"A Spinnetod feeds every few years to arrest rapid aging. She chose Heinrich because he was prosperous and wore his wealth openly. She takes a trophy each time — something personal, not valuable. She will move within the week. She always does.\""
+  }
 }

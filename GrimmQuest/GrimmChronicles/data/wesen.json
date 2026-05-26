@@ -7,12 +7,38 @@
     "weakness": "Wolfsbane drives them mad and weak.",
     "hp": 50,
     "moves": [
-      {"name": "Bite",        "windup": 900, "dmg": 14, "type": "parry", "weight": 3},
-      {"name": "Lunge",       "windup": 700, "dmg": 11, "type": "dodge", "weight": 2},
-      {"name": "Frenzy Bite", "windup": 600, "dmg": 18, "type": "parry", "weight": 1, "fast": true}
+      {
+        "name": "Bite",
+        "windup": 900,
+        "dmg": 14,
+        "type": "parry",
+        "weight": 3
+      },
+      {
+        "name": "Lunge",
+        "windup": 700,
+        "dmg": 11,
+        "type": "dodge",
+        "weight": 2
+      },
+      {
+        "name": "Frenzy Bite",
+        "windup": 600,
+        "dmg": 18,
+        "type": "parry",
+        "weight": 1,
+        "fast": true
+      }
     ],
-    "reward": {"gold": 30, "xp": 80},
-    "color": "#1f1f1d"
+    "reward": {
+      "gold": 30,
+      "xp": 80
+    },
+    "color": "#1f1f1d",
+    "weakness_items": [
+      "Wolfsbane tincture",
+      "Silver-tipped bolt"
+    ]
   },
   "fuchsbau": {
     "name": "Fuchsbau",
@@ -22,11 +48,32 @@
     "weakness": "Salt across a doorway holds them.",
     "hp": 38,
     "moves": [
-      {"name": "Slash",      "windup": 600, "dmg": 10, "type": "parry", "weight": 3, "fast": true},
-      {"name": "Quick Dart", "windup": 500, "dmg":  8, "type": "dodge", "weight": 2, "fast": true}
+      {
+        "name": "Slash",
+        "windup": 600,
+        "dmg": 10,
+        "type": "parry",
+        "weight": 3,
+        "fast": true
+      },
+      {
+        "name": "Quick Dart",
+        "windup": 500,
+        "dmg": 8,
+        "type": "dodge",
+        "weight": 2,
+        "fast": true
+      }
     ],
-    "reward": {"gold": 22, "xp": 25},
-    "color": "#854F0B"
+    "reward": {
+      "gold": 22,
+      "xp": 25
+    },
+    "color": "#854F0B",
+    "weakness_items": [
+      "Salt line",
+      "Iron threshold bar"
+    ]
   },
   "jagerbar": {
     "name": "Jägerbar",
@@ -36,12 +83,39 @@
     "weakness": "Pitch matted in their fur seizes their claws.",
     "hp": 70,
     "moves": [
-      {"name": "Crushing Slam", "windup": 1400, "dmg": 24, "type": "dodge", "weight": 3, "heavy": true},
-      {"name": "Sweep",         "windup": 1100, "dmg": 16, "type": "parry", "weight": 2},
-      {"name": "Roar",          "windup":  800, "dmg":  6, "type": "block", "weight": 1, "drain_steel": 3}
+      {
+        "name": "Crushing Slam",
+        "windup": 1400,
+        "dmg": 24,
+        "type": "dodge",
+        "weight": 3,
+        "heavy": true
+      },
+      {
+        "name": "Sweep",
+        "windup": 1100,
+        "dmg": 16,
+        "type": "parry",
+        "weight": 2
+      },
+      {
+        "name": "Roar",
+        "windup": 800,
+        "dmg": 6,
+        "type": "block",
+        "weight": 1,
+        "drain_steel": 3
+      }
     ],
-    "reward": {"gold": 40, "xp": 50},
-    "color": "#412402"
+    "reward": {
+      "gold": 40,
+      "xp": 50
+    },
+    "color": "#412402",
+    "weakness_items": [
+      "Pitch tar flask",
+      "Bear-iron manacle"
+    ]
   },
   "skalengeck": {
     "name": "Skalengeck",
@@ -51,10 +125,23 @@
     "weakness": "Fire and torchlight chill the cold blood to torpor.",
     "hp": 42,
     "moves": [
-      {"name": "Venom Bite", "windup": 700, "dmg": 12, "type": "parry", "weight": 3}
+      {
+        "name": "Venom Bite",
+        "windup": 700,
+        "dmg": 12,
+        "type": "parry",
+        "weight": 3
+      }
     ],
-    "reward": {"gold": 28, "xp": 32},
-    "color": "#27500A"
+    "reward": {
+      "gold": 28,
+      "xp": 32
+    },
+    "color": "#27500A",
+    "weakness_items": [
+      "Torch brand",
+      "Fire oil vial"
+    ]
   },
   "spinnetod": {
     "name": "Spinnetod",
@@ -64,13 +151,44 @@
     "weakness": "Do not let her climb. She is faster on a vertical surface. Her limbs regenerate if severed — strike the body.",
     "hp": 55,
     "moves": [
-      {"name": "Chelicerae lunge", "windup": 900,  "dmg": 18, "type": "parry", "weight": 3},
-      {"name": "Acid spit",        "windup": 700,  "dmg": 12, "type": "dodge", "weight": 2},
-      {"name": "Ceiling scramble", "windup": 1100, "dmg": 22, "type": "block", "weight": 1},
-      {"name": "Claw rake",        "windup": 600,  "dmg": 14, "type": "dodge", "weight": 2}
+      {
+        "name": "Chelicerae lunge",
+        "windup": 900,
+        "dmg": 18,
+        "type": "parry",
+        "weight": 3
+      },
+      {
+        "name": "Acid spit",
+        "windup": 700,
+        "dmg": 12,
+        "type": "dodge",
+        "weight": 2
+      },
+      {
+        "name": "Ceiling scramble",
+        "windup": 1100,
+        "dmg": 22,
+        "type": "block",
+        "weight": 1
+      },
+      {
+        "name": "Claw rake",
+        "windup": 600,
+        "dmg": 14,
+        "type": "dodge",
+        "weight": 2
+      }
     ],
-    "reward": {"gold": 45, "xp": 120},
-    "color": "#2a1a2a"
+    "reward": {
+      "gold": 45,
+      "xp": 120
+    },
+    "color": "#2a1a2a",
+    "weakness_items": [
+      "Body strike — no limb cuts",
+      "Sealed-room trap"
+    ]
   },
   "lausenschlange": {
     "name": "Lausenschlange",
@@ -80,12 +198,37 @@
     "weakness": "The spine and skull are weak points. Their grip, once applied, cannot be broken without a blade — avoid grapple range.",
     "hp": 60,
     "moves": [
-      {"name": "Constrict",       "windup": 800, "dmg": 20, "type": "dodge", "weight": 3},
-      {"name": "Body slam",       "windup": 900, "dmg": 18, "type": "parry", "weight": 2},
-      {"name": "Furniture sweep", "windup": 700, "dmg": 12, "type": "dodge", "weight": 2}
+      {
+        "name": "Constrict",
+        "windup": 800,
+        "dmg": 20,
+        "type": "dodge",
+        "weight": 3
+      },
+      {
+        "name": "Body slam",
+        "windup": 900,
+        "dmg": 18,
+        "type": "parry",
+        "weight": 2
+      },
+      {
+        "name": "Furniture sweep",
+        "windup": 700,
+        "dmg": 12,
+        "type": "dodge",
+        "weight": 2
+      }
     ],
-    "reward": {"gold": 40, "xp": 100},
-    "color": "#2a3a18"
+    "reward": {
+      "gold": 40,
+      "xp": 100
+    },
+    "color": "#2a3a18",
+    "weakness_items": [
+      "Spine blade",
+      "Constrict-break wedge"
+    ]
   },
   "hexenbiest": {
     "name": "Hexenbiest",
@@ -95,13 +238,44 @@
     "weakness": "Grimm blood causes immediate and permanent power loss. A Hexenbiest who ingests it becomes fully human. This does not make them less dangerous in the moment.",
     "hp": 65,
     "moves": [
-      {"name": "Telekinetic throw", "windup": 700, "dmg": 14, "type": "dodge", "weight": 3},
-      {"name": "Fire lash",         "windup": 900, "dmg": 20, "type": "parry", "weight": 2},
-      {"name": "Compulsion pulse",  "windup": 800, "dmg": 10, "type": "block", "weight": 2},
-      {"name": "Cold touch",        "windup": 600, "dmg": 25, "type": "dodge", "weight": 1}
+      {
+        "name": "Telekinetic throw",
+        "windup": 700,
+        "dmg": 14,
+        "type": "dodge",
+        "weight": 3
+      },
+      {
+        "name": "Fire lash",
+        "windup": 900,
+        "dmg": 20,
+        "type": "parry",
+        "weight": 2
+      },
+      {
+        "name": "Compulsion pulse",
+        "windup": 800,
+        "dmg": 10,
+        "type": "block",
+        "weight": 2
+      },
+      {
+        "name": "Cold touch",
+        "windup": 600,
+        "dmg": 25,
+        "type": "dodge",
+        "weight": 1
+      }
     ],
-    "reward": {"gold": 60, "xp": 140},
-    "color": "#c8c8d8"
+    "reward": {
+      "gold": 60,
+      "xp": 140
+    },
+    "color": "#c8c8d8",
+    "weakness_items": [
+      "Grimm blood vial",
+      "Zaubertrank nullifier"
+    ]
   },
   "skalenzahne": {
     "name": "Skalenzähne",
@@ -111,12 +285,37 @@
     "weakness": "Thick hide reduces damage on the sides and back. Aim for the underbelly during the recovery window after a lunge.",
     "hp": 70,
     "moves": [
-      {"name": "Bite lunge",  "windup": 700,  "dmg": 28, "type": "dodge", "weight": 3},
-      {"name": "Tail sweep",  "windup": 600,  "dmg": 12, "type": "dodge", "weight": 2},
-      {"name": "Hide charge", "windup": 1100, "dmg": 18, "type": "parry", "weight": 2}
+      {
+        "name": "Bite lunge",
+        "windup": 700,
+        "dmg": 28,
+        "type": "dodge",
+        "weight": 3
+      },
+      {
+        "name": "Tail sweep",
+        "windup": 600,
+        "dmg": 12,
+        "type": "dodge",
+        "weight": 2
+      },
+      {
+        "name": "Hide charge",
+        "windup": 1100,
+        "dmg": 18,
+        "type": "parry",
+        "weight": 2
+      }
     ],
-    "reward": {"gold": 50, "xp": 120},
-    "color": "#1a3a1a"
+    "reward": {
+      "gold": 50,
+      "xp": 120
+    },
+    "color": "#1a3a1a",
+    "weakness_items": [
+      "Underbelly blade",
+      "Lunge bait snare"
+    ]
   },
   "ziegevolk": {
     "name": "Ziegevolk",
@@ -126,11 +325,30 @@
     "weakness": "Cover the nose. Move fast. The Ziegevolk itself is physically weak — reach it before the pheromones do their work. Extended exposure dulls even a Grimm.",
     "hp": 28,
     "moves": [
-      {"name": "Pheromone burst",  "windup": 600, "dmg": 8,  "type": "block", "weight": 3},
-      {"name": "Desperate strike", "windup": 700, "dmg": 10, "type": "parry", "weight": 2}
+      {
+        "name": "Pheromone burst",
+        "windup": 600,
+        "dmg": 8,
+        "type": "block",
+        "weight": 3
+      },
+      {
+        "name": "Desperate strike",
+        "windup": 700,
+        "dmg": 10,
+        "type": "parry",
+        "weight": 2
+      }
     ],
-    "reward": {"gold": 40, "xp": 110},
-    "color": "#8a7a4a"
+    "reward": {
+      "gold": 40,
+      "xp": 110
+    },
+    "color": "#8a7a4a",
+    "weakness_items": [
+      "Nose cover — wax plug",
+      "Rush approach — no pause"
+    ]
   },
   "coyotl": {
     "name": "Coyotl",
@@ -140,12 +358,37 @@
     "weakness": "A negotiation path exists if the clan mother's testimony is in hand. Blood feud risk if the family is killed rather than reasoned with.",
     "hp": 55,
     "moves": [
-      {"name": "Pack flank", "windup": 700, "dmg": 14, "type": "dodge", "weight": 3},
-      {"name": "Dart bite",  "windup": 600, "dmg": 16, "type": "parry", "weight": 2},
-      {"name": "Scatter",    "windup": 800, "dmg":  8, "type": "block", "weight": 1}
+      {
+        "name": "Pack flank",
+        "windup": 700,
+        "dmg": 14,
+        "type": "dodge",
+        "weight": 3
+      },
+      {
+        "name": "Dart bite",
+        "windup": 600,
+        "dmg": 16,
+        "type": "parry",
+        "weight": 2
+      },
+      {
+        "name": "Scatter",
+        "windup": 800,
+        "dmg": 8,
+        "type": "block",
+        "weight": 1
+      }
     ],
-    "reward": {"gold": 60, "xp": 130},
-    "color": "#b8903a"
+    "reward": {
+      "gold": 60,
+      "xp": 130
+    },
+    "color": "#b8903a",
+    "weakness_items": [
+      "Clan mother testimony",
+      "Ritual token — peace offering"
+    ]
   },
   "klaustreich": {
     "name": "Klaustreich",
@@ -155,12 +398,37 @@
     "weakness": "Vertical movement is their advantage. Force them to the ground or a confined flat space and the speed advantage collapses.",
     "hp": 42,
     "moves": [
-      {"name": "Wall launch",  "windup": 800, "dmg": 18, "type": "parry", "weight": 2},
-      {"name": "Ceiling drop", "windup": 900, "dmg": 20, "type": "dodge", "weight": 2},
-      {"name": "Claw rake",    "windup": 500, "dmg": 14, "type": "dodge", "weight": 3}
+      {
+        "name": "Wall launch",
+        "windup": 800,
+        "dmg": 18,
+        "type": "parry",
+        "weight": 2
+      },
+      {
+        "name": "Ceiling drop",
+        "windup": 900,
+        "dmg": 20,
+        "type": "dodge",
+        "weight": 2
+      },
+      {
+        "name": "Claw rake",
+        "windup": 500,
+        "dmg": 14,
+        "type": "dodge",
+        "weight": 3
+      }
     ],
-    "reward": {"gold": 30, "xp": 90},
-    "color": "#7a6a4a"
+    "reward": {
+      "gold": 30,
+      "xp": 90
+    },
+    "color": "#7a6a4a",
+    "weakness_items": [
+      "Ground confinement net",
+      "Flat-room trap"
+    ]
   },
   "cracher_mortel": {
     "name": "Cracher-Mortel",
@@ -170,11 +438,30 @@
     "weakness": "A reversal agent exists — it must be administered before the rage state begins on day four. Find the victim before then.",
     "hp": 58,
     "moves": [
-      {"name": "Tetrodotoxin spit", "windup": 700, "dmg": 16, "type": "dodge", "weight": 3},
-      {"name": "Defensive strike",  "windup": 700, "dmg":  8, "type": "parry", "weight": 2}
+      {
+        "name": "Tetrodotoxin spit",
+        "windup": 700,
+        "dmg": 16,
+        "type": "dodge",
+        "weight": 3
+      },
+      {
+        "name": "Defensive strike",
+        "windup": 700,
+        "dmg": 8,
+        "type": "parry",
+        "weight": 2
+      }
     ],
-    "reward": {"gold": 80, "xp": 180},
-    "color": "#4a6a8a"
+    "reward": {
+      "gold": 80,
+      "xp": 180
+    },
+    "color": "#4a6a8a",
+    "weakness_items": [
+      "Tetrodotoxin reversal agent",
+      "Pre-exposure antidote"
+    ]
   },
   "gevatter_tod": {
     "name": "Gevatter Tod",
@@ -184,11 +471,36 @@
     "weakness": "You will not catch a Gevatter Tod at the scene. Follow the money to whoever hired them. Then choose: the hired hand, or the one who gave the order.",
     "hp": 62,
     "moves": [
-      {"name": "Contact injection", "windup": 600, "dmg": 15, "type": "dodge", "weight": 3},
-      {"name": "Precise strike",    "windup": 700, "dmg": 16, "type": "parry", "weight": 2},
-      {"name": "Feint",             "windup": 800, "dmg": 12, "type": "block", "weight": 1}
+      {
+        "name": "Contact injection",
+        "windup": 600,
+        "dmg": 15,
+        "type": "dodge",
+        "weight": 3
+      },
+      {
+        "name": "Precise strike",
+        "windup": 700,
+        "dmg": 16,
+        "type": "parry",
+        "weight": 2
+      },
+      {
+        "name": "Feint",
+        "windup": 800,
+        "dmg": 12,
+        "type": "block",
+        "weight": 1
+      }
     ],
-    "reward": {"gold": 90, "xp": 200},
-    "color": "#2a2a2a"
+    "reward": {
+      "gold": 90,
+      "xp": 200
+    },
+    "color": "#2a2a2a",
+    "weakness_items": [
+      "Follow the money — financier",
+      "Hired hand intercept"
+    ]
   }
 }

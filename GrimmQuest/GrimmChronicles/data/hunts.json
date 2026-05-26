@@ -6,7 +6,19 @@
     "true_killer": "blutbad",
     "first_scene": "clearing",
     "min_clues": 4,
-    "suspects": ["blutbad", "jagerbar", "coyotl"]
+    "suspects": [
+      "blutbad",
+      "jagerbar",
+      "coyotl"
+    ],
+    "available_items": [
+      "Bear-iron manacle",
+      "Silver-tipped bolt",
+      "Pitch tar flask",
+      "Clan mother testimony",
+      "Wolfsbane tincture",
+      "Ritual token — peace offering"
+    ]
   },
   "mill": {
     "contract_name": "Trouble at the river-mill",
@@ -15,7 +27,19 @@
     "true_killer": "jagerbar",
     "first_scene": "millyard",
     "min_clues": 4,
-    "suspects": ["jagerbar", "blutbad", "skalenzahne"]
+    "suspects": [
+      "jagerbar",
+      "blutbad",
+      "skalenzahne"
+    ],
+    "available_items": [
+      "Silver-tipped bolt",
+      "Pitch tar flask",
+      "Wolfsbane tincture",
+      "Underbelly blade",
+      "Lunge bait snare",
+      "Bear-iron manacle"
+    ]
   },
   "case_003": {
     "contract_name": "The Tailor's Widow",
@@ -24,7 +48,19 @@
     "true_killer": "spinnetod",
     "first_scene": "c3_shop",
     "min_clues": 3,
-    "suspects": ["spinnetod", "hexenbiest", "lausenschlange"]
+    "suspects": [
+      "spinnetod",
+      "hexenbiest",
+      "lausenschlange"
+    ],
+    "available_items": [
+      "Zaubertrank nullifier",
+      "Sealed-room trap",
+      "Grimm blood vial",
+      "Body strike — no limb cuts",
+      "Spine blade",
+      "Constrict-break wedge"
+    ]
   },
   "case_004": {
     "contract_name": "Red in the Snow",
@@ -33,7 +69,19 @@
     "true_killer": "blutbad",
     "first_scene": "c4_forest",
     "min_clues": 3,
-    "suspects": ["blutbad", "jagerbar", "coyotl"]
+    "suspects": [
+      "blutbad",
+      "jagerbar",
+      "coyotl"
+    ],
+    "available_items": [
+      "Silver-tipped bolt",
+      "Pitch tar flask",
+      "Bear-iron manacle",
+      "Clan mother testimony",
+      "Ritual token — peace offering",
+      "Wolfsbane tincture"
+    ]
   },
   "case_005": {
     "contract_name": "The Patient Dark",
@@ -42,7 +90,19 @@
     "true_killer": "lausenschlange",
     "first_scene": "c5_cellar",
     "min_clues": 3,
-    "suspects": ["lausenschlange", "spinnetod", "cracher_mortel"]
+    "suspects": [
+      "lausenschlange",
+      "spinnetod",
+      "cracher_mortel"
+    ],
+    "available_items": [
+      "Constrict-break wedge",
+      "Sealed-room trap",
+      "Body strike — no limb cuts",
+      "Spine blade",
+      "Pre-exposure antidote",
+      "Tetrodotoxin reversal agent"
+    ]
   },
   "case_006": {
     "contract_name": "The Glass Coffin",
@@ -51,7 +111,19 @@
     "true_killer": "hexenbiest",
     "first_scene": "c6_manor",
     "min_clues": 3,
-    "suspects": ["hexenbiest", "spinnetod", "cracher_mortel"]
+    "suspects": [
+      "hexenbiest",
+      "spinnetod",
+      "cracher_mortel"
+    ],
+    "available_items": [
+      "Body strike — no limb cuts",
+      "Zaubertrank nullifier",
+      "Grimm blood vial",
+      "Sealed-room trap",
+      "Tetrodotoxin reversal agent",
+      "Pre-exposure antidote"
+    ]
   },
   "case_007": {
     "contract_name": "The Fox in the Vault",
@@ -60,7 +132,19 @@
     "true_killer": "fuchsbau",
     "first_scene": "c7_lockshop",
     "min_clues": 3,
-    "suspects": ["fuchsbau", "skalengeck", "klaustreich"]
+    "suspects": [
+      "fuchsbau",
+      "skalengeck",
+      "klaustreich"
+    ],
+    "available_items": [
+      "Flat-room trap",
+      "Iron threshold bar",
+      "Fire oil vial",
+      "Salt line",
+      "Torch brand",
+      "Ground confinement net"
+    ]
   },
   "case_008": {
     "contract_name": "The Cold Culvert",
@@ -69,7 +153,19 @@
     "true_killer": "skalengeck",
     "first_scene": "c8_culvert",
     "min_clues": 3,
-    "suspects": ["skalengeck", "lausenschlange", "fuchsbau"]
+    "suspects": [
+      "skalengeck",
+      "lausenschlange",
+      "fuchsbau"
+    ],
+    "available_items": [
+      "Salt line",
+      "Constrict-break wedge",
+      "Torch brand",
+      "Fire oil vial",
+      "Iron threshold bar",
+      "Spine blade"
+    ]
   },
   "case_009": {
     "contract_name": "The Winter Bear",
@@ -78,7 +174,19 @@
     "true_killer": "jagerbar",
     "first_scene": "c9_charcoal",
     "min_clues": 3,
-    "suspects": ["jagerbar", "blutbad", "skalengeck"]
+    "suspects": [
+      "jagerbar",
+      "blutbad",
+      "skalengeck"
+    ],
+    "available_items": [
+      "Wolfsbane tincture",
+      "Bear-iron manacle",
+      "Torch brand",
+      "Silver-tipped bolt",
+      "Fire oil vial",
+      "Pitch tar flask"
+    ]
   },
   "case_010": {
     "contract_name": "The Second Beauty",
@@ -87,6 +195,18 @@
     "true_killer": "spinnetod",
     "first_scene": "c10_merchant_house",
     "min_clues": 3,
-    "suspects": ["spinnetod", "hexenbiest", "fuchsbau"]
+    "suspects": [
+      "spinnetod",
+      "hexenbiest",
+      "fuchsbau"
+    ],
+    "available_items": [
+      "Zaubertrank nullifier",
+      "Sealed-room trap",
+      "Body strike — no limb cuts",
+      "Iron threshold bar",
+      "Salt line",
+      "Grimm blood vial"
+    ]
   }
 }
