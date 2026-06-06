@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgx8x5fkvt51x"
-path="res://.godot/imported/snow_forest_clearing.png-c876944fb54a892f055903e03079503b.ctex"
+uid="uid://bf7q4vi5f7rr8"
+path="res://.godot/imported/floor_trap.png-ca8de39e80a00bb03b8dbf67fa941968.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/backgrounds/snow_forest_clearing.png"
-dest_files=["res://.godot/imported/snow_forest_clearing.png-c876944fb54a892f055903e03079503b.ctex"]
+source_file="res://assets/weapons/floor_trap.png"
+dest_files=["res://.godot/imported/floor_trap.png-ca8de39e80a00bb03b8dbf67fa941968.ctex"]
 
 [params]
 

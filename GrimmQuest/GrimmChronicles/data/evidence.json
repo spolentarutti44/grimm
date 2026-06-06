@@ -199,6 +199,10 @@
     "name": "The Eisbiber lodge elder",
     "detail": "\"Ernst wasn't the first. Pieter the silversmith, two months ago — same thing, peaceful, drained. The clockmaker's son before that. All men of means. All missing their finest pieces. They move after each feeding. Whatever you're looking for will not stay long.\""
   },
+  "c4_berta": {
+    "name": "Berta, Karl's wife",
+    "detail": "\"He was not home at the eighth hour or the ninth. He came in after the bell — ten, maybe later. His shirt was torn at the collar. He said it was a branch. He would not let me see his hands. I didn't ask again. I should have asked.\""
+  },
   "c4_body": {
     "name": "Willem Roth, in the snow",
     "detail": "Deep claw lacerations across the chest and left shoulder — three parallel lines, spaced too widely for any wolf. The expression is pure terror. The body was partially dragged, then abandoned. One boot is gone."
@@ -264,7 +268,8 @@
   },
   "c5_wax_impression": {
     "name": "A key impression in beeswax",
-    "detail": "A thumb-sized block of beeswax, pressed around a key and carefully removed. The impression is sharp and clean — the work of someone unhurried. Found beneath a false felt lining in the bottom desk drawer above the cellar. Whoever made this knew which key it was, and knew where to look."
+    "detail": "A thumb-sized block of beeswax, pressed around a key and carefully removed. The impression is sharp and clean — the work of someone unhurried. Found beneath a false felt lining in the bottom desk drawer above the cellar. Whoever made this knew which key it was, and knew where to look.",
+    "red_herring": true
   },
   "c5_boss": {
     "name": "The wine merchant",
@@ -343,6 +348,24 @@
   "c7_gate_scrapes": {
     "name": "Fresh scratches on the gate latch",
     "detail": "Four fine parallel scratches on the gate latch, at mid-body height. Made going over or through, at speed. The scratches are fresh enough that the raw metal still shows silver."
+  },
+  "c7_debt_letter": {
+    "name": "A letter among the papers",
+    "detail": "Folded between the ledgers near the body: \"Your terms are extortion and I will not be extorted by a man of your kind. Come to my door again and I will go to the bailiff.\" Unsigned. The wax seal bears a merchant's mark — a weaving shuttle. The date is two weeks ago.",
+    "red_herring": true
+  },
+  "c7_shutter_scratch": {
+    "name": "Scratches on the upper shutter",
+    "detail": "Four deep parallel marks on the outer frame of the upper shutter, well above a man's reach from the ground. Made from outside, pressing inward. The pattern is four-point, narrow-spaced — feline geometry, not canine. Whatever made these was on the wall when it did so.",
+    "red_herring": true
+  },
+  "c7_neighbor": {
+    "name": "A woman in the adjacent yard",
+    "detail": "\"There was someone in the alley around nine. A woman — very still, standing by the wall, looking at the building the way you look at something you've already decided about. She noticed me watching and smiled. I don't know why I forgot about it until now. I remember the smile very clearly. Just not what came after.\""
+  },
+  "c7_wesen_contact": {
+    "name": "A Wesen contact",
+    "detail": "\"A Fuchsbau who kills leaves a trail too clean for frenzy. Precise cuts, no mess, nothing broken that did not need breaking. They earn trust first — months sometimes — and use it once. If something personal was taken and the money was not, the want was not profit. Find who Jakob let close, and you will find who used it.\""
   },
   "c8_rolf_body": {
     "name": "Rolf Huber, at the channel",

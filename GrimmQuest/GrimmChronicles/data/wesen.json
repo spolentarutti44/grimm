@@ -35,9 +35,9 @@
       "xp": 80
     },
     "color": "#1f1f1d",
-    "weakness_items": [
-      "Wolfsbane tincture",
-      "Silver-tipped bolt"
+    "weakness_weapons": [
+      "silver_crossbow_bolt",
+      "wolfsbane_flask"
     ]
   },
   "fuchsbau": {
@@ -70,15 +70,15 @@
       "xp": 25
     },
     "color": "#854F0B",
-    "weakness_items": [
-      "Salt line",
-      "Iron threshold bar"
+    "weakness_weapons": [
+      "salt_pouch",
+      "cold_iron_bar"
     ]
   },
   "jagerbar": {
     "name": "Jägerbar",
     "plural": "Jägerbaren",
-    "desc": "Bear-blooded. Vast and slow to anger.",
+    "desc": "Bear-blooded Wesen. Roh-Hatz — the old hunt — is their sacred rite, passed father to son since before living memory. In human form they are broad, quiet people: workers in wood and stone who keep to themselves and hold their agreements to the letter. Provoke the family, break a sworn debt, or interrupt the rite, and the woge comes slow and total. There is no reasoning with a Jägerbar mid-Hatz. There is only distance, or not enough of it.",
     "signs": "Coarse brown shag, matted with oil. Pawprints the breadth of a dinner plate. Crushed bones, splintered timbers. Wide gouges from claws like sickles. No fang-marks — the kill is by crushing.",
     "weakness": "Pitch matted in their fur seizes their claws.",
     "hp": 70,
@@ -112,15 +112,15 @@
       "xp": 50
     },
     "color": "#412402",
-    "weakness_items": [
-      "Pitch tar flask",
-      "Bear-iron manacle"
+    "weakness_weapons": [
+      "bear_iron_manacles",
+      "pitch_tar_flask"
     ]
   },
   "skalengeck": {
     "name": "Skalengeck",
     "plural": "Skalengecken",
-    "desc": "Lizard-kin.",
+    "desc": "Lizard-kin — and among the oldest Wesen still in practice. Cold-blooded in the literal sense: they draw warmth from stone, water, and shadow, and do not generate their own. Their patience is not a virtue but a biology. A Skalengeck can remain motionless in a confined space for days, burning almost nothing, waiting for what it knows will eventually arrive. It does not hunt from hunger or hatred. It hunts because it is the oldest thing it knows how to do.",
     "signs": "Greenish scales shed in patches. Curving belly-drag in mud. Puncture-bites, twin holes at the throat, with venom.",
     "weakness": "Fire and torchlight chill the cold blood to torpor.",
     "hp": 42,
@@ -138,9 +138,9 @@
       "xp": 32
     },
     "color": "#27500A",
-    "weakness_items": [
-      "Torch brand",
-      "Fire oil vial"
+    "weakness_weapons": [
+      "torch_brand",
+      "fire_oil_flask"
     ]
   },
   "spinnetod": {
@@ -185,9 +185,9 @@
       "xp": 120
     },
     "color": "#2a1a2a",
-    "weakness_items": [
-      "Body strike — no limb cuts",
-      "Sealed-room trap"
+    "weakness_weapons": [
+      "sealed_room_net",
+      "spine_blade"
     ]
   },
   "lausenschlange": {
@@ -225,9 +225,9 @@
       "xp": 100
     },
     "color": "#2a3a18",
-    "weakness_items": [
-      "Spine blade",
-      "Constrict-break wedge"
+    "weakness_weapons": [
+      "spine_blade",
+      "iron_wedge"
     ]
   },
   "hexenbiest": {
@@ -272,9 +272,9 @@
       "xp": 140
     },
     "color": "#c8c8d8",
-    "weakness_items": [
-      "Grimm blood vial",
-      "Zaubertrank nullifier"
+    "weakness_weapons": [
+      "grimm_blood_vial",
+      "nullifier_draught"
     ]
   },
   "skalenzahne": {
@@ -312,9 +312,9 @@
       "xp": 120
     },
     "color": "#1a3a1a",
-    "weakness_items": [
-      "Underbelly blade",
-      "Lunge bait snare"
+    "weakness_weapons": [
+      "gut_blade",
+      "lunge_snare"
     ]
   },
   "ziegevolk": {
@@ -345,9 +345,9 @@
       "xp": 110
     },
     "color": "#8a7a4a",
-    "weakness_items": [
-      "Nose cover — wax plug",
-      "Rush approach — no pause"
+    "weakness_weapons": [
+      "wax_nose_plug",
+      "aconite_cloth_mask"
     ]
   },
   "coyotl": {
@@ -385,9 +385,9 @@
       "xp": 130
     },
     "color": "#b8903a",
-    "weakness_items": [
-      "Clan mother testimony",
-      "Ritual token — peace offering"
+    "weakness_weapons": [
+      "peace_token",
+      "elders_scroll"
     ]
   },
   "klaustreich": {
@@ -425,9 +425,9 @@
       "xp": 90
     },
     "color": "#7a6a4a",
-    "weakness_items": [
-      "Ground confinement net",
-      "Flat-room trap"
+    "weakness_weapons": [
+      "ground_net",
+      "floor_trap"
     ]
   },
   "cracher_mortel": {
@@ -458,9 +458,9 @@
       "xp": 180
     },
     "color": "#4a6a8a",
-    "weakness_items": [
-      "Tetrodotoxin reversal agent",
-      "Pre-exposure antidote"
+    "weakness_weapons": [
+      "reversal_tincture",
+      "antidote_vial"
     ]
   },
   "gevatter_tod": {
@@ -498,9 +498,9 @@
       "xp": 200
     },
     "color": "#2a2a2a",
-    "weakness_items": [
-      "Follow the money — financier",
-      "Hired hand intercept"
+    "weakness_weapons": [
+      "financiers_ledger",
+      "contact_block_gauntlet"
     ]
   }
 }

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://e04iyieblwn"
-path="res://.godot/imported/snow_cottage_interior.png-d11b6205f2cc0a16ec67ac45e5af43f3.ctex"
+uid="uid://bs4m2wxx26e6h"
+path="res://.godot/imported/c10_cloth_stalls.png-f4015c1760f56c2368e4ca625f2eaaa0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/backgrounds/snow_cottage_interior.png"
-dest_files=["res://.godot/imported/snow_cottage_interior.png-d11b6205f2cc0a16ec67ac45e5af43f3.ctex"]
+source_file="res://assets/backgrounds/c10_cloth_stalls.png"
+dest_files=["res://.godot/imported/c10_cloth_stalls.png-f4015c1760f56c2368e4ca625f2eaaa0.ctex"]
 
 [params]
 

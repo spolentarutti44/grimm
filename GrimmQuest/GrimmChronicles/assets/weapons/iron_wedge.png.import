@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c2octjxts84ow"
-path="res://.godot/imported/snow_forest_path.png-91a1e6b2612bfab5055e4647d7d223df.ctex"
+uid="uid://c0sf3dkbuc1vk"
+path="res://.godot/imported/iron_wedge.png-022cd896d474714220f58ec331ef4aae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/backgrounds/snow_forest_path.png"
-dest_files=["res://.godot/imported/snow_forest_path.png-91a1e6b2612bfab5055e4647d7d223df.ctex"]
+source_file="res://assets/weapons/iron_wedge.png"
+dest_files=["res://.godot/imported/iron_wedge.png-022cd896d474714220f58ec331ef4aae.ctex"]
 
 [params]
 

@@ -94,13 +94,13 @@ func _build_ui(r: Dictionary) -> void:
 			para3 = "The threat is ended. Aunt Marie's book grows heavier by one entry."
 		"partial":
 			para1 = wesen_data.get("signs", "The creature matched the signs.")
-			para2 = "The means you chose did not hold. It broke free."
-			para3 = "It is gone — for now. You were right about the creature, wrong about the remedy. It will kill again."
+			para2 = "You named the right creature — but the means you chose found no hold on it."
+			para3 = "It fled. The case is unsettled. Return to the waystation, consult the diary, and come back with the right remedy."
 		_:
 			var true_wesen: Dictionary = Data.WESEN.get(wid, {})
 			para1 = "You wake on the road, stitched by some kind hand."
 			para2 = "The true killer was a %s. %s" % [true_wesen.get("name","unknown"), true_wesen.get("signs","")]
-			para3 = "The innocent you accused wants nothing to do with you. The killer is still out there."
+			para3 = "The innocent you accused wants nothing to do with you. The contract stands — the killer is still out there."
 
 	_add_label(col, para1, 13, Color(C_CREAM, 0.75))
 	_add_label(col, para2, 13, Color(C_CREAM, 0.75))
@@ -108,8 +108,9 @@ func _build_ui(r: Dictionary) -> void:
 
 	# ── Correct answer reveal (partial/wrong) ───────────────────────────────
 	if outcome != "full":
-		var correct_items: Array = wesen_data.get("weakness_items", [])
-		var reveal_text := "The correct means: " + " or ".join(correct_items)
+		var correct_items: Array = wesen_data.get("weakness_weapons", [])
+		var correct_names := correct_items.map(func(k): return Data.WEAPONS.get(k, {}).get("name", k))
+		var reveal_text := "The correct means: " + " or ".join(correct_names)
 		_add_label(col, reveal_text, 12, Color(border_col, 0.9))
 
 	# ── Wesen unlock notification ───────────────────────────────────────────
@@ -127,7 +128,8 @@ func _build_ui(r: Dictionary) -> void:
 	sep2.add_theme_color_override("color", Color(C_CREAM, 0.1))
 	outer.add_child(sep2)
 
-	var btn := _make_btn("Return to the waystation  →")
+	var btn_label := "Return to the waystation  →" if outcome == "full" else "Return — case still open  →"
+	var btn := _make_btn(btn_label)
 	btn.pressed.connect(func():
 		GameState.result = {}
 		GameState.scene = "hub"

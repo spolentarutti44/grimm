@@ -1,7 +1,7 @@
 {
   "hans": {
     "contract_name": "A killing at the Schwarzwald",
-    "contract_flavor": "A woodcutter named Hans, found at the wood-line. Villagers cry wolf. The old folk hide their faces.",
+    "contract_flavor": "The Schwarzwald is old forest — old enough that the trees have forgotten what light tastes like. Hans Ottmann worked its edge for twenty years, a good woodcutter, a man who was home before dark. He was home before dark until he was not.\n\nThey found him at first light on a Tuesday, forty feet inside the tree line. His axe was still in his hand, mid-swing, never finished. His throat had been opened — not cut, torn, the work of something that does not need a blade because it has always been the blade. The face was calm. Whatever struck him, it was fast enough that the calm never had time to become fear.\n\nThe Blutbad is wolf-blooded. There are reformed ones in the valley — you may have passed them already without knowing. Quiet folk, keep to the old settlements in the hills, trouble no one. The rogues are different. The rogue remembers, in the moonlight, that it is faster and stronger than everything else in the dark, and that memory sits in the blood and does not go away.\n\nThe old folk do not say the word aloud in the evening. They put warding-marks above their doors — a crescent moon crossed with a nail, older than the village itself. One woman pressed a silver nail into your hand when you arrived and would not take it back. She said: \"You will need it more than I do now.\"\n\nNobody has claimed the bailiff's reward. It has been three days.",
     "contract_gold": 25,
     "true_killer": "blutbad",
     "first_scene": "clearing",
@@ -11,18 +11,18 @@
       "jagerbar",
       "coyotl"
     ],
-    "available_items": [
-      "Bear-iron manacle",
-      "Silver-tipped bolt",
-      "Pitch tar flask",
-      "Clan mother testimony",
-      "Wolfsbane tincture",
-      "Ritual token — peace offering"
+    "available_weapons": [
+      "silver_crossbow_bolt",
+      "wolfsbane_flask",
+      "bear_iron_manacles",
+      "pitch_tar_flask",
+      "peace_token",
+      "elders_scroll"
     ]
   },
   "mill": {
     "contract_name": "Trouble at the river-mill",
-    "contract_flavor": "The miller of Furt was found beside his wheel, broken like kindling. His prentice ran half-mad to the bailiff and would say only \"it stood up — God, it stood up.\"",
+    "contract_flavor": "Friedrich the Miller ran a fair wheel on the Furt river — or so he told people. His ledger said otherwise. For four years he had been leaning on the weights, skimming a measure from every sack, and the valley had been paying the difference without knowing it. Most men who cheat in small ways are never called to account. Friedrich was not most men, and the man he had cheated was not a patient one.\n\nBernholt farms the eastern slope. His family have kept bees there since his grandfather's time. He is a large man, broad across the shoulder, with wide hands and brown eyes that go very still when he is angry — not cold, exactly, but the stillness of something that has made a decision and is no longer troubled by doubt. He was owed twelve pieces. He was not paid.\n\nThe miller was found beside his wheel at first light. His ribcage had been pressed inward — not struck, not stabbed, but pressed, by something that applied its weight downward slowly until the bones gave. The prentice was in the loft. He came down when the noise stopped. He says it stood up when it heard him, and that it was very tall when it stood, and that its eyes were brown, a man's colour, watching him from across the mill. He ran. He did not stop running.\n\nBernholt has not been seen in the valley this week. He has not come for his twelve pieces.",
     "contract_gold": 40,
     "true_killer": "jagerbar",
     "first_scene": "millyard",
@@ -32,18 +32,18 @@
       "blutbad",
       "skalenzahne"
     ],
-    "available_items": [
-      "Silver-tipped bolt",
-      "Pitch tar flask",
-      "Wolfsbane tincture",
-      "Underbelly blade",
-      "Lunge bait snare",
-      "Bear-iron manacle"
+    "available_weapons": [
+      "bear_iron_manacles",
+      "pitch_tar_flask",
+      "silver_crossbow_bolt",
+      "wolfsbane_flask",
+      "gut_blade",
+      "lunge_snare"
     ]
   },
   "case_003": {
     "contract_name": "The Tailor's Widow",
-    "contract_flavor": "Ernst Hübner, master tailor, found slumped against his fitting mirror. Expression serene. Three rings missing from his fingers. He measured twice and cut once — in cloth and in life.",
+    "contract_flavor": "Ernst Hübner measured cloth for forty years. He was a precise man, a man who believed that the correct hem and the correct bill of sale were the architecture of a life kept orderly. He was found in his fitting chair on a Wednesday morning — expression serene, three rings missing from his fingers. The skin of his chest gave when pressed, like a soft wet sack: the ribcage intact, the organs beneath dissolved to nothing.\n\nThe apprentice remembered the woman. She came two evenings before the death: dark hair, pale skin, very still. Ernst turned his last appointment away for her, alone in the shop, door locked. The apprentice stayed late. She heard a low laugh around eleven — a woman's laugh, unhurried, not unpleasant — and then a silence so complete she thought she had imagined the voices. She had not imagined them.\n\nThe Spinnetod is spider-kin and very old Wesen. The females must feed every few years — not flesh, not blood, but a man's vitality drawn slowly through hollow chelicerae, the body dissolved from the inside outward while the victim feels only warmth and peace. They do not kill from hunger or rage but from a cold necessity refined over centuries into something almost elegant.\n\nShe takes a trophy each time. Something shining. Something that says the man was worth the effort. Three rings, chosen carefully, removed from fingers that did not resist. She will not stay long.",
     "contract_gold": 45,
     "true_killer": "spinnetod",
     "first_scene": "c3_shop",
@@ -53,18 +53,18 @@
       "hexenbiest",
       "lausenschlange"
     ],
-    "available_items": [
-      "Zaubertrank nullifier",
-      "Sealed-room trap",
-      "Grimm blood vial",
-      "Body strike — no limb cuts",
-      "Spine blade",
-      "Constrict-break wedge"
+    "available_weapons": [
+      "sealed_room_net",
+      "spine_blade",
+      "grimm_blood_vial",
+      "nullifier_draught",
+      "iron_wedge",
+      "torch_brand"
     ]
   },
   "case_004": {
     "contract_name": "Red in the Snow",
-    "contract_flavor": "Willem Roth found forty feet from the treeline. Deep claw lacerations. Expression of pure terror. The snow remembers everything — and whatever did this was not in a hurry.",
+    "contract_flavor": "Willem Roth was a merchant of regular habits who had walked the forest paths east of the village all his life without incident. He knew the trails. He did not fear them. On a morning of hard frost, forty feet from the treeline, his knowledge of the trails ran out.\n\nThe claw wounds across his chest are spaced twenty-eight centimetres apart. A wolf's full spread reaches twelve. A large man's open hand reaches twenty. Whatever made these marks was bigger than either, and struck downward — the angle says it was standing upright and reaching down to him. He was on his feet when the first blow landed. He was not on his feet long after.\n\nOne boot is gone. The drag marks in the snow lead two hundred feet deeper into the trees and they stop. The boot is where they stop. At the eleventh hour the church bell rang. Whatever was carrying Willem heard it, put him down, and did not return.\n\nThe Blutbad in frenzy does not reason. But the pause at the bell — the deliberate return to the trees, the choice to leave him — is not pure frenzy. That is something that still knows, dimly, that it has another form to return to before dawn. The rogue ones are like this: frenzy with an edge of cunning. It does not make them easier to find.\n\nThere is a man in the village whose sleeves are too long for the cold to explain.",
     "contract_gold": 30,
     "true_killer": "blutbad",
     "first_scene": "c4_forest",
@@ -74,18 +74,18 @@
       "jagerbar",
       "coyotl"
     ],
-    "available_items": [
-      "Silver-tipped bolt",
-      "Pitch tar flask",
-      "Bear-iron manacle",
-      "Clan mother testimony",
-      "Ritual token — peace offering",
-      "Wolfsbane tincture"
+    "available_weapons": [
+      "silver_crossbow_bolt",
+      "wolfsbane_flask",
+      "bear_iron_manacles",
+      "pitch_tar_flask",
+      "peace_token",
+      "elders_scroll"
     ]
   },
   "case_005": {
     "contract_name": "The Patient Dark",
-    "contract_flavor": "Petra Holz, bookkeeper, found between two barrels in a locked cellar. No external wounds. Body contorted. She had the only key. Whatever was in there with her had been waiting long before she came down.",
+    "contract_flavor": "Petra Holz had worked the merchant accounts on Kürschnerstrasse for fifteen years without error or complaint. She was known to be thorough. On the Tuesday before her death she found something in the books she should not have found — an outgoing absorbed elsewhere in the ledger with practised smoothness. She wrote three words in the margin: *ask Felix.* She did not live to ask Felix.\n\nThey found her between two wine barrels in the locked cellar. The door was locked from inside. Her key was in her apron pocket. Every rib was fractured — not from impact, but from pressure, even and total, applied along the full length of something that wrapped around her completely and contracted. Constriction leaves this signature and nothing else does: no bruising, no wound, no point of impact. Just the quiet distributed fracture of bones pressed past their limit.\n\nThe Lausenschlange is boa-kin. It does not chase. It identifies the place its prey must come to, enters through whatever gap will admit it, and waits in the dark for however long is necessary — metabolism nearly stopped, burning almost nothing, invisible to any search that does not know what it is looking for. The drainage gap in the cellar wall had been worked open weeks before Petra's death. The mortar scraped gradually, the stones shifted over many nights, the dust resettled over the marks.\n\nShe held the only key. The lock was secured from inside. It did not enter through the door.",
     "contract_gold": 40,
     "true_killer": "lausenschlange",
     "first_scene": "c5_cellar",
@@ -95,18 +95,18 @@
       "spinnetod",
       "cracher_mortel"
     ],
-    "available_items": [
-      "Constrict-break wedge",
-      "Sealed-room trap",
-      "Body strike — no limb cuts",
-      "Spine blade",
-      "Pre-exposure antidote",
-      "Tetrodotoxin reversal agent"
+    "available_weapons": [
+      "spine_blade",
+      "iron_wedge",
+      "sealed_room_net",
+      "reversal_tincture",
+      "antidote_vial",
+      "nullifier_draught"
     ]
   },
   "case_006": {
     "contract_name": "The Glass Coffin",
-    "contract_flavor": "Lord Aldric Fenn found dead at his desk. No wounds, no struggle. Glass of wine half-drunk. Body cold far beyond what the time of death allows — the room is warm but he is ice-cold to the touch.",
+    "contract_flavor": "Lord Aldric Fenn was a careful man. He had managed the eastern trade routes for twenty years, survived three changes of regional authority, and cultivated the right alliances by knowing things about powerful people that they preferred to remain unknown. He was found dead at his writing desk on a Thursday evening, mid-sentence in a letter he never finished sending. No wound on the body. No sign of struggle. The wine glass half-drunk, the candle burned down naturally beside him.\n\nHe is cold. Not room-cold — cold in the way things are cold that have had the warmth drawn out from the inside. The room has been heated all morning. The servants have been in and out. He remains cold at the core in a way that makes the physician uncomfortable and has nothing to do with the temperature of the air around him.\n\nThe Hexenbiest does not leave marks. That is the craft of it. What they leave behind is a man who appears to have died quietly at his work, and a room that smells faintly of burnt copper if you arrive early enough — the residue of Zaubertrank discharged. A Hexenbiest embedded in a city is not lost. They have a name, a household, a position. They have been trusted long enough to be invited through the right doors.\n\nThe letter is still on the desk, addressed to *V.* in Lord Fenn's hand. It ends: *I believe she is —*\n\nThe full name of V. is recorded nowhere in this house. Someone ensured that before they left.",
     "contract_gold": 60,
     "true_killer": "hexenbiest",
     "first_scene": "c6_manor",
@@ -116,18 +116,18 @@
       "spinnetod",
       "cracher_mortel"
     ],
-    "available_items": [
-      "Body strike — no limb cuts",
-      "Zaubertrank nullifier",
-      "Grimm blood vial",
-      "Sealed-room trap",
-      "Tetrodotoxin reversal agent",
-      "Pre-exposure antidote"
+    "available_weapons": [
+      "grimm_blood_vial",
+      "nullifier_draught",
+      "sealed_room_net",
+      "spine_blade",
+      "reversal_tincture",
+      "antidote_vial"
     ]
   },
   "case_007": {
     "contract_name": "The Fox in the Vault",
-    "contract_flavor": "Jakob Weiss, moneylender, found at his counting table. The vault is empty — no forced entry. Two clean cuts at the throat, surgical not ragged. Whatever killed him, he let through the door himself.",
+    "contract_flavor": "Jakob Weiss kept the cleanest books in the district and the tightest vault in the city, and he had survived forty years in the lending trade by a single principle: no one enters a room you have not decided to let them leave. He was found dead at his counting table before dawn. Three hundred silver pieces gone. The vault standing open, the lock undamaged, the mechanism working perfectly. His key was still in his pocket.\n\nTwo curved cuts at the throat — narrow, parallel, eight millimetres apart. Not a blade. A small controlled claw, very close, at an angle that requires the attacker to be nearly beside him. Close enough to be touching. Jakob Weiss did not allow that proximity. In forty years he had not once allowed a man that close without a table and a contract between them. He had allowed this one close. He had unlocked the front door himself, returned to his table, and resumed counting.\n\nThe Fuchsbau is fox-kin. Their gift is a particular charm — not compulsion, not beauty, but the specific legibility of something that has spent centuries learning how to read what a person needs to feel at ease. Jakob let it through the front door because it felt like someone he had known a long time.\n\nThere is a second key to that vault. Jakob made it himself. He gave it to someone. The three hundred silver pieces were a destination — planned, prepared. The gold chain taken from his neck was something else entirely. The chain troubles me more than the silver.",
     "contract_gold": 35,
     "true_killer": "fuchsbau",
     "first_scene": "c7_lockshop",
@@ -137,18 +137,18 @@
       "skalengeck",
       "klaustreich"
     ],
-    "available_items": [
-      "Flat-room trap",
-      "Iron threshold bar",
-      "Fire oil vial",
-      "Salt line",
-      "Torch brand",
-      "Ground confinement net"
+    "available_weapons": [
+      "salt_pouch",
+      "cold_iron_bar",
+      "torch_brand",
+      "fire_oil_flask",
+      "ground_net",
+      "floor_trap"
     ]
   },
   "case_008": {
     "contract_name": "The Cold Culvert",
-    "contract_flavor": "Rolf Huber, east-gate watchman, found dead at the drainage channel. Twin puncture wounds at the throat, skin faintly green-tinged. He checked that culvert every night at the same hour. Something learned his schedule.",
+    "contract_flavor": "Rolf Huber had worked the east gate for eleven years. He was a methodical man — same route, same stops, same quarter-hour notations in his duty log every night without variation. For two weeks before his death he had been writing in that log that the east culvert smelled wrong. Cold mud and something chemical underneath it, he wrote, something that should not be there. He told his relief. Tannery runoff, said the relief. Rolf kept writing it down. Nobody read the log.\n\nHe was found at the drainage channel on a Tuesday night at the end of his tenth-hour check. Two puncture wounds at the side of the throat, twelve millimetres apart, the faint greenish tinge of venom already spreading from the site. His face was calm. It was faster than understanding.\n\nThe Skalengeck is cold-blooded — literally. It draws warmth from dark stone and still water and does not generate its own. Give it a confined, lightless, wet space and it will remain there motionless for days, burning almost nothing, invisible to any search that does not know what it is looking for. The drainage grille had been bent outward from the inside, slowly, over many nights — a little at a time, by something that had learned that steady pressure goes unnoticed. The stones at the culvert mouth were colder than the air. Cold-blooded things leech warmth from what they rest on.\n\nIt did not need to be clever. Rolf had given it his schedule in writing: eleven years of it, one log entry at a time, the tenth hour, every night, never varying.",
     "contract_gold": 38,
     "true_killer": "skalengeck",
     "first_scene": "c8_culvert",
@@ -158,18 +158,18 @@
       "lausenschlange",
       "fuchsbau"
     ],
-    "available_items": [
-      "Salt line",
-      "Constrict-break wedge",
-      "Torch brand",
-      "Fire oil vial",
-      "Iron threshold bar",
-      "Spine blade"
+    "available_weapons": [
+      "torch_brand",
+      "fire_oil_flask",
+      "spine_blade",
+      "iron_wedge",
+      "salt_pouch",
+      "cold_iron_bar"
     ]
   },
   "case_009": {
     "contract_name": "The Winter Bear",
-    "contract_flavor": "Three charcoal burners found dead at their winter pit, deep in the Black Forest. No blade wounds — crushed. The third body was moved after death. Whatever came out of the deep forest was not in a hurry. The charcoal pit still burns.",
+    "contract_flavor": "The Ottmar family has burned charcoal in the Black Forest for three generations. Their winter pit is three miles from the nearest road, in a clearing the old maps mark with a blank — the kind of blank that means someone decided not to write down what was there. They knew the forest. They lived in it carefully, kept their agreements with the valley families, and had done so for as long as anyone could say.\n\nAll three were found dead at the pit on a Thursday morning. No blade wounds. Crushed — every ribcage stove inward, one man's spine broken in three places, the force distributed as though something sat upon them and pressed, not struck. The third died last and had time to face it. His expression is not one you will look at twice if you can avoid it.\n\nA fourth man had been at the cart when it began. He hid under the oilcloth and did not move. He heard the sounds — impacts, heavy and even, with silences between — and then nothing. He waited until the nothing held. What he saw leaving, he will describe: it came from the trees upright. Tall. Brown eyes that caught the firelight like a man's. It stood over the last body for a long time, not moving, just looking — and then it walked back into the dark. It walked. It did not run. It did not look at him.\n\nThe Jägerbar does not kill from frenzy. Roh-Hatz is a reckoning: a wrong answered in the only language that satisfies. Something happened between this pit and the valley below. Find what the Ottmar family did, and you will know who you are looking for, and why, and that the account is not yet closed.\n\nThe charcoal pit still burns. No one has been to tend it.",
     "contract_gold": 45,
     "true_killer": "jagerbar",
     "first_scene": "c9_charcoal",
@@ -179,18 +179,18 @@
       "blutbad",
       "skalengeck"
     ],
-    "available_items": [
-      "Wolfsbane tincture",
-      "Bear-iron manacle",
-      "Torch brand",
-      "Silver-tipped bolt",
-      "Fire oil vial",
-      "Pitch tar flask"
+    "available_weapons": [
+      "bear_iron_manacles",
+      "pitch_tar_flask",
+      "silver_crossbow_bolt",
+      "wolfsbane_flask",
+      "torch_brand",
+      "fire_oil_flask"
     ]
   },
   "case_010": {
     "contract_name": "The Second Beauty",
-    "contract_flavor": "Heinrich Braun, cloth merchant, found dead in his chamber. No wounds. Expression serene. His gold family chain is gone. His wife says a beautiful woman visited twice this week — pale, dark hair. Heinrich would not say her name.",
+    "contract_flavor": "Heinrich Braun had worn the same gold family chain for seventeen years, every day of his married life — slept in it, his wife said, wore it under his collar in summer when other men removed their ornaments in the heat. It was not the most valuable thing he owned. It was the most important. He was found dead in his chamber on a Wednesday morning with the chain gone from his neck and his coin-purse on the table, full, untouched.\n\nThere are no wounds. The sternum gives when pressed — not broken, not bruised, just soft, the way a hollow thing is soft. The organs have been dissolved from the inside outward. The ribcage is intact. The expression on Heinrich's face is one of absolute peace — not the peace of sleep, but the peace of a man who felt, all the way to the end, that what was happening to him was something he had chosen.\n\nThe Spinnetod feeds on vitality — not flesh, not blood, but the body's essential force drawn slowly through hollow chelicerae over hours, the chemistry dissolved and absorbed until the cavity is hollow and the victim feels only warmth and gratitude. The female must feed every few years or the aging takes her visibly and fast. In human form she is extraordinarily beautiful — the specific beauty of something that has learned over centuries exactly what a man responds to. She selects men who are prosperous. She visits twice: once to be chosen, once to collect. She takes a trophy each time — not the most valuable object, the most personal. The thing whose absence will be noticed longest.\n\nHeinrich's wife says she was very still. Pale skin, dark hair. The way she looked at him — not at his face, at his hands. At the chain. The second visit she stayed three hours and Heinrich came to bed content and slept without moving until he did not wake.\n\nShe will be gone within the week. She always is.",
     "contract_gold": 55,
     "true_killer": "spinnetod",
     "first_scene": "c10_merchant_house",
@@ -200,13 +200,13 @@
       "hexenbiest",
       "fuchsbau"
     ],
-    "available_items": [
-      "Zaubertrank nullifier",
-      "Sealed-room trap",
-      "Body strike — no limb cuts",
-      "Iron threshold bar",
-      "Salt line",
-      "Grimm blood vial"
+    "available_weapons": [
+      "sealed_room_net",
+      "spine_blade",
+      "grimm_blood_vial",
+      "nullifier_draught",
+      "salt_pouch",
+      "cold_iron_bar"
     ]
   }
 }

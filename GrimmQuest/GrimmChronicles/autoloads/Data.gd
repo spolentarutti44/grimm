@@ -4,6 +4,7 @@ extends Node
 var WESEN:            Dictionary = {}
 var EVIDENCE:         Dictionary = {}
 var HUNTS:            Dictionary = {}
+var WEAPONS:          Dictionary = {}
 var SCENES:           Dictionary = {}
 var CASES:            Dictionary = {}  # keyed by case_id
 var SCENE_TEMPLATES:  Dictionary = {}  # bg_key -> {slots: {slot_id -> {pos,size,r}}}
@@ -13,6 +14,7 @@ func _ready() -> void:
 	WESEN           = _load("wesen")
 	EVIDENCE        = _load("evidence")
 	HUNTS           = _load("hunts")
+	WEAPONS         = _load("weapons")
 	SCENES          = _load("scenes_data")
 	CASES           = _load_cases("cases/grimm_cases_003_012")
 	SCENE_TEMPLATES = _load("scene_templates")

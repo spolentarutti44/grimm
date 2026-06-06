@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfa7bedaa34ce"
-path="res://.godot/imported/c7_tannery.png-b4ec6525c7d9c2f8188e9a591ee25925.ctex"
+uid="uid://qbm1fcoetfw8"
+path="res://.godot/imported/ground_net.png-efa24e74571551c0c8ffb6c8708deb13.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/backgrounds/c7_tannery.png"
-dest_files=["res://.godot/imported/c7_tannery.png-b4ec6525c7d9c2f8188e9a591ee25925.ctex"]
+source_file="res://assets/weapons/ground_net.png"
+dest_files=["res://.godot/imported/ground_net.png-efa24e74571551c0c8ffb6c8708deb13.ctex"]
 
 [params]
 

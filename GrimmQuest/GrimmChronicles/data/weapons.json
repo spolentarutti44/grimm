@@ -1,0 +1,329 @@
+{
+  "silver_crossbow_bolt": {
+    "name": "Silver crossbow bolt",
+    "desc": "Cast cold and slow. No mold made this in haste. The wolf remembers silver.",
+    "icon": "bolt",
+    "effective_against": [
+      "blutbad"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/silver_crossbow_bolt.png",
+      "status": "ready",
+      "prompt": "A silver crossbow bolt on dark velvet \u2014 silver-white tip, dark wood shaft, iron fletching bracket. Painterly dark medieval fantasy, single object centered, transparent background, dramatic candlelight from left, rich texture, no text."
+    }
+  },
+  "wolfsbane_flask": {
+    "name": "Wolfsbane flask",
+    "desc": "The oil smells of nothing. The wolf smells everything. Shatter it close.",
+    "icon": "flask",
+    "effective_against": [
+      "blutbad"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/wolfsbane_flask.png",
+      "status": "ready",
+      "prompt": "A small dark glass flask sealed with wax, filled with pale amber wolfsbane oil. Medieval apothecary style, cork stoppered, faint botanical residue on the glass. Painterly dark medieval fantasy, single object centered, transparent background, candlelight, rich texture, no text."
+    }
+  },
+  "bear_iron_manacles": {
+    "name": "Bear-iron manacles",
+    "desc": "Forged heavy. For the heaviest quarry. Hold fast and do not let go.",
+    "icon": "manacle",
+    "effective_against": [
+      "jagerbar"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/bear_iron_manacles.png",
+      "status": "ready",
+      "prompt": "Heavy wrought-iron manacles on a short chain \u2014 thick dark links, rough-forged cuffs with a faint bear-claw imprint pressed into the iron. Painterly dark medieval fantasy, single object centered, transparent background, dramatic side lighting, rich texture, no text."
+    }
+  },
+  "pitch_tar_flask": {
+    "name": "Pitch tar flask",
+    "desc": "Seizes the claws like cold stone. The bear becomes slow and then still.",
+    "icon": "flask",
+    "effective_against": [
+      "jagerbar"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/pitch_tar_flask.png",
+      "status": "ready",
+      "prompt": "A wide-mouthed clay flask sealed with black pitch, dark and oily surface, medieval workshop style. Painterly dark medieval fantasy, single object centered, transparent background, candlelight, rich texture, no text."
+    }
+  },
+  "peace_token": {
+    "name": "Peace token",
+    "desc": "Old signs. Old words. Come bearing them. Speak before the blade.",
+    "icon": "token",
+    "effective_against": [
+      "coyotl"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/peace_token.png",
+      "status": "ready",
+      "prompt": "A carved bone token on rough cord \u2014 a coyote-claw crescent symbol cut deep into aged ivory, worn edges, old clan marking. Painterly dark medieval fantasy, single object centered, transparent background, candlelight, rich texture, no text."
+    }
+  },
+  "elders_scroll": {
+    "name": "Elder's scroll",
+    "desc": "The clan mother's testimony. Words can end a blood feud. If you have the right ones.",
+    "icon": "scroll",
+    "effective_against": [
+      "coyotl"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/elders_scroll.png",
+      "status": "ready",
+      "prompt": "A rolled parchment scroll sealed with dark red wax, tied with rough twine, aged and worn at the edges, elder's authority evident. Painterly dark medieval fantasy, single object centered, transparent background, dramatic side lighting, rich texture, no text."
+    }
+  },
+  "gut_blade": {
+    "name": "Gut blade",
+    "desc": "Through the soft pale underbelly. Not the armoured hide. Strike low.",
+    "icon": "blade",
+    "effective_against": [
+      "skalenzahne"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/gut_blade.png",
+      "status": "ready",
+      "prompt": "A short curved blade with an upswept tip \u2014 narrow, purpose-made, iron with dark patina, no decoration, utilitarian and lethal. Painterly dark medieval fantasy, single object centered, transparent background, dramatic side lighting, rich texture, no text."
+    }
+  },
+  "lunge_snare": {
+    "name": "Lunge snare",
+    "desc": "Let it lunge. Be elsewhere. Pull the line when the jaw is extended.",
+    "icon": "snare",
+    "effective_against": [
+      "skalenzahne"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/lunge_snare.png",
+      "status": "ready",
+      "prompt": "A coiled jaw-snare on a short chain \u2014 spring-loaded iron jaws, trigger plate visible, dark iron, medieval hunter's trap. Painterly dark medieval fantasy, single object centered, transparent background, candlelight, rich texture, no text."
+    }
+  },
+  "sealed_room_net": {
+    "name": "Sealed-room net",
+    "desc": "No ceiling. No walls to climb. Remove the advantage and it becomes ordinary.",
+    "icon": "net",
+    "effective_against": [
+      "spinnetod",
+      "lausenschlange"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/sealed_room_net.png",
+      "status": "ready",
+      "prompt": "A heavy weighted net folded tightly \u2014 coarse hemp rope, lead weights at the corners, purpose-built for enclosure. Painterly dark medieval fantasy, single object centered, transparent background, dramatic side lighting, rich texture, no text."
+    }
+  },
+  "spine_blade": {
+    "name": "Spine blade",
+    "desc": "One precise strike at the base of the spine. The patience ends there.",
+    "icon": "blade",
+    "effective_against": [
+      "spinnetod",
+      "lausenschlange"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/spine_blade.png",
+      "status": "ready",
+      "prompt": "A long narrow stiletto blade \u2014 very thin, very precise \u2014 iron with a turned bone handle, designed for a single surgical insertion. Painterly dark medieval fantasy, single object centered, transparent background, dramatic side lighting, rich texture, no text."
+    }
+  },
+  "iron_wedge": {
+    "name": "Iron wedge",
+    "desc": "Force something between the coils. Buy one breath. That is enough.",
+    "icon": "wedge",
+    "effective_against": [
+      "lausenschlange"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/iron_wedge.png",
+      "status": "ready",
+      "prompt": "A short blunt iron wedge \u2014 cold-worked, no decoration, heavy and utilitarian, rough cut ends, dark metallic surface. Painterly dark medieval fantasy, single object centered, transparent background, candlelight, rich texture, no text."
+    }
+  },
+  "grimm_blood_vial": {
+    "name": "Grimm blood vial",
+    "desc": "One drop. Permanent. The power leaves and does not return. Use it once.",
+    "icon": "vial",
+    "effective_against": [
+      "hexenbiest"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/grimm_blood_vial.png",
+      "status": "ready",
+      "prompt": "A sealed glass vial on a cord \u2014 deep crimson blood inside, wax-sealed cork, faint dark aura surrounding the glass. Painterly dark medieval fantasy, single object centered, transparent background, dramatic candlelight, rich texture, no text."
+    }
+  },
+  "nullifier_draught": {
+    "name": "Nullifier draught",
+    "desc": "Old alchemy to silence old power. The fire goes out like a snuffed candle.",
+    "icon": "vial",
+    "effective_against": [
+      "hexenbiest"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/nullifier_draught.png",
+      "status": "ready",
+      "prompt": "A dark glass flask with a tight cork \u2014 pale silver-green liquid inside, alchemical scratch-markings on the glass surface. Painterly dark medieval fantasy, single object centered, transparent background, candlelight, rich texture, no text."
+    }
+  },
+  "salt_pouch": {
+    "name": "Salt pouch",
+    "desc": "Ancient protection. Lay it at the threshold. The Fox-kin will not cross.",
+    "icon": "pouch",
+    "effective_against": [
+      "fuchsbau"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/salt_pouch.png",
+      "status": "ready",
+      "prompt": "A rough cloth pouch of coarse salt \u2014 drawstring tied, salt crystals visible at the gathered top, worn linen fabric. Painterly dark medieval fantasy, single object centered, transparent background, candlelight, rich texture, no text."
+    }
+  },
+  "cold_iron_bar": {
+    "name": "Cold iron bar",
+    "desc": "Unworked iron. Their tricks end where cold iron begins.",
+    "icon": "bar",
+    "effective_against": [
+      "fuchsbau"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/cold_iron_bar.png",
+      "status": "ready",
+      "prompt": "A short iron bar, unfinished and unpolished \u2014 cold-worked from raw iron, rough cut ends, dark metallic surface, no forge marks. Painterly dark medieval fantasy, single object centered, transparent background, dramatic side lighting, rich texture, no text."
+    }
+  },
+  "torch_brand": {
+    "name": "Torch brand",
+    "desc": "Cold blood needs the warmth gone \u2014 give it fire instead. Keep it lit.",
+    "icon": "torch",
+    "effective_against": [
+      "skalengeck"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/torch_brand.png",
+      "status": "ready",
+      "prompt": "A burning medieval torch \u2014 wooden handle wrapped with pitch-soaked cloth, flame at the top with dramatic fire glow and dark smoke. Painterly dark medieval fantasy, single object centered, transparent background, warm fire lighting, rich texture, no text."
+    }
+  },
+  "fire_oil_flask": {
+    "name": "Fire oil flask",
+    "desc": "One vial. One match. The scales go still and stay still.",
+    "icon": "flask",
+    "effective_against": [
+      "skalengeck"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/fire_oil_flask.png",
+      "status": "ready",
+      "prompt": "A sealed clay flask with a cloth wick \u2014 fire-oil inside, stopper sealed with dark wax, medieval incendiary device, wick slightly frayed. Painterly dark medieval fantasy, single object centered, transparent background, candlelight, rich texture, no text."
+    }
+  },
+  "wax_nose_plug": {
+    "name": "Wax nose plug",
+    "desc": "Deny the pheromone its passage. Do not smell it. Do not pause. Move.",
+    "icon": "plug",
+    "effective_against": [
+      "ziegevolk"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/wax_nose_plug.png",
+      "status": "ready",
+      "prompt": "A small pair of beeswax nose plugs on a short cord \u2014 pale yellow wax, hand-pressed and shaped, simple and utilitarian. Painterly dark medieval fantasy, single object centered, transparent background, soft candlelight, rich texture, no text."
+    }
+  },
+  "aconite_cloth_mask": {
+    "name": "Aconite cloth mask",
+    "desc": "Dipped in aconite water. Breathe through it. Do not let it slip.",
+    "icon": "mask",
+    "effective_against": [
+      "ziegevolk"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/aconite_cloth_mask.png",
+      "status": "ready",
+      "prompt": "A rough linen half-mask \u2014 darkened from aconite soaking, tied with cord at the back, faint herbal residue visible on the cloth surface. Painterly dark medieval fantasy, single object centered, transparent background, dramatic side lighting, rich texture, no text."
+    }
+  },
+  "ground_net": {
+    "name": "Ground net",
+    "desc": "Strip the vertical. Force it down. The cat loses its edge on flat ground.",
+    "icon": "net",
+    "effective_against": [
+      "klaustreich"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/ground_net.png",
+      "status": "ready",
+      "prompt": "A broad flat net with weighted edges \u2014 coarse rope mesh, lead weights at the perimeter, laid flat and spread wide. Painterly dark medieval fantasy, single object centered, transparent background, dramatic side lighting, rich texture, no text."
+    }
+  },
+  "floor_trap": {
+    "name": "Floor trap",
+    "desc": "A cage with no ceiling. No walls to run on. The advantage collapses.",
+    "icon": "trap",
+    "effective_against": [
+      "klaustreich"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/floor_trap.png",
+      "status": "ready",
+      "prompt": "A flat triggered plate trap \u2014 iron spring mechanism, serrated locking edges, set and under tension, medieval hunter's design. Painterly dark medieval fantasy, single object centered, transparent background, candlelight, rich texture, no text."
+    }
+  },
+  "reversal_tincture": {
+    "name": "Reversal tincture",
+    "desc": "Must reach the living victim before day four. After that, too late.",
+    "icon": "vial",
+    "effective_against": [
+      "cracher_mortel"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/reversal_tincture.png",
+      "status": "ready",
+      "prompt": "A tall glass vial of pale blue liquid \u2014 sealed with a wax plug, faint luminescence, medieval apothecary style. Painterly dark medieval fantasy, single object centered, transparent background, soft candlelight, rich texture, no text."
+    }
+  },
+  "antidote_vial": {
+    "name": "Antidote vial",
+    "desc": "Swallowed before contact. The spit lands and finds nothing to poison.",
+    "icon": "vial",
+    "effective_against": [
+      "cracher_mortel"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/antidote_vial.png",
+      "status": "ready",
+      "prompt": "A small clear glass vial sealed with wax \u2014 pale amber liquid inside, a scratch-mark label on the glass. Painterly dark medieval fantasy, single object centered, transparent background, candlelight, rich texture, no text."
+    }
+  },
+  "financiers_ledger": {
+    "name": "Financier's ledger",
+    "desc": "Follow the coin. The hand that threw held no malice. The coin leads higher.",
+    "icon": "scroll",
+    "effective_against": [
+      "gevatter_tod"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/financiers_ledger.png",
+      "status": "ready",
+      "prompt": "A leather-bound account ledger \u2014 dark worn cover, corners rubbed through, pages visible at the edges, tied shut with cord, damning evidence. Painterly dark medieval fantasy, single object centered, transparent background, dramatic candlelight, rich texture, no text."
+    }
+  },
+  "contact_block_gauntlet": {
+    "name": "Contact-block gauntlet",
+    "desc": "Forged thick. The injection needle finds only iron and stops there.",
+    "icon": "manacle",
+    "effective_against": [
+      "gevatter_tod"
+    ],
+    "asset": {
+      "path": "res://assets/weapons/contact_block_gauntlet.png",
+      "status": "ready",
+      "prompt": "A single heavy iron gauntlet \u2014 reinforced knuckle plate, thick solid palm, no finger articulation, cold forged, no decoration, brutally functional. Painterly dark medieval fantasy, single object centered, transparent background, dramatic side lighting, rich texture, no text."
+    }
+  }
+}

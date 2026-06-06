@@ -36,7 +36,6 @@ var _modal_scroll := 0.0
 var _modal_btns  := []    # Array of {rect: Rect2, action: Callable}
 var _modal_tab   := ""    # diary tab id
 var _modal_sel      := ""    # accusation: selected wesen id
-var _modal_item_sel := ""    # accusation: selected item name
 
 # ─── HUD click regions ───────────────────────────────────────────────────────
 var _hud_btns    := []    # same format as _modal_btns
@@ -59,8 +58,9 @@ var _dbg_wheel_clicks    := 0
 var _dbg_wheel_last_time := -999.0
 
 # ─── scene / sheet texture caches ─────────────────────────────────────────────
-var _bg_tex:    Dictionary = {}   # bg_key -> Texture2D or null
-var _sheet_tex: Dictionary = {}   # sheet_name -> Texture2D or null
+var _bg_tex:      Dictionary = {}   # bg_key -> Texture2D or null
+var _sheet_tex:   Dictionary = {}   # sheet_name -> Texture2D or null
+var _weapon_tex:  Dictionary = {}   # weapon_id -> Texture2D or null
 
 func _get_wesen_tex(wid: String) -> Texture2D:
 	if _wesen_tex.has(wid):
@@ -90,6 +90,16 @@ func _get_sheet_tex(sheet: String) -> Texture2D:
 	if FileAccess.file_exists(path):
 		tex = load(path) as Texture2D
 	_sheet_tex[sheet] = tex
+	return tex
+
+func _get_weapon_tex(weapon_id: String) -> Texture2D:
+	if _weapon_tex.has(weapon_id):
+		return _weapon_tex[weapon_id]
+	var path := "res://assets/weapons/%s.png" % weapon_id
+	var tex: Texture2D = null
+	if FileAccess.file_exists(path):
+		tex = load(path) as Texture2D
+	_weapon_tex[weapon_id] = tex
 	return tex
 
 func _ready() -> void:
@@ -388,6 +398,7 @@ func _handle_click(pos: Vector2) -> void:
 # ─── interaction dispatch ─────────────────────────────────────────────────────
 func _trigger(action: String) -> void:
 	if   action == "enter_trailer": _show_trailer()
+	elif action == "weapon_case":   _show_weapon_case()
 	elif action == "rest":          _show_rest()
 	elif action == "contracts":     _show_contracts()
 	elif action.begins_with("evid:"): _examine_evidence(action.substr(5))
@@ -413,10 +424,24 @@ func _show_trailer() -> void:
 		"eyebrow": "A small kingdom of ink",
 		"body": "Books, weapons, ink.\n\nHunts completed: %d  ·  Gold: %d" % [pl.get("hunts", 0), pl.get("gold", 0)],
 		"buttons": [
-			{"label": "Read the diary", "action": _show_diary},
+			{"label": "Read the diary",   "action": _show_diary},
+			{"label": "Open weapon case", "action": _show_weapon_case},
 			{"label": "Close"},
 		]
 	})
+
+func _show_weapon_case() -> void:
+	var pl := GameState.player
+	var contract: String = pl.get("contract", "")
+	if contract.is_empty():
+		_open_modal("simple", {
+			"title": "The weapon case",
+			"eyebrow": "No hunt accepted",
+			"body": "Accept a contract first. The right weapon depends on what you are hunting.",
+			"buttons": [{"label": "Close"}]
+		})
+		return
+	_open_modal("weapon_case", {})
 
 func _show_rest() -> void:
 	_open_modal("simple", {
@@ -445,7 +470,20 @@ func _trigger_encounter() -> void:
 
 func _show_accusation() -> void:
 	_modal_sel = ""
-	_open_modal("accusation", {})
+	var contract: String = GameState.player.get("contract", "")
+	var suspects: Array = []
+	if contract != "" and Data.HUNTS.has(contract):
+		suspects = Data.HUNTS[contract].get("suspects", []).duplicate()
+		# Pad to 5 with random distractors not already in the list
+		var pool: Array = Data.WESEN.keys().filter(func(w): return not (w in suspects))
+		pool.shuffle()
+		var needed := 4 - suspects.size()
+		for i in range(min(needed, pool.size())):
+			suspects.append(pool[i])
+	else:
+		suspects = Data.WESEN.keys().duplicate()
+	suspects.shuffle()
+	_open_modal("accusation", {"suspects": suspects})
 
 func _open_modal(kind: String, data: Dictionary) -> void:
 	_modal = data.duplicate()
@@ -1177,10 +1215,14 @@ func _draw_hud() -> void:
 
 	# ── left card: scene + stats
 	var scene_name: String = Data.SCENES[GameState.scene]["name"]
-	_draw_card(Rect2(8,8,230,50))
+	var equipped_w: String = pl.get("equipped_weapon", "")
+	var hud_h := 68 if not equipped_w.is_empty() else 50
+	_draw_card(Rect2(8, 8, 260, hud_h))
 	draw_string(_font, Vector2(16,25), scene_name, HORIZONTAL_ALIGNMENT_LEFT,-1,13,C_CREAM)
 	var stats := "Gold %d" % pl.get("gold", 0)
 	draw_string(_font, Vector2(16,41), stats, HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color(C_CREAM,0.75))
+	if not equipped_w.is_empty():
+		draw_string(_font, Vector2(16,57), "⚔ " + equipped_w, HORIZONTAL_ALIGNMENT_LEFT,-1,10,C_GOLD)
 
 	# ── right card: buttons
 	var bx := W - 8.0
@@ -1243,10 +1285,24 @@ func _draw_tooltip(pos: Vector2, text: String) -> void:
 # ── modal drawing ─────────────────────────────────────────────────────────────
 func _draw_modal() -> void:
 	_modal_btns.clear()
-	# Dark overlay
 	draw_rect(Rect2(0,0,W,H), Color(0.04,0.03,0.02,0.78))
 
 	var kind: String = _modal.get("_kind","simple")
+
+	# Weapon case uses the velvet backdrop image instead of the parchment panel
+	if kind == "weapon_case":
+		var wc_tex := _get_bg_tex("grimm_medieval_weapon_case")
+		if wc_tex:
+			draw_texture_rect(wc_tex, Rect2(0, 0, W, H), false)
+		# Dark scrim so text reads over the image
+		draw_rect(Rect2(0, 0, W, H), Color(0.0, 0.0, 0.0, 0.52))
+		var cx2 := 56.0
+		var cy2 := 16.0 - _modal_scroll
+		var max_y2 := H - 16.0
+		var panel2 := Rect2(0, 0, W, H)
+		_draw_modal_weapon_case(cx2, cy2, max_y2, panel2)
+		return
+
 	var panel := Rect2(40, 24, 600, 346)
 	# Panel background
 	draw_rect(panel, C_PARCH)
@@ -1258,12 +1314,12 @@ func _draw_modal() -> void:
 	var max_y := panel.end.y - 16.0
 
 	match kind:
-		"simple":     _draw_modal_simple(cx, cy, max_y, panel)
-		"evidence_detail": _draw_modal_evid_detail(cx, cy, max_y, panel)
-		"contracts":  _draw_modal_contracts(cx, cy, max_y, panel)
-		"diary":      _draw_modal_diary(cx, cy, max_y, panel)
+		"simple":         _draw_modal_simple(cx, cy, max_y, panel)
+		"evidence_detail":_draw_modal_evid_detail(cx, cy, max_y, panel)
+		"contracts":      _draw_modal_contracts(cx, cy, max_y, panel)
+		"diary":          _draw_modal_diary(cx, cy, max_y, panel)
 		"evidence_list":  _draw_modal_evidence_list(cx, cy, max_y, panel)
-		"accusation": _draw_modal_accusation(cx, cy, max_y, panel)
+		"accusation":     _draw_modal_accusation(cx, cy, max_y, panel)
 
 func _modal_text(cx: float, cy_ref: float, text: String, size: int, col: Color, max_y: float) -> float:
 	if cy_ref > max_y or cy_ref < 20.0:
@@ -1318,7 +1374,7 @@ func _draw_modal_evid_detail(cx: float, cy: float, max_y: float, _panel: Rect2) 
 	var col_dark := Color("#3a2a14")
 	var col_brow := Color("#8a6f3d")
 	var cy2 := cy
-	cy2 = _modal_text(cx, cy2, "YOU BEND CLOSE", 10, col_brow, max_y)
+	cy2 = _modal_text(cx, cy2, "EVIDENCE", 10, col_brow, max_y)
 	cy2 = _modal_text(cx, cy2, _modal.get("title",""), 18, col_dark, max_y)
 	cy2 += 4
 	for line in _modal.get("body","").split("\n"):
@@ -1368,33 +1424,61 @@ func _draw_modal_contracts(cx: float, _cy: float, _max_y: float, panel: Rect2) -
 	var is_done  := hid in done
 	var is_taken := hid == taken
 
-	var nav_y := panel.end.y - 44.0
-	var cy2   := panel.position.y + 16.0
+	var nav_y    := panel.end.y - 44.0
+	var action_y := nav_y - 46.0
+	var cy2      := panel.position.y + 16.0 - _modal_scroll
 
 	# Header
-	cy2 = _modal_text(cx, cy2, "NAMES OF THE DEAD", 10, col_brow, nav_y)
-	cy2 = _modal_text(cx, cy2, h["contract_name"], 20, col_dark, nav_y)
+	cy2 = _modal_text(cx, cy2, "NAMES OF THE DEAD", 10, col_brow, action_y)
+	cy2 = _modal_text(cx, cy2, h["contract_name"], 20, col_dark, action_y)
 	cy2 += 6
-	draw_line(Vector2(cx - 8, cy2), Vector2(cx + 548, cy2), Color("#8a6f3d"), 0.5)
+	if cy2 > panel.position.y and cy2 < action_y:
+		draw_line(Vector2(cx - 8, cy2), Vector2(cx + 548, cy2), Color("#8a6f3d"), 0.5)
 	cy2 += 14
 
 	# Reward
-	cy2 = _modal_text(cx, cy2, "Reward  —  %d gold" % h["contract_gold"], 12, col_gold, nav_y)
+	cy2 = _modal_text(cx, cy2, "Reward  —  %d gold" % h["contract_gold"], 12, col_gold, action_y)
 	cy2 += 12
 
-	# Flavor text — full, all lines
-	draw_multiline_string(_font, Vector2(cx, cy2), h["contract_flavor"],
-		HORIZONTAL_ALIGNMENT_LEFT, 540, 13, -1, col_brow)
-	cy2 += _font.get_multiline_string_size(h["contract_flavor"],
-		HORIZONTAL_ALIGNMENT_LEFT, 540, 13).y + 20
+	# Story text — paragraph by paragraph, clipped to action bar
+	var content_max := action_y - 8.0
+	var story_cy2 := cy2
+	for para: String in h["contract_flavor"].split("\n\n"):
+		var ph := _font.get_multiline_string_size(para, HORIZONTAL_ALIGNMENT_LEFT, 540, 13).y
+		if story_cy2 + ph > panel.position.y and story_cy2 < content_max:
+			draw_multiline_string(_font, Vector2(cx, story_cy2), para,
+				HORIZONTAL_ALIGNMENT_LEFT, 540, 13, -1, col_brow)
+		story_cy2 += ph + 10
+	story_cy2 += 10
+	cy2 = story_cy2
 
-	# Status / Accept
+	# Mask strip — hides any partial line that bleeds toward the action bar
+	draw_rect(Rect2(panel.position.x, content_max, panel.size.x, panel.end.y - content_max), C_PARCH)
+
+	# Scroll hint
+	var total_story_h := story_cy2 - (panel.position.y + 16.0 - _modal_scroll)
+	var visible_h := content_max - (panel.position.y + 16.0)
+	if total_story_h > visible_h:
+		var can_scroll_down := cy2 > content_max
+		var can_scroll_up   := _modal_scroll > 0.0
+		var hint := ""
+		if can_scroll_up and can_scroll_down:   hint = "↑ ↓  scroll"
+		elif can_scroll_down:                   hint = "↓  scroll"
+		elif can_scroll_up:                     hint = "↑  scroll"
+		if hint != "":
+			var hw := _font.get_string_size(hint, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+			draw_string(_font, Vector2(panel.end.x - hw - 12, content_max - 2),
+				hint, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(col_brow, 0.7))
+
+	# Action bar — pinned, always visible above nav row
+	draw_line(Vector2(panel.position.x + 10, action_y - 6),
+		Vector2(panel.end.x - 10, action_y - 6), Color("#8a6f3d"), 0.5)
 	if is_taken:
-		draw_rect(Rect2(cx - 8, cy2 - 6, 190, 30), Color("#04342C", 0.12))
-		draw_rect(Rect2(cx - 8, cy2 - 6, 190, 30), Color("#04342C", 0.35), false, 0.5)
-		draw_string(_font, Vector2(cx, cy2 + 12), "Active contract", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color("#04342C"))
+		draw_rect(Rect2(cx - 8, action_y - 6, 190, 30), Color("#04342C", 0.12))
+		draw_rect(Rect2(cx - 8, action_y - 6, 190, 30), Color("#04342C", 0.35), false, 0.5)
+		draw_string(_font, Vector2(cx, action_y + 12), "Active contract", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color("#04342C"))
 	elif is_done:
-		draw_string(_font, Vector2(cx, cy2 + 12), "✓  Completed", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, col_done)
+		draw_string(_font, Vector2(cx, action_y + 12), "✓  Completed", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, col_done)
 	else:
 		var captured_hid := hid
 		var accept_fn := func():
@@ -1405,7 +1489,18 @@ func _draw_modal_contracts(cx: float, _cy: float, _max_y: float, panel: Rect2) -
 			GameState.save()
 			_rebuild_exit_btns()
 			_close_modal()
-		_modal_btn(cx, cy2, "Accept contract", 160, accept_fn, true)
+		_modal_btn(cx, action_y, "Accept contract", 160, accept_fn, true)
+
+	# Debug: reset all missions
+	_modal_btn(cx + 390, action_y, "Reset All", 110, func():
+		pl["contract"] = ""
+		pl["completed_hunts"] = []
+		pl["evidence"] = []
+		pl["flagged_evidence"] = []
+		pl["deduction"] = ""
+		GameState.save()
+		_rebuild_exit_btns()
+		queue_redraw())
 
 	# Nav row — pinned at bottom
 	draw_line(Vector2(panel.position.x + 10, nav_y - 6),
@@ -1416,6 +1511,7 @@ func _draw_modal_contracts(cx: float, _cy: float, _max_y: float, panel: Rect2) -
 
 	_modal_btn(cx, nav_y, "← Prev", 88, func():
 		_modal_tab = prev_hid
+		_modal_scroll = 0.0
 		queue_redraw())
 
 	var page_lbl := "%d / %d" % [idx + 1, total]
@@ -1425,6 +1521,7 @@ func _draw_modal_contracts(cx: float, _cy: float, _max_y: float, panel: Rect2) -
 
 	_modal_btn(cx + 350, nav_y, "Next →", 88, func():
 		_modal_tab = next_hid
+		_modal_scroll = 0.0
 		queue_redraw())
 
 	_modal_btn(cx + 452, nav_y, "Close", 80, _close_modal)
@@ -1443,51 +1540,38 @@ func _draw_modal_diary(cx: float, cy: float, _max_y: float, panel: Rect2) -> voi
 	var nav_y          := panel.end.y - 44.0
 	var content_max    := nav_y - 6.0
 
-	var unlocked: Array = GameState.player.get("unlocked_wesen", [])
-	var is_locked: bool = not (wid in unlocked)
-	var tex: Texture2D = null if is_locked else _get_wesen_tex(wid)
+	var tex: Texture2D = _get_wesen_tex(wid)
 
-	if is_locked:
-		# ── Locked entry — redacted placeholder ───────────────────────────────
+	# ── Art mode — illustration fills the panel ──────────────────────────────
+	if tex and _diary_art_mode:
 		var art_rect := Rect2(panel.position.x, panel.position.y, panel.size.x, nav_y - panel.position.y - 2)
-		draw_rect(art_rect, Color("#0e0b09"))
-		var lock_cy := panel.position.y + art_rect.size.y * 0.35
-		draw_string(_font, Vector2(cx + 274.0 * 0.5 - 14, lock_cy),
-			"?", HORIZONTAL_ALIGNMENT_CENTER, -1, 64, Color(col_brow, 0.25))
-		var cy2 := lock_cy + 72.0
-		cy2 = _modal_text(cx, cy2, "ENTRY %d / %d — LOCKED" % [idx + 1, total], 10, Color(col_brow, 0.5), content_max)
-		_modal_text(cx, cy2, "Name this creature to unlock the entry.", 12, Color(col_brow, 0.4), content_max)
-	else:
-		# ── Art mode — illustration fills the panel ───────────────────────────
-		if tex and _diary_art_mode:
-			var art_rect := Rect2(panel.position.x, panel.position.y, panel.size.x, nav_y - panel.position.y - 2)
-			draw_rect(art_rect, Color("#1a1210"))
-			var img_aspect := tex.get_width() / float(tex.get_height())
-			var box_aspect := art_rect.size.x / art_rect.size.y
-			var fit_w: float
-			var fit_h: float
-			if img_aspect > box_aspect:
-				fit_w = art_rect.size.x
-				fit_h = fit_w / img_aspect
-			else:
-				fit_h = art_rect.size.y
-				fit_w = fit_h * img_aspect
-			var offset := Vector2((art_rect.size.x - fit_w) * 0.5, (art_rect.size.y - fit_h) * 0.5)
-			draw_texture_rect(tex, Rect2(art_rect.position + offset, Vector2(fit_w, fit_h)), false)
-			draw_rect(Rect2(panel.position.x, nav_y - 10, panel.size.x, 12), Color(0, 0, 0, 0.45))
+		draw_rect(art_rect, Color("#1a1210"))
+		var img_aspect := tex.get_width() / float(tex.get_height())
+		var box_aspect := art_rect.size.x / art_rect.size.y
+		var fit_w: float
+		var fit_h: float
+		if img_aspect > box_aspect:
+			fit_w = art_rect.size.x
+			fit_h = fit_w / img_aspect
 		else:
-			# ── Text / stats mode ──────────────────────────────────────────────
-			var cy2 := cy
-			cy2 = _modal_text(cx, cy2, "GRIMM DIARY  ·  %d / %d" % [idx + 1, total], 10, col_brow, content_max)
-			cy2 = _modal_text(cx, cy2, w["name"], 18, col_dark, content_max)
-			cy2 += 4
-			cy2 = _modal_text(cx, cy2, w["desc"], 13, col_brow, content_max)
-			cy2 += 6
-			cy2 = _modal_text(cx, cy2, "THE SIGNS", 10, col_red, content_max)
-			cy2 = _modal_text(cx, cy2, w["signs"], 13, col_dark, content_max)
-			cy2 += 6
-			cy2 = _modal_text(cx, cy2, "THE WEAKNESS", 10, col_red, content_max)
-			cy2 = _modal_text(cx, cy2, w["weakness"], 13, col_dark, content_max)
+			fit_h = art_rect.size.y
+			fit_w = fit_h * img_aspect
+		var offset := Vector2((art_rect.size.x - fit_w) * 0.5, (art_rect.size.y - fit_h) * 0.5)
+		draw_texture_rect(tex, Rect2(art_rect.position + offset, Vector2(fit_w, fit_h)), false)
+		draw_rect(Rect2(panel.position.x, nav_y - 10, panel.size.x, 12), Color(0, 0, 0, 0.45))
+	else:
+		# ── Text / stats mode ────────────────────────────────────────────────
+		var cy2 := cy
+		cy2 = _modal_text(cx, cy2, "GRIMM DIARY  ·  %d / %d" % [idx + 1, total], 10, col_brow, content_max)
+		cy2 = _modal_text(cx, cy2, w["name"], 18, col_dark, content_max)
+		cy2 += 4
+		cy2 = _modal_text(cx, cy2, w["desc"], 13, col_brow, content_max)
+		cy2 += 6
+		cy2 = _modal_text(cx, cy2, "THE SIGNS", 10, col_red, content_max)
+		cy2 = _modal_text(cx, cy2, w["signs"], 13, col_dark, content_max)
+		cy2 += 6
+		cy2 = _modal_text(cx, cy2, "THE WEAKNESS", 10, col_red, content_max)
+		cy2 = _modal_text(cx, cy2, w["weakness"], 13, col_dark, content_max)
 
 	# ── Nav row — pinned, not scrolled ───────────────────────────────────────
 	draw_line(Vector2(panel.position.x + 10, nav_y - 6),
@@ -1535,13 +1619,13 @@ func _draw_modal_evidence_list(cx: float, cy: float, max_y: float, _panel: Rect2
 			var ev: Dictionary = Data.EVIDENCE[eid]
 			var flagged: bool = eid in pl["flagged_evidence"]
 			var row_bg := Color("#FCEBEB") if flagged else Color("#E8D9B2")
-			var card_r := Rect2(cx-8, cy2-4, 556, 46)
+			var card_r := Rect2(cx-8, cy2-4, 568, 46)
 			draw_rect(card_r, row_bg)
 			draw_rect(card_r, Color("#8a6f3d"), false, 0.5)
 			if flagged:
-				draw_string(_font, Vector2(cx+530-8,cy2+10), "★", HORIZONTAL_ALIGNMENT_RIGHT,-1,11,C_BLOOD)
+				draw_string(_font, Vector2(cx+548,cy2+10), "★", HORIZONTAL_ALIGNMENT_RIGHT,-1,11,C_BLOOD)
 			# Arrow hint
-			draw_string(_font, Vector2(cx+530-8,cy2+24), "→", HORIZONTAL_ALIGNMENT_RIGHT,-1,11,Color(col_brow,0.5))
+			draw_string(_font, Vector2(cx+548,cy2+24), "→", HORIZONTAL_ALIGNMENT_RIGHT,-1,11,Color(col_brow,0.5))
 			cy2 = _modal_text(cx, cy2+2, ev["name"], 12, col_dark, max_y)
 			cy2 = _modal_text(cx, cy2, _truncate(ev["detail"],60), 11, col_brow, max_y)
 			cy2 += 4
@@ -1555,134 +1639,85 @@ func _draw_modal_evidence_list(cx: float, cy: float, max_y: float, _panel: Rect2
 					"from_list": true,
 				})})
 	cy2 += 4
-	_modal_btn(cx, cy2, "Close", 80, _close_modal)
+	_modal_btn((W - 80.0) / 2.0, cy2, "Close", 80, _close_modal)
 
-const ITEM_FLAVOUR := {
-	"Wolfsbane tincture":           "The old forest remedy. They cannot abide it.",
-	"Silver-tipped bolt":           "Forged cold. It remembers what they are.",
-	"Salt line":                    "Ancient protection. The Fox-kin will not cross it.",
-	"Iron threshold bar":           "Cold iron at the door. Their tricks stop here.",
-	"Pitch tar flask":              "Seizes the claws. The bear becomes slow stone.",
-	"Bear-iron manacle":            "Forged heavy for the largest quarry. Hold fast.",
-	"Torch brand":                  "Cold blood needs warmth gone — give it fire instead.",
-	"Fire oil vial":                "One vial, one match. The scales go still.",
-	"Body strike — no limb cuts":   "The limbs grow back. Strike what matters.",
-	"Sealed-room trap":             "No ceiling, no walls. Remove the advantage.",
-	"Spine blade":                  "One precise strike. The patience ends.",
-	"Constrict-break wedge":        "Force something between the coils. Buy a breath.",
-	"Grimm blood vial":             "A single drop. Permanent. Irreversible.",
-	"Zaubertrank nullifier":        "Old alchemy to silence old power.",
-	"Underbelly blade":             "Through the soft pale hide. Not the armoured back.",
-	"Lunge bait snare":             "Let it lunge. Be elsewhere when the jaw closes.",
-	"Nose cover — wax plug":        "Deny the pheromone its passage.",
-	"Rush approach — no pause":     "Move fast. Every second of exposure costs you.",
-	"Clan mother testimony":        "Words can end this. But you must have the right ones.",
-	"Ritual token — peace offering":"Come bearing the old signs. Speak before you draw.",
-	"Ground confinement net":       "Strip the vertical. The advantage collapses.",
-	"Flat-room trap":               "A cage with no ceiling. The cat loses its edge.",
-	"Tetrodotoxin reversal agent":  "Four days. This must reach the victim by then.",
-	"Pre-exposure antidote":        "Swallowed before contact. The spit lands harmless.",
-	"Follow the money — financier": "The hand that threw held no malice. Follow the coin.",
-	"Hired hand intercept":         "Cut the chain between order and execution.",
-}
 
 func _draw_modal_accusation(cx: float, cy: float, max_y: float, _panel: Rect2) -> void:
 	var col_dark := Color("#3a2a14")
 	var col_brow := Color("#8a6f3d")
 	var pl := GameState.player
+	var equipped: String = pl.get("equipped_weapon", "")
 	var cy2 := cy
 
-	# ── Step 2: item selection (wesen already chosen) ─────────────────────
-	if not _modal_sel.is_empty():
-		var wesen_name: String = Data.WESEN[_modal_sel]["name"]
-		cy2 = _modal_text(cx, cy2, "NAME THE MEANS", 10, col_brow, max_y)
-		cy2 = _modal_text(cx, cy2, "What stops a " + wesen_name + "?", 17, col_dark, max_y)
-		cy2 = _modal_text(cx, cy2, "Choose the remedy from the diary's guidance.", 12, col_brow, max_y)
-		cy2 += 6
-
-		var contract: String = pl.get("contract", "")
-		var items: Array = []
-		if contract != "" and Data.HUNTS.has(contract):
-			items = Data.HUNTS[contract].get("available_items", [])
-		elif Data.WESEN.has(_modal_sel):
-			items = Data.WESEN[_modal_sel].get("weakness_items", [])
-
-		const CARD_W := 262.0; const CARD_H := 72.0; const CARD_GAP := 14.0
-		var grid_x := [cx, cx + CARD_W + CARD_GAP]
-		var gi := 0; var row_y := cy2
-		for item: String in items:
-			var gx: float = grid_x[gi % 2]
-			if gi % 2 == 0 and gi > 0: row_y += CARD_H + 6.0
-			var gy := row_y
-			var is_sel := _modal_item_sel == item
-			draw_rect(Rect2(gx, gy, CARD_W, CARD_H), Color("#FCEBEB") if is_sel else Color("#EEE0C0"))
-			draw_rect(Rect2(gx, gy, CARD_W, CARD_H), Color("#993C1D") if is_sel else Color("#8a6f3d"),
-				false, 2.0 if is_sel else 1.0)
-			if is_sel:
-				draw_string(_font, Vector2(gx + CARD_W - 18, gy + 18), "✓",
-					HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("#993C1D"))
-			draw_string(_font, Vector2(gx+10, gy+18), item, HORIZONTAL_ALIGNMENT_LEFT,-1,13,col_dark)
-			var flavour: String = ITEM_FLAVOUR.get(item, "")
-			draw_string(_font, Vector2(gx+10, gy+34), flavour, HORIZONTAL_ALIGNMENT_LEFT,-1,10,col_brow)
-			var captured_item := item
-			_modal_btns.append({"rect": Rect2(gx, gy, CARD_W, CARD_H), "action": func():
-				_modal_item_sel = captured_item
-				queue_redraw()})
-			gi += 1
-
-		cy2 = row_y + CARD_H + 14.0
-		if not _modal_item_sel.is_empty():
-			cy2 = _modal_btn(cx, cy2, "Confirm accusation", 220, _resolve_accusation, true, true)
-		_modal_btn(cx + 228, cy2 - 42, "← Back", 110, func():
-			_modal_sel = ""; _modal_item_sel = ""; queue_redraw())
-		return
-
-	# ── Step 1: wesen selection ───────────────────────────────────────────
 	cy2 = _modal_text(cx, cy2, "NAME THE KILLER", 10, col_brow, max_y)
 	cy2 = _modal_text(cx, cy2, "The accusation", 17, col_dark, max_y)
-	cy2 = _modal_text(cx, cy2, "Read the signs against the diary. Name the species.", 13, col_brow, max_y)
 	cy2 += 4
 
+	# Armed weapon status — compact single-line strip
+	var strip_col := Color("#FCEBEB") if equipped.is_empty() else Color("#E8F0E0")
+	var strip_txt := ("⚠ No weapon — visit the weapon case first." if equipped.is_empty()
+		else "⚔  Armed:  " + equipped)
+	var strip_fc := Color(C_BLOOD, 0.9) if equipped.is_empty() else Color("#0F6E56")
+	draw_rect(Rect2(cx-8, cy2-3, 556, 22), strip_col)
+	draw_string(_font, Vector2(cx, cy2 + 13), strip_txt,
+		HORIZONTAL_ALIGNMENT_LEFT, 540, 12, strip_fc)
+	cy2 += 26
+
 	if not pl["flagged_evidence"].is_empty():
-		draw_rect(Rect2(cx-8,cy2-4,556,16+pl["flagged_evidence"].size()*16), Color("#FCEBEB"))
-		cy2 = _modal_text(cx, cy2, "★ FLAGGED", 10, Color("#501313"), max_y)
+		var fh: int = 14 + (pl["flagged_evidence"] as Array).size() * 15
+		draw_rect(Rect2(cx-8, cy2-3, 556, fh), Color("#F5EDE0"))
+		draw_string(_font, Vector2(cx, cy2 + 11), "★  FLAGGED CLUES",
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color("#501313"))
+		cy2 += 14
 		for eid: String in pl["flagged_evidence"]:
-			cy2 = _modal_text(cx, cy2, "— " + Data.EVIDENCE[eid]["name"], 12, Color("#501313"), max_y)
+			draw_string(_font, Vector2(cx+10, cy2 + 11), "— " + Data.EVIDENCE[eid]["name"],
+				HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("#501313"))
+			cy2 += 15
 		cy2 += 4
 
 	var contract: String = pl.get("contract", "")
-	var suspects: Array = Data.HUNTS[contract].get("suspects", Data.WESEN.keys()) \
-		if Data.HUNTS.has(contract) else Data.WESEN.keys()
-	const CARD_W := 262.0; const CARD_H := 80.0; const CARD_GAP := 14.0
+	var suspects: Array = _modal.get("suspects", Data.WESEN.keys())
+	const CARD_W := 262.0; const CARD_H := 68.0; const CARD_GAP := 14.0
 	var grid_x := [cx, cx + CARD_W + CARD_GAP]
-	var gi := 0; var row_y := cy2
+	var gi := 0; var row_y := cy2 + 6
 	for wid: String in suspects:
 		if not Data.WESEN.has(wid): continue
 		var w: Dictionary = Data.WESEN[wid]
 		var gx: float = grid_x[gi % 2]
-		if gi % 2 == 0 and gi > 0: row_y += CARD_H + 8.0
+		if gi % 2 == 0 and gi > 0: row_y += CARD_H + 6.0
 		var gy := row_y
-		draw_rect(Rect2(gx, gy, CARD_W, CARD_H), Color("#EEE0C0"))
-		draw_rect(Rect2(gx, gy, CARD_W, CARD_H), Color("#8a6f3d"), false, 1.0)
-		draw_string(_font, Vector2(gx+10, gy+20), w["name"], HORIZONTAL_ALIGNMENT_LEFT,-1,15,col_dark)
+		var is_sel := _modal_sel == wid
+		draw_rect(Rect2(gx, gy, CARD_W, CARD_H), Color("#FCEBEB") if is_sel else Color("#EEE0C0"))
+		draw_rect(Rect2(gx, gy, CARD_W, CARD_H), Color("#993C1D") if is_sel else Color("#8a6f3d"),
+			false, 2.0 if is_sel else 1.0)
+		if is_sel:
+			draw_string(_font, Vector2(gx + CARD_W - 18, gy + 16), "✓",
+				HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("#993C1D"))
+		draw_string(_font, Vector2(gx+10, gy+18), w["name"], HORIZONTAL_ALIGNMENT_LEFT,-1,14,col_dark)
 		var desc := _truncate(w["signs"].split(".")[0]+".", 44)
-		draw_string(_font, Vector2(gx+10, gy+36), desc, HORIZONTAL_ALIGNMENT_LEFT,-1,11,col_brow)
-		draw_string(_font, Vector2(gx+10, gy+54), "Tap to select →", HORIZONTAL_ALIGNMENT_LEFT,-1,10,Color(col_brow,0.6))
+		draw_string(_font, Vector2(gx+10, gy+32), desc, HORIZONTAL_ALIGNMENT_LEFT,-1,11,col_brow)
+		draw_string(_font, Vector2(gx+10, gy+48), "Tap to select →", HORIZONTAL_ALIGNMENT_LEFT,-1,10,Color(col_brow,0.6))
 		var captured_wid := wid
 		_modal_btns.append({"rect": Rect2(gx, gy, CARD_W, CARD_H), "action": func():
 			_modal_sel = captured_wid
-			_modal_item_sel = ""
 			queue_redraw()})
 		gi += 1
 
 	cy2 = row_y + CARD_H + 14.0
-	_modal_btn(cx, cy2, "Not yet", 110, _close_modal)
+	var has_confirm := not _modal_sel.is_empty() and not equipped.is_empty()
+	if has_confirm:
+		cy2 = _modal_btn(cx, cy2, "Confirm accusation", 220, _resolve_accusation, true, true)
+	var not_yet_x: float = cx + 228 if has_confirm else cx
+	var not_yet_y: float = cy2 - 42 if has_confirm else cy2
+	_modal_btn(not_yet_x, not_yet_y, "Not yet", 110, _close_modal)
 
 func _resolve_accusation() -> void:
-	if _modal_sel.is_empty() or _modal_item_sel.is_empty():
+	if _modal_sel.is_empty():
 		return
 	var accused := _modal_sel
-	var item    := _modal_item_sel
+	var item: String = GameState.player.get("equipped_weapon", "")
+	if item.is_empty():
+		return
 	var contract: String = GameState.player.get("contract", "")
 
 	var true_killer: String
@@ -1692,41 +1727,45 @@ func _resolve_accusation() -> void:
 		true_killer = Data.HUNTS[contract]["true_killer"]
 
 	var correct_wesen := accused == true_killer
-	var correct_item: bool = item in Data.WESEN[true_killer].get("weakness_items", [])
+	var correct_item: bool = item in Data.WESEN[true_killer].get("weakness_weapons", [])
 
 	var outcome: String
 	if correct_wesen and correct_item:
 		outcome = "full"
 	elif correct_wesen:
-		outcome = "partial"
+		outcome = "partial"   # right creature, wrong weapon
 	else:
-		outcome = "wrong"
+		outcome = "wrong"     # wrong creature entirely
 
 	var base_gold: int = Data.HUNTS.get(contract, {}).get("contract_gold", 30)
 	var gold_delta: int
 	match outcome:
-		"full":    gold_delta = base_gold
-		"partial": gold_delta = int(base_gold * 0.3)
-		_:         gold_delta = -10
-	GameState.player["gold"] = max(0, GameState.player.get("gold", 0) + gold_delta)
+		"full": gold_delta = base_gold
+		_:      gold_delta = -15   # flat penalty for any failed accusation
 
+	GameState.player["gold"] = max(0, GameState.player.get("gold", 0) + gold_delta)
+	GameState.player["equipped_weapon"] = ""
+
+	# Only a full resolution unlocks the diary entry and closes the case.
 	var new_unlock := false
-	if outcome != "wrong":
+	if outcome == "full":
 		var unlocked: Array = GameState.player.get("unlocked_wesen", [])
 		if not (true_killer in unlocked):
 			unlocked.append(true_killer)
 			GameState.player["unlocked_wesen"] = unlocked
 			new_unlock = true
 
-	if not contract.is_empty():
-		var done: Array = GameState.player.get("completed_hunts", [])
-		done.append(contract)
-		GameState.player["completed_hunts"] = done
-		GameState.player["hunts"] = GameState.player.get("hunts", 0) + 1
-		GameState.player["contract"] = ""
-		GameState.player["evidence"] = []
-		GameState.player["flagged_evidence"] = []
-		GameState.player["deduction"] = accused
+		if not contract.is_empty():
+			var done: Array = GameState.player.get("completed_hunts", [])
+			done.append(contract)
+			GameState.player["completed_hunts"] = done
+			GameState.player["hunts"] = GameState.player.get("hunts", 0) + 1
+
+	# Always clear active case state — on fail the case stays available in contracts.
+	GameState.player["contract"] = ""
+	GameState.player["evidence"] = []
+	GameState.player["flagged_evidence"] = []
+	GameState.player["deduction"] = accused
 
 	GameState.result = {
 		"outcome":            outcome,
@@ -1740,6 +1779,121 @@ func _resolve_accusation() -> void:
 	}
 	_close_modal()
 	SceneNav.go_resolution()
+
+func _draw_modal_weapon_case(cx: float, cy: float, max_y: float, _panel: Rect2) -> void:
+	var col_dark := C_CREAM
+	var col_brow := C_GOLD
+	var pl := GameState.player
+	var contract: String = pl.get("contract", "")
+	var equipped: String = pl.get("equipped_weapon", "")
+	var cy2 := cy
+
+	cy2 = _modal_text(cx, cy2, "AUNT MARIE'S WEAPON CASE", 10, col_brow, max_y)
+	cy2 = _modal_text(cx, cy2, "Arm yourself", 17, col_dark, max_y)
+	cy2 += 4
+
+	if not equipped.is_empty():
+		draw_rect(Rect2(cx-8, cy2-4, 556, 28), Color(0.0, 0.0, 0.0, 0.45))
+		cy2 = _modal_text(cx, cy2, "Equipped:  " + equipped, 12, C_GOLD, max_y)
+		cy2 += 8
+
+	var items: Array = []
+	if Data.HUNTS.has(contract):
+		items = Data.HUNTS[contract].get("available_weapons", [])
+
+	const CARD_W := 262.0; const CARD_H := 82.0; const CARD_GAP := 14.0
+	var grid_x := [cx, cx + CARD_W + CARD_GAP]
+	var gi := 0; var row_y := cy2
+	for weapon: String in items:
+		var gx: float = grid_x[gi % 2]
+		if gi % 2 == 0 and gi > 0: row_y += CARD_H + 6.0
+		var gy := row_y
+		var is_sel := equipped == weapon
+		var card_bg := Color(0.55, 0.12, 0.08, 0.85) if is_sel else Color(0.05, 0.03, 0.02, 0.72)
+		var card_border := Color("#993C1D") if is_sel else Color(C_GOLD, 0.7)
+		draw_rect(Rect2(gx, gy, CARD_W, CARD_H), card_bg)
+		draw_rect(Rect2(gx, gy, CARD_W, CARD_H), card_border, false, 2.0 if is_sel else 1.0)
+		var w_data: Dictionary = Data.WEAPONS.get(weapon, {})
+		const IMG_SIZE := 64.0
+		const IMG_PAD  := 9.0
+		var img_x := gx + CARD_W - IMG_SIZE - IMG_PAD
+		var img_y := gy + (CARD_H - IMG_SIZE) * 0.5
+		var w_tex: Texture2D = _get_weapon_tex(weapon)
+		if w_tex:
+			draw_texture_rect(w_tex, Rect2(img_x, img_y, IMG_SIZE, IMG_SIZE), false)
+		else:
+			var icon_type: String = w_data.get("icon", "blade")
+			var icon_col := C_GOLD if is_sel else Color(C_GOLD, 0.6)
+			_draw_weapon_icon(Vector2(gx + CARD_W - 26, gy + CARD_H * 0.5), icon_type, icon_col, 1.0)
+		if is_sel:
+			draw_string(_font, Vector2(img_x - 16, gy + 18), "✓",
+				HORIZONTAL_ALIGNMENT_LEFT, -1, 14, C_GOLD)
+		var display_name: String = w_data.get("name", weapon)
+		var text_w := CARD_W - IMG_SIZE - IMG_PAD - 14.0
+		draw_string(_font, Vector2(gx+10, gy+20), display_name, HORIZONTAL_ALIGNMENT_LEFT,-1,13,col_dark)
+		var desc: String = w_data.get("desc", "")
+		draw_multiline_string(_font, Vector2(gx+10, gy+34), desc,
+			HORIZONTAL_ALIGNMENT_LEFT, text_w, 10, -1, col_brow)
+		var captured_weapon := weapon
+		_modal_btns.append({"rect": Rect2(gx, gy, CARD_W, CARD_H), "action": func():
+			GameState.player["equipped_weapon"] = captured_weapon
+			GameState.save()
+			queue_redraw()})
+		gi += 1
+
+	cy2 = row_y + CARD_H + 14.0
+	_modal_btn(cx, cy2, "Close case", 120, _close_modal, true)
+
+func _draw_weapon_icon(center: Vector2, icon_type: String, col: Color, scale: float) -> void:
+	var s := scale * 9.0
+	match icon_type:
+		"bolt":
+			draw_line(center + Vector2(-s, s), center + Vector2(s, -s), col, 2.0)
+			draw_line(center + Vector2(s, -s), center + Vector2(s*0.35, -s*0.15), col, 1.5)
+			draw_line(center + Vector2(s, -s), center + Vector2(s*0.15, -s*0.7), col, 1.5)
+		"flask", "vial":
+			draw_circle(center + Vector2(0, s*0.25), s*0.68, col)
+			draw_rect(Rect2(center.x - s*0.22, center.y - s*0.85, s*0.44, s*0.6), col)
+		"blade":
+			var pts := PackedVector2Array([
+				center + Vector2(0, -s),
+				center + Vector2(s*0.22, s*0.4),
+				center + Vector2(-s*0.22, s*0.4)
+			])
+			draw_colored_polygon(pts, col)
+			draw_rect(Rect2(center.x - s*0.3, center.y + s*0.4, s*0.6, s*0.45), col)
+		"manacle":
+			draw_arc(center, s*0.68, 0, TAU, 20, col, 2.5)
+			draw_line(center + Vector2(0, -s*0.68), center + Vector2(0, -s), col, 2.5)
+		"token", "pouch":
+			draw_circle(center, s*0.7, col)
+		"scroll":
+			draw_rect(Rect2(center.x - s*0.75, center.y - s*0.38, s*1.5, s*0.76), col)
+			draw_arc(center + Vector2(-s*0.75, 0), s*0.28, PI*0.5, PI*1.5, 12, col, 2.0)
+			draw_arc(center + Vector2(s*0.75, 0), s*0.28, -PI*0.5, PI*0.5, 12, col, 2.0)
+		"snare", "net":
+			draw_line(center + Vector2(-s, 0), center + Vector2(s, 0), col, 1.5)
+			draw_line(center + Vector2(0, -s), center + Vector2(0, s), col, 1.5)
+			draw_arc(center, s*0.82, 0, TAU, 20, col, 1.5)
+		"wedge":
+			var pts := PackedVector2Array([
+				center + Vector2(-s, s*0.5),
+				center + Vector2(s, s*0.5),
+				center + Vector2(s, -s*0.5)
+			])
+			draw_colored_polygon(pts, col)
+		"bar":
+			draw_rect(Rect2(center.x - s, center.y - s*0.18, s*2.0, s*0.36), col)
+		"torch":
+			draw_rect(Rect2(center.x - s*0.14, center.y + s*0.1, s*0.28, s*0.82), col)
+			var fl := PackedVector2Array([
+				center + Vector2(0, -s*0.88),
+				center + Vector2(s*0.33, s*0.1),
+				center + Vector2(-s*0.33, s*0.1)
+			])
+			draw_colored_polygon(fl, Color(minf(col.r*1.4, 1.0), col.g*0.35, 0.05, col.a))
+		_:
+			draw_circle(center, s*0.55, col)
 
 func _close_modal() -> void:
 	_modal = {}

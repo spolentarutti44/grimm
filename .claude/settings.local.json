@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 *)",
+      "Bash(git -C /Users/stephenpolentarutti/grimm status)",
+      "Bash(git -C /Users/stephenpolentarutti/grimm diff --stat)",
+      "Bash(git *)",
+      "Bash(brew list *)",
+      "Bash(pip3 show *)",
+      "Bash(pip3 install *)",
+      "Bash(/usr/local/bin/pip3 install *)",
+      "Bash(/usr/local/bin/python3 -c \"import imageio; print\\('imageio ok'\\)\")",
+      "Bash(/usr/local/bin/python3 -c \"import imageio; print\\('ok'\\)\")",
+      "Bash(/usr/local/bin/python3.13 *)",
+      "Read(//usr/local/bin/**)",
+      "Read(//usr/local/lib/**)",
+      "Bash(/usr/local/bin/python3.12 -c \"import imageio; import numpy; print\\('ok'\\)\")",
+      "Bash(/usr/local/bin/python3.12 -m pip install imageio imageio-ffmpeg -q)",
+      "Bash(/usr/local/bin/python3.12 -c \"import imageio; print\\('ok'\\)\")",
+      "Bash(/usr/local/bin/python3.12 -m pip install imageio imageio-ffmpeg --break-system-packages -q)",
+      "Bash(/usr/local/bin/python3.12)",
+      "Bash(sort -t'/' -k1)",
+      "Bash(ffmpeg -ss 00:00:02 -i \"/Users/stephenpolentarutti/Desktop/Screen Recording 2026-05-21 at 8.05.11 PM.mov\" -frames:v 1 /tmp/combat_frame.png -y)",
+      "Bash(qlmanage -t -s 800 -o /tmp/ \"/Users/stephenpolentarutti/Desktop/Screen Recording 2026-05-21 at 8.05.11 PM.mov\")",
+      "Read(//private/tmp/**)",
+      "Bash(sips -s format png \"/Users/stephenpolentarutti/Desktop/Screen Recording 2026-05-21 at 8.05.11 PM.mov\" --out /tmp/frame_test.png)",
+      "Bash(sort -t/ -k3)",
+      "Bash(avconvert --preset PresetAppleM4V --source \"/Users/stephenpolentarutti/Desktop/Screen Recording 2026-05-21 at 8.05.11 PM.mov\" --output /tmp/test.m4v)",
+      "Bash(mkdir -p ~/grimm/tools)",
+      "Bash(cp ~/Downloads/sprite-cleanup-skill/sprite_sheet_cleanup.py ~/grimm/tools/sprite_sheet_cleanup.py)",
+      "Bash(python *)",
+      "Bash(python3.11 *)",
+      "Bash(pip3.11 install *)",
+      "Bash(osascript *)",
+      "Bash(avconvert --help)",
+      "Bash(docker system df *)",
+      "Bash(godot *)",
+      "Bash(grep -vE \"^$\")",
+      "Bash(xargs -I{} basename {} .png)"
+    ]
+  }
+}

@@ -154,7 +154,7 @@
 
   "c3_shop": {
     "name": "Ernst's tailor shop",
-    "bg": "cottage_interior",
+    "bg": "c3_shop",
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [
@@ -174,7 +174,7 @@
   },
   "c3_street": {
     "name": "The merchant quarter",
-    "bg": "tavern_interior",
+    "bg": "c3_street",
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [
@@ -188,7 +188,7 @@
   },
   "c3_lodging": {
     "name": "Marta's lodging house",
-    "bg": "cottage_interior",
+    "bg": "c3_lodging",
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [
@@ -203,7 +203,7 @@
 
   "c4_forest": {
     "name": "The forest path — the killing",
-    "bg": "snow_forest_clearing",
+    "bg": "c4_forest",
     "floor": [40, 250, 640, 360],
     "spawn": [80, 310],
     "hotspots": [
@@ -220,7 +220,7 @@
   },
   "c4_deep": {
     "name": "The forest — deeper in",
-    "bg": "snow_forest_path",
+    "bg": "c4_deep",
     "floor": [40, 250, 640, 360],
     "spawn": [80, 310],
     "hotspots": [
@@ -234,12 +234,12 @@
   },
   "c4_farmhouse": {
     "name": "Karl Metz's farmhouse",
-    "bg": "snow_cottage_interior",
+    "bg": "c4_farmhouse",
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [
       {"id": "karl_wit",   "x": 240, "y": 262, "r": 34, "name": "Karl Metz, at the door",     "interact": "evid:c4_karl",       "stand_x": 240, "stand_y": 315},
-      {"id": "wife_bed",   "x": 430, "y": 265, "r": 32, "name": "Berta, Karl's wife",         "interact": "evid:c4_innkeeper_4","stand_x": 430, "stand_y": 318}
+      {"id": "wife_bed",   "x": 430, "y": 265, "r": 32, "name": "Berta, Karl's wife",         "interact": "evid:c4_berta",      "stand_x": 430, "stand_y": 318}
     ],
     "exits": [
       {"to": "c4_deep", "x":  55, "y": 300, "label": "← the forest"},
@@ -248,7 +248,7 @@
   },
   "c4_inn": {
     "name": "The village inn",
-    "bg": "tavern_interior",
+    "bg": "c4_inn",
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [
@@ -332,11 +332,12 @@
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [
-      {"id": "body",        "x": 285, "y": 285, "r": 34, "name": "Jakob Weiss, at his table",        "interact": "evid:c7_jakob_body",     "stand_x": 285, "stand_y": 325},
+      {"id": "body",         "x": 285, "y": 285, "r": 34, "name": "Jakob Weiss, at his table",        "interact": "evid:c7_jakob_body",     "stand_x": 285, "stand_y": 325},
       {"id": "vault_door",  "x": 420, "y": 270, "r": 26, "name": "The empty vault",                  "interact": "evid:c7_vault_open",     "stand_x": 420, "stand_y": 312},
       {"id": "knife",       "x": 520, "y": 305, "r": 22, "name": "The wound geometry",               "interact": "evid:c7_surgical_cuts",  "stand_x": 520, "stand_y": 330},
       {"id": "briar_fur",   "x": 175, "y": 310, "r": 22, "name": "A fine mark on the doorframe",     "interact": "evid:c7_fine_claw_mark", "stand_x": 175, "stand_y": 335},
-      {"id": "journal",     "x": 340, "y": 275, "r": 22, "name": "Something shining — gone",         "interact": "evid:c7_missing_trophy", "stand_x": 340, "stand_y": 315}
+      {"id": "journal",     "x": 340, "y": 275, "r": 22, "name": "Something shining — gone",         "interact": "evid:c7_missing_trophy", "stand_x": 340, "stand_y": 315},
+      {"id": "debt_letter", "x": 460, "y": 300, "r": 22, "name": "A letter among the papers",        "interact": "evid:c7_debt_letter",    "stand_x": 460, "stand_y": 325}
     ],
     "exits": [
       {"to": "c7_moneylender_yard", "x": 625, "y": 300, "label": "→ the rear yard"},
@@ -349,9 +350,12 @@
     "floor": [40, 250, 640, 360],
     "spawn": [80, 310],
     "hotspots": [
-      {"id": "small_track",  "x": 240, "y": 325, "r": 26, "name": "Dainty prints in the soft earth", "interact": "evid:c7_dainty_prints", "stand_x": 240, "stand_y": 345},
-      {"id": "hidden_purse", "x": 380, "y": 335, "r": 22, "name": "Coins dropped near the gate",     "interact": "evid:c7_dropped_coins", "stand_x": 380, "stand_y": 348},
-      {"id": "cloak_scrap",  "x": 520, "y": 295, "r": 22, "name": "Fresh scratches on the gate",    "interact": "evid:c7_gate_scrapes",  "stand_x": 520, "stand_y": 320}
+      {"id": "small_track",    "x": 240, "y": 325, "r": 26, "name": "Dainty prints in the soft earth", "interact": "evid:c7_dainty_prints",    "stand_x": 240, "stand_y": 345},
+      {"id": "hidden_purse",  "x": 380, "y": 335, "r": 22, "name": "Coins dropped near the gate",     "interact": "evid:c7_dropped_coins",    "stand_x": 380, "stand_y": 348},
+      {"id": "cloak_scrap",   "x": 520, "y": 295, "r": 22, "name": "Fresh scratches on the gate",     "interact": "evid:c7_gate_scrapes",     "stand_x": 520, "stand_y": 320},
+      {"id": "shutter",       "x": 160, "y": 270, "r": 22, "name": "Scratches on the upper shutter",  "interact": "evid:c7_shutter_scratch",  "stand_x": 160, "stand_y": 305},
+      {"id": "neighbor",      "x": 440, "y": 280, "r": 28, "name": "A woman in the adjacent yard",    "interact": "evid:c7_neighbor",         "stand_x": 440, "stand_y": 318},
+      {"id": "wesen_contact", "x": 310, "y": 305, "r": 26, "name": "A hooded figure at the wall",     "interact": "evid:c7_wesen_contact",    "stand_x": 310, "stand_y": 330}
     ],
     "exits": [
       {"to": "c7_lockshop", "x": 55, "y": 300, "label": "← the counting room"}
@@ -360,7 +364,7 @@
 
   "c8_culvert": {
     "name": "The east drainage channel",
-    "bg": "c7_tannery",
+    "bg": "c8_culvert",
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [
@@ -377,7 +381,7 @@
   },
   "c8_gatehouse": {
     "name": "The watchman's gatehouse",
-    "bg": "cottage_interior",
+    "bg": "c8_gatehouse",
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [
@@ -392,7 +396,7 @@
 
   "c9_charcoal": {
     "name": "The charcoal pit, deep forest",
-    "bg": "forest_clearing_snow",
+    "bg": "c9_charcoal",
     "floor": [40, 250, 640, 360],
     "spawn": [80, 310],
     "hotspots": [
@@ -409,7 +413,7 @@
   },
   "c9_woodcutter_hut": {
     "name": "The charcoal burners' shelter",
-    "bg": "snow_cottage_interior",
+    "bg": "c9_woodcutter_hut",
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [
@@ -424,7 +428,7 @@
 
   "c10_merchant_house": {
     "name": "The cloth merchant's chamber",
-    "bg": "snow_cottage_interior",
+    "bg": "c10_merchant_house",
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [
@@ -441,7 +445,7 @@
   },
   "c10_cloth_stalls": {
     "name": "The cloth market stalls",
-    "bg": "c6_tavern_interior",
+    "bg": "c10_cloth_stalls",
     "floor": [60, 260, 620, 360],
     "spawn": [100, 320],
     "hotspots": [

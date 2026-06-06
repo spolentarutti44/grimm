@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://scrhgrdutvr0"
-path="res://.godot/imported/forest_clearing_snow.png-0620169af6585e7ecc0681e7475ad103.ctex"
+uid="uid://cvhx6f4uhs5w3"
+path="res://.godot/imported/grimm_blood_vial.png-8682d331c32d55492d59492ca843845b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/backgrounds/forest_clearing_snow.png"
-dest_files=["res://.godot/imported/forest_clearing_snow.png-0620169af6585e7ecc0681e7475ad103.ctex"]
+source_file="res://assets/weapons/grimm_blood_vial.png"
+dest_files=["res://.godot/imported/grimm_blood_vial.png-8682d331c32d55492d59492ca843845b.ctex"]
 
 [params]
 

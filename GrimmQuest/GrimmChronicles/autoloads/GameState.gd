@@ -36,6 +36,7 @@ func _make_player() -> Dictionary:
 		"flagged_evidence": [],
 		"deduction": "",
 		"unlocked_wesen": [],
+		"equipped_weapon": "",
 	}
 
 func _make_pc() -> Dictionary:
